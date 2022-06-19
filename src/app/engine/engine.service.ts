@@ -1,8 +1,12 @@
 import * as THREE from 'three';
-import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
+import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { IFCLoader } from 'web-ifc-three';
+import { IFCModel } from 'web-ifc-three/IFC/components/IFCModel';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class EngineService implements OnDestroy {
+
   private canvas: HTMLCanvasElement;
   private renderer: THREE.WebGLRenderer;
   private camera: THREE.PerspectiveCamera;
@@ -28,7 +32,6 @@ export class EngineService implements OnDestroy {
   }
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
-    // The first step is to get the reference of the canvas element from our HTML document
     this.canvas = canvas.nativeElement;
 
     this.renderer = new THREE.WebGLRenderer({
@@ -53,15 +56,29 @@ export class EngineService implements OnDestroy {
     this.scene.add(this.light);
 
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     this.cube = new THREE.Mesh(geometry, material);
     this.scene.add(this.cube);
 
+    const controls = new OrbitControls(this.camera, this.canvas);
   }
 
+  public loadIFC(file: any): void {
+    const ifcLoader = new IFCLoader();
+    ifcLoader.ifcManager.setWasmPath('./assets/');
+    var reader = new FileReader();
+    console.log(reader.readAsText(file));
+    // ifcLoader.load(file, (ifcModel: IFCModel) => {
+    //   this.scene.add(ifcModel);
+    // }, (progress)=> console.log(progress), (error) => console.log(error)
+    // )
+  }
+
+
+
+
+  // keep the scene alive
   public animate(): void {
-    // We have to run this outside angular zones,
-    // because it could trigger heavy changeDetection cycles.
     this.ngZone.runOutsideAngular(() => {
       if (document.readyState !== 'loading') {
         this.render();

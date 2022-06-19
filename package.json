@@ -26,6 +26,7 @@
     "rxjs": "~6.6.0",
     "three": "^0.136.0",
     "tslib": "^2.3.0",
+    "web-ifc-three": "0.0.117",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
