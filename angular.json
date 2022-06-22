@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "css"
         }
       },
       "root": "",
@@ -22,13 +22,12 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
+            "inlineStyleLanguage": "css",
             "assets": [
               "src/assets",
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles/main.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -101,7 +100,6 @@
             "tsConfig": "tsconfig.spec.json",
             "scripts": [],
             "styles": [
-              "src/styles/main.scss"
             ],
             "assets": [
               "src/assets",

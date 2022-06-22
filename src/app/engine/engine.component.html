@@ -1,4 +1,16 @@
-<div class="engine-wrapper">
-  <input type="file" name="ifc_input" id="ifc_input" (change)="ifcFileSelected($event)">
-  <canvas id="c1" #c1></canvas>
+<div style="position: absolute;">
+  double click to select object from model <br>
+  single click to unselect object <br>
+  use shift to change prespective of camera <br>
+  model id: {{selectedModelID}}
+  <br>
+  selected objectID: {{selectedObjectID}}
+  <br>
+  Hovered objectID: {{hoveredObjectID}}
+  <br>
+  <span *ngFor="let type of types; let i = index">{{i}}, {{type.type}} <br></span>
+<br>
+<button (click)="changeSelectedItemProprty()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">change</button>
+  <!-- <input type="file" name="ifc_input" id="ifc_input" (change)="ifcFileSelected($event)"> -->
 </div>
+<canvas class="w-1/2 resize-x m-1" id="c1" #c1 (dblclick)="doubleClickedEvent($event)" (mousemove)="mouseOverEvent($event)"></canvas>
