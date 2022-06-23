@@ -8,7 +8,7 @@
   <br>
   Hovered objectID: {{hoveredObjectID}}
   <br>
-  <span *ngFor="let type of types; let i = index">{{i}}, {{type.type}} <br></span>
+  <span *ngFor="let type of types; let i = index" (click)="ifcSelected(type.expressID)">{{i}}, {{type.type}} {{type.expressID}}<br></span>
 <br>
 <button (click)="changeSelectedItemProprty()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">change</button>
   <!-- <input type="file" name="ifc_input" id="ifc_input" (change)="ifcFileSelected($event)"> -->
