@@ -1,0 +1,3266 @@
+[
+    {
+        "type": "IFCACTIONREQUEST",
+        "value": 3821786052
+    },
+    {
+        "type": "IFCACTOR",
+        "value": 2296667514
+    },
+    {
+        "type": "IFCACTORROLE",
+        "value": 3630933823
+    },
+    {
+        "type": "IFCACTUATOR",
+        "value": 4288193352
+    },
+    {
+        "type": "IFCACTUATORTYPE",
+        "value": 2874132201
+    },
+    {
+        "type": "IFCADDRESS",
+        "value": 618182010
+    },
+    {
+        "type": "IFCADVANCEDBREP",
+        "value": 1635779807
+    },
+    {
+        "type": "IFCADVANCEDBREPWITHVOIDS",
+        "value": 2603310189
+    },
+    {
+        "type": "IFCADVANCEDFACE",
+        "value": 3406155212
+    },
+    {
+        "type": "IFCAIRTERMINAL",
+        "value": 1634111441
+    },
+    {
+        "type": "IFCAIRTERMINALBOX",
+        "value": 177149247
+    },
+    {
+        "type": "IFCAIRTERMINALBOXTYPE",
+        "value": 1411407467
+    },
+    {
+        "type": "IFCAIRTERMINALTYPE",
+        "value": 3352864051
+    },
+    {
+        "type": "IFCAIRTOAIRHEATRECOVERY",
+        "value": 2056796094
+    },
+    {
+        "type": "IFCAIRTOAIRHEATRECOVERYTYPE",
+        "value": 1871374353
+    },
+    {
+        "type": "IFCALARM",
+        "value": 3087945054
+    },
+    {
+        "type": "IFCALARMTYPE",
+        "value": 3001207471
+    },
+    {
+        "type": "IFCALIGNMENT",
+        "value": 325726236
+    },
+    {
+        "type": "IFCALIGNMENT2DHORIZONTAL",
+        "value": 749761778
+    },
+    {
+        "type": "IFCALIGNMENT2DHORIZONTALSEGMENT",
+        "value": 3199563722
+    },
+    {
+        "type": "IFCALIGNMENT2DSEGMENT",
+        "value": 2483840362
+    },
+    {
+        "type": "IFCALIGNMENT2DVERSEGCIRCULARARC",
+        "value": 3379348081
+    },
+    {
+        "type": "IFCALIGNMENT2DVERSEGLINE",
+        "value": 3239324667
+    },
+    {
+        "type": "IFCALIGNMENT2DVERSEGPARABOLICARC",
+        "value": 4263986512
+    },
+    {
+        "type": "IFCALIGNMENT2DVERTICAL",
+        "value": 53199957
+    },
+    {
+        "type": "IFCALIGNMENT2DVERTICALSEGMENT",
+        "value": 2029264950
+    },
+    {
+        "type": "IFCALIGNMENTCURVE",
+        "value": 3512275521
+    },
+    {
+        "type": "IFCANNOTATION",
+        "value": 1674181508
+    },
+    {
+        "type": "IFCANNOTATIONFILLAREA",
+        "value": 669184980
+    },
+    {
+        "type": "IFCAPPLICATION",
+        "value": 639542469
+    },
+    {
+        "type": "IFCAPPLIEDVALUE",
+        "value": 411424972
+    },
+    {
+        "type": "IFCAPPROVAL",
+        "value": 130549933
+    },
+    {
+        "type": "IFCAPPROVALRELATIONSHIP",
+        "value": 3869604511
+    },
+    {
+        "type": "IFCARBITRARYCLOSEDPROFILEDEF",
+        "value": 3798115385
+    },
+    {
+        "type": "IFCARBITRARYOPENPROFILEDEF",
+        "value": 1310608509
+    },
+    {
+        "type": "IFCARBITRARYPROFILEDEFWITHVOIDS",
+        "value": 2705031697
+    },
+    {
+        "type": "IFCASSET",
+        "value": 3460190687
+    },
+    {
+        "type": "IFCASYMMETRICISHAPEPROFILEDEF",
+        "value": 3207858831
+    },
+    {
+        "type": "IFCAUDIOVISUALAPPLIANCE",
+        "value": 277319702
+    },
+    {
+        "type": "IFCAUDIOVISUALAPPLIANCETYPE",
+        "value": 1532957894
+    },
+    {
+        "type": "IFCAXIS1PLACEMENT",
+        "value": 4261334040
+    },
+    {
+        "type": "IFCAXIS2PLACEMENT2D",
+        "value": 3125803723
+    },
+    {
+        "type": "IFCAXIS2PLACEMENT3D",
+        "value": 2740243338
+    },
+    {
+        "type": "IFCBSPLINECURVE",
+        "value": 1967976161
+    },
+    {
+        "type": "IFCBSPLINECURVEWITHKNOTS",
+        "value": 2461110595
+    },
+    {
+        "type": "IFCBSPLINESURFACE",
+        "value": 2887950389
+    },
+    {
+        "type": "IFCBSPLINESURFACEWITHKNOTS",
+        "value": 167062518
+    },
+    {
+        "type": "IFCBEAM",
+        "value": 753842376
+    },
+    {
+        "type": "IFCBEAMSTANDARDCASE",
+        "value": 2906023776
+    },
+    {
+        "type": "IFCBEAMTYPE",
+        "value": 819618141
+    },
+    {
+        "type": "IFCBEARING",
+        "value": 4196446775
+    },
+    {
+        "type": "IFCBEARINGTYPE",
+        "value": 3649138523
+    },
+    {
+        "type": "IFCBLOBTEXTURE",
+        "value": 616511568
+    },
+    {
+        "type": "IFCBLOCK",
+        "value": 1334484129
+    },
+    {
+        "type": "IFCBOILER",
+        "value": 32344328
+    },
+    {
+        "type": "IFCBOILERTYPE",
+        "value": 231477066
+    },
+    {
+        "type": "IFCBOOLEANCLIPPINGRESULT",
+        "value": 3649129432
+    },
+    {
+        "type": "IFCBOOLEANRESULT",
+        "value": 2736907675
+    },
+    {
+        "type": "IFCBOUNDARYCONDITION",
+        "value": 4037036970
+    },
+    {
+        "type": "IFCBOUNDARYCURVE",
+        "value": 1136057603
+    },
+    {
+        "type": "IFCBOUNDARYEDGECONDITION",
+        "value": 1560379544
+    },
+    {
+        "type": "IFCBOUNDARYFACECONDITION",
+        "value": 3367102660
+    },
+    {
+        "type": "IFCBOUNDARYNODECONDITION",
+        "value": 1387855156
+    },
+    {
+        "type": "IFCBOUNDARYNODECONDITIONWARPING",
+        "value": 2069777674
+    },
+    {
+        "type": "IFCBOUNDEDCURVE",
+        "value": 1260505505
+    },
+    {
+        "type": "IFCBOUNDEDSURFACE",
+        "value": 4182860854
+    },
+    {
+        "type": "IFCBOUNDINGBOX",
+        "value": 2581212453
+    },
+    {
+        "type": "IFCBOXEDHALFSPACE",
+        "value": 2713105998
+    },
+    {
+        "type": "IFCBRIDGE",
+        "value": 644574406
+    },
+    {
+        "type": "IFCBRIDGEPART",
+        "value": 963979645
+    },
+    {
+        "type": "IFCBUILDING",
+        "value": 4031249490
+    },
+    {
+        "type": "IFCBUILDINGELEMENT",
+        "value": 3299480353
+    },
+    {
+        "type": "IFCBUILDINGELEMENTPART",
+        "value": 2979338954
+    },
+    {
+        "type": "IFCBUILDINGELEMENTPARTTYPE",
+        "value": 39481116
+    },
+    {
+        "type": "IFCBUILDINGELEMENTPROXY",
+        "value": 1095909175
+    },
+    {
+        "type": "IFCBUILDINGELEMENTPROXYTYPE",
+        "value": 1909888760
+    },
+    {
+        "type": "IFCBUILDINGELEMENTTYPE",
+        "value": 1950629157
+    },
+    {
+        "type": "IFCBUILDINGSTOREY",
+        "value": 3124254112
+    },
+    {
+        "type": "IFCBUILDINGSYSTEM",
+        "value": 1177604601
+    },
+    {
+        "type": "IFCBURNER",
+        "value": 2938176219
+    },
+    {
+        "type": "IFCBURNERTYPE",
+        "value": 2188180465
+    },
+    {
+        "type": "IFCCSHAPEPROFILEDEF",
+        "value": 2898889636
+    },
+    {
+        "type": "IFCCABLECARRIERFITTING",
+        "value": 635142910
+    },
+    {
+        "type": "IFCCABLECARRIERFITTINGTYPE",
+        "value": 395041908
+    },
+    {
+        "type": "IFCCABLECARRIERSEGMENT",
+        "value": 3758799889
+    },
+    {
+        "type": "IFCCABLECARRIERSEGMENTTYPE",
+        "value": 3293546465
+    },
+    {
+        "type": "IFCCABLEFITTING",
+        "value": 1051757585
+    },
+    {
+        "type": "IFCCABLEFITTINGTYPE",
+        "value": 2674252688
+    },
+    {
+        "type": "IFCCABLESEGMENT",
+        "value": 4217484030
+    },
+    {
+        "type": "IFCCABLESEGMENTTYPE",
+        "value": 1285652485
+    },
+    {
+        "type": "IFCCAISSONFOUNDATION",
+        "value": 3999819293
+    },
+    {
+        "type": "IFCCAISSONFOUNDATIONTYPE",
+        "value": 3203706013
+    },
+    {
+        "type": "IFCCARTESIANPOINT",
+        "value": 1123145078
+    },
+    {
+        "type": "IFCCARTESIANPOINTLIST",
+        "value": 574549367
+    },
+    {
+        "type": "IFCCARTESIANPOINTLIST2D",
+        "value": 1675464909
+    },
+    {
+        "type": "IFCCARTESIANPOINTLIST3D",
+        "value": 2059837836
+    },
+    {
+        "type": "IFCCARTESIANTRANSFORMATIONOPERATOR",
+        "value": 59481748
+    },
+    {
+        "type": "IFCCARTESIANTRANSFORMATIONOPERATOR2D",
+        "value": 3749851601
+    },
+    {
+        "type": "IFCCARTESIANTRANSFORMATIONOPERATOR2DNONUNIFORM",
+        "value": 3486308946
+    },
+    {
+        "type": "IFCCARTESIANTRANSFORMATIONOPERATOR3D",
+        "value": 3331915920
+    },
+    {
+        "type": "IFCCARTESIANTRANSFORMATIONOPERATOR3DNONUNIFORM",
+        "value": 1416205885
+    },
+    {
+        "type": "IFCCENTERLINEPROFILEDEF",
+        "value": 3150382593
+    },
+    {
+        "type": "IFCCHILLER",
+        "value": 3902619387
+    },
+    {
+        "type": "IFCCHILLERTYPE",
+        "value": 2951183804
+    },
+    {
+        "type": "IFCCHIMNEY",
+        "value": 3296154744
+    },
+    {
+        "type": "IFCCHIMNEYTYPE",
+        "value": 2197970202
+    },
+    {
+        "type": "IFCCIRCLE",
+        "value": 2611217952
+    },
+    {
+        "type": "IFCCIRCLEHOLLOWPROFILEDEF",
+        "value": 2937912522
+    },
+    {
+        "type": "IFCCIRCLEPROFILEDEF",
+        "value": 1383045692
+    },
+    {
+        "type": "IFCCIRCULARARCSEGMENT2D",
+        "value": 1062206242
+    },
+    {
+        "type": "IFCCIVILELEMENT",
+        "value": 1677625105
+    },
+    {
+        "type": "IFCCIVILELEMENTTYPE",
+        "value": 3893394355
+    },
+    {
+        "type": "IFCCLASSIFICATION",
+        "value": 747523909
+    },
+    {
+        "type": "IFCCLASSIFICATIONREFERENCE",
+        "value": 647927063
+    },
+    {
+        "type": "IFCCLOSEDSHELL",
+        "value": 2205249479
+    },
+    {
+        "type": "IFCCOIL",
+        "value": 639361253
+    },
+    {
+        "type": "IFCCOILTYPE",
+        "value": 2301859152
+    },
+    {
+        "type": "IFCCOLOURRGB",
+        "value": 776857604
+    },
+    {
+        "type": "IFCCOLOURRGBLIST",
+        "value": 3285139300
+    },
+    {
+        "type": "IFCCOLOURSPECIFICATION",
+        "value": 3264961684
+    },
+    {
+        "type": "IFCCOLUMN",
+        "value": 843113511
+    },
+    {
+        "type": "IFCCOLUMNSTANDARDCASE",
+        "value": 905975707
+    },
+    {
+        "type": "IFCCOLUMNTYPE",
+        "value": 300633059
+    },
+    {
+        "type": "IFCCOMMUNICATIONSAPPLIANCE",
+        "value": 3221913625
+    },
+    {
+        "type": "IFCCOMMUNICATIONSAPPLIANCETYPE",
+        "value": 400855858
+    },
+    {
+        "type": "IFCCOMPLEXPROPERTY",
+        "value": 2542286263
+    },
+    {
+        "type": "IFCCOMPLEXPROPERTYTEMPLATE",
+        "value": 3875453745
+    },
+    {
+        "type": "IFCCOMPOSITECURVE",
+        "value": 3732776249
+    },
+    {
+        "type": "IFCCOMPOSITECURVEONSURFACE",
+        "value": 15328376
+    },
+    {
+        "type": "IFCCOMPOSITECURVESEGMENT",
+        "value": 2485617015
+    },
+    {
+        "type": "IFCCOMPOSITEPROFILEDEF",
+        "value": 1485152156
+    },
+    {
+        "type": "IFCCOMPRESSOR",
+        "value": 3571504051
+    },
+    {
+        "type": "IFCCOMPRESSORTYPE",
+        "value": 3850581409
+    },
+    {
+        "type": "IFCCONDENSER",
+        "value": 2272882330
+    },
+    {
+        "type": "IFCCONDENSERTYPE",
+        "value": 2816379211
+    },
+    {
+        "type": "IFCCONIC",
+        "value": 2510884976
+    },
+    {
+        "type": "IFCCONNECTEDFACESET",
+        "value": 370225590
+    },
+    {
+        "type": "IFCCONNECTIONCURVEGEOMETRY",
+        "value": 1981873012
+    },
+    {
+        "type": "IFCCONNECTIONGEOMETRY",
+        "value": 2859738748
+    },
+    {
+        "type": "IFCCONNECTIONPOINTECCENTRICITY",
+        "value": 45288368
+    },
+    {
+        "type": "IFCCONNECTIONPOINTGEOMETRY",
+        "value": 2614616156
+    },
+    {
+        "type": "IFCCONNECTIONSURFACEGEOMETRY",
+        "value": 2732653382
+    },
+    {
+        "type": "IFCCONNECTIONVOLUMEGEOMETRY",
+        "value": 775493141
+    },
+    {
+        "type": "IFCCONSTRAINT",
+        "value": 1959218052
+    },
+    {
+        "type": "IFCCONSTRUCTIONEQUIPMENTRESOURCE",
+        "value": 3898045240
+    },
+    {
+        "type": "IFCCONSTRUCTIONEQUIPMENTRESOURCETYPE",
+        "value": 2185764099
+    },
+    {
+        "type": "IFCCONSTRUCTIONMATERIALRESOURCE",
+        "value": 1060000209
+    },
+    {
+        "type": "IFCCONSTRUCTIONMATERIALRESOURCETYPE",
+        "value": 4105962743
+    },
+    {
+        "type": "IFCCONSTRUCTIONPRODUCTRESOURCE",
+        "value": 488727124
+    },
+    {
+        "type": "IFCCONSTRUCTIONPRODUCTRESOURCETYPE",
+        "value": 1525564444
+    },
+    {
+        "type": "IFCCONSTRUCTIONRESOURCE",
+        "value": 2559216714
+    },
+    {
+        "type": "IFCCONSTRUCTIONRESOURCETYPE",
+        "value": 2574617495
+    },
+    {
+        "type": "IFCCONTEXT",
+        "value": 3419103109
+    },
+    {
+        "type": "IFCCONTEXTDEPENDENTUNIT",
+        "value": 3050246964
+    },
+    {
+        "type": "IFCCONTROL",
+        "value": 3293443760
+    },
+    {
+        "type": "IFCCONTROLLER",
+        "value": 25142252
+    },
+    {
+        "type": "IFCCONTROLLERTYPE",
+        "value": 578613899
+    },
+    {
+        "type": "IFCCONVERSIONBASEDUNIT",
+        "value": 2889183280
+    },
+    {
+        "type": "IFCCONVERSIONBASEDUNITWITHOFFSET",
+        "value": 2713554722
+    },
+    {
+        "type": "IFCCOOLEDBEAM",
+        "value": 4136498852
+    },
+    {
+        "type": "IFCCOOLEDBEAMTYPE",
+        "value": 335055490
+    },
+    {
+        "type": "IFCCOOLINGTOWER",
+        "value": 3640358203
+    },
+    {
+        "type": "IFCCOOLINGTOWERTYPE",
+        "value": 2954562838
+    },
+    {
+        "type": "IFCCOORDINATEOPERATION",
+        "value": 1785450214
+    },
+    {
+        "type": "IFCCOORDINATEREFERENCESYSTEM",
+        "value": 1466758467
+    },
+    {
+        "type": "IFCCOSTITEM",
+        "value": 3895139033
+    },
+    {
+        "type": "IFCCOSTSCHEDULE",
+        "value": 1419761937
+    },
+    {
+        "type": "IFCCOSTVALUE",
+        "value": 602808272
+    },
+    {
+        "type": "IFCCOVERING",
+        "value": 1973544240
+    },
+    {
+        "type": "IFCCOVERINGTYPE",
+        "value": 1916426348
+    },
+    {
+        "type": "IFCCREWRESOURCE",
+        "value": 3295246426
+    },
+    {
+        "type": "IFCCREWRESOURCETYPE",
+        "value": 1815067380
+    },
+    {
+        "type": "IFCCSGPRIMITIVE3D",
+        "value": 2506170314
+    },
+    {
+        "type": "IFCCSGSOLID",
+        "value": 2147822146
+    },
+    {
+        "type": "IFCCURRENCYRELATIONSHIP",
+        "value": 539742890
+    },
+    {
+        "type": "IFCCURTAINWALL",
+        "value": 3495092785
+    },
+    {
+        "type": "IFCCURTAINWALLTYPE",
+        "value": 1457835157
+    },
+    {
+        "type": "IFCCURVE",
+        "value": 2601014836
+    },
+    {
+        "type": "IFCCURVEBOUNDEDPLANE",
+        "value": 2827736869
+    },
+    {
+        "type": "IFCCURVEBOUNDEDSURFACE",
+        "value": 2629017746
+    },
+    {
+        "type": "IFCCURVESEGMENT2D",
+        "value": 1186437898
+    },
+    {
+        "type": "IFCCURVESTYLE",
+        "value": 3800577675
+    },
+    {
+        "type": "IFCCURVESTYLEFONT",
+        "value": 1105321065
+    },
+    {
+        "type": "IFCCURVESTYLEFONTANDSCALING",
+        "value": 2367409068
+    },
+    {
+        "type": "IFCCURVESTYLEFONTPATTERN",
+        "value": 3510044353
+    },
+    {
+        "type": "IFCCYLINDRICALSURFACE",
+        "value": 1213902940
+    },
+    {
+        "type": "IFCDAMPER",
+        "value": 4074379575
+    },
+    {
+        "type": "IFCDAMPERTYPE",
+        "value": 3961806047
+    },
+    {
+        "type": "IFCDEEPFOUNDATION",
+        "value": 3426335179
+    },
+    {
+        "type": "IFCDEEPFOUNDATIONTYPE",
+        "value": 1306400036
+    },
+    {
+        "type": "IFCDERIVEDPROFILEDEF",
+        "value": 3632507154
+    },
+    {
+        "type": "IFCDERIVEDUNIT",
+        "value": 1765591967
+    },
+    {
+        "type": "IFCDERIVEDUNITELEMENT",
+        "value": 1045800335
+    },
+    {
+        "type": "IFCDIMENSIONALEXPONENTS",
+        "value": 2949456006
+    },
+    {
+        "type": "IFCDIRECTION",
+        "value": 32440307
+    },
+    {
+        "type": "IFCDISCRETEACCESSORY",
+        "value": 1335981549
+    },
+    {
+        "type": "IFCDISCRETEACCESSORYTYPE",
+        "value": 2635815018
+    },
+    {
+        "type": "IFCDISTANCEEXPRESSION",
+        "value": 1945343521
+    },
+    {
+        "type": "IFCDISTRIBUTIONCHAMBERELEMENT",
+        "value": 1052013943
+    },
+    {
+        "type": "IFCDISTRIBUTIONCHAMBERELEMENTTYPE",
+        "value": 1599208980
+    },
+    {
+        "type": "IFCDISTRIBUTIONCIRCUIT",
+        "value": 562808652
+    },
+    {
+        "type": "IFCDISTRIBUTIONCONTROLELEMENT",
+        "value": 1062813311
+    },
+    {
+        "type": "IFCDISTRIBUTIONCONTROLELEMENTTYPE",
+        "value": 2063403501
+    },
+    {
+        "type": "IFCDISTRIBUTIONELEMENT",
+        "value": 1945004755
+    },
+    {
+        "type": "IFCDISTRIBUTIONELEMENTTYPE",
+        "value": 3256556792
+    },
+    {
+        "type": "IFCDISTRIBUTIONFLOWELEMENT",
+        "value": 3040386961
+    },
+    {
+        "type": "IFCDISTRIBUTIONFLOWELEMENTTYPE",
+        "value": 3849074793
+    },
+    {
+        "type": "IFCDISTRIBUTIONPORT",
+        "value": 3041715199
+    },
+    {
+        "type": "IFCDISTRIBUTIONSYSTEM",
+        "value": 3205830791
+    },
+    {
+        "type": "IFCDOCUMENTINFORMATION",
+        "value": 1154170062
+    },
+    {
+        "type": "IFCDOCUMENTINFORMATIONRELATIONSHIP",
+        "value": 770865208
+    },
+    {
+        "type": "IFCDOCUMENTREFERENCE",
+        "value": 3732053477
+    },
+    {
+        "type": "IFCDOOR",
+        "value": 395920057
+    },
+    {
+        "type": "IFCDOORLININGPROPERTIES",
+        "value": 2963535650
+    },
+    {
+        "type": "IFCDOORPANELPROPERTIES",
+        "value": 1714330368
+    },
+    {
+        "type": "IFCDOORSTANDARDCASE",
+        "value": 3242481149
+    },
+    {
+        "type": "IFCDOORSTYLE",
+        "value": 526551008
+    },
+    {
+        "type": "IFCDOORTYPE",
+        "value": 2323601079
+    },
+    {
+        "type": "IFCDRAUGHTINGPREDEFINEDCOLOUR",
+        "value": 445594917
+    },
+    {
+        "type": "IFCDRAUGHTINGPREDEFINEDCURVEFONT",
+        "value": 4006246654
+    },
+    {
+        "type": "IFCDUCTFITTING",
+        "value": 342316401
+    },
+    {
+        "type": "IFCDUCTFITTINGTYPE",
+        "value": 869906466
+    },
+    {
+        "type": "IFCDUCTSEGMENT",
+        "value": 3518393246
+    },
+    {
+        "type": "IFCDUCTSEGMENTTYPE",
+        "value": 3760055223
+    },
+    {
+        "type": "IFCDUCTSILENCER",
+        "value": 1360408905
+    },
+    {
+        "type": "IFCDUCTSILENCERTYPE",
+        "value": 2030761528
+    },
+    {
+        "type": "IFCEDGE",
+        "value": 3900360178
+    },
+    {
+        "type": "IFCEDGECURVE",
+        "value": 476780140
+    },
+    {
+        "type": "IFCEDGELOOP",
+        "value": 1472233963
+    },
+    {
+        "type": "IFCELECTRICAPPLIANCE",
+        "value": 1904799276
+    },
+    {
+        "type": "IFCELECTRICAPPLIANCETYPE",
+        "value": 663422040
+    },
+    {
+        "type": "IFCELECTRICDISTRIBUTIONBOARD",
+        "value": 862014818
+    },
+    {
+        "type": "IFCELECTRICDISTRIBUTIONBOARDTYPE",
+        "value": 2417008758
+    },
+    {
+        "type": "IFCELECTRICFLOWSTORAGEDEVICE",
+        "value": 3310460725
+    },
+    {
+        "type": "IFCELECTRICFLOWSTORAGEDEVICETYPE",
+        "value": 3277789161
+    },
+    {
+        "type": "IFCELECTRICGENERATOR",
+        "value": 264262732
+    },
+    {
+        "type": "IFCELECTRICGENERATORTYPE",
+        "value": 1534661035
+    },
+    {
+        "type": "IFCELECTRICMOTOR",
+        "value": 402227799
+    },
+    {
+        "type": "IFCELECTRICMOTORTYPE",
+        "value": 1217240411
+    },
+    {
+        "type": "IFCELECTRICTIMECONTROL",
+        "value": 1003880860
+    },
+    {
+        "type": "IFCELECTRICTIMECONTROLTYPE",
+        "value": 712377611
+    },
+    {
+        "type": "IFCELEMENT",
+        "value": 1758889154
+    },
+    {
+        "type": "IFCELEMENTASSEMBLY",
+        "value": 4123344466
+    },
+    {
+        "type": "IFCELEMENTASSEMBLYTYPE",
+        "value": 2397081782
+    },
+    {
+        "type": "IFCELEMENTCOMPONENT",
+        "value": 1623761950
+    },
+    {
+        "type": "IFCELEMENTCOMPONENTTYPE",
+        "value": 2590856083
+    },
+    {
+        "type": "IFCELEMENTQUANTITY",
+        "value": 1883228015
+    },
+    {
+        "type": "IFCELEMENTTYPE",
+        "value": 339256511
+    },
+    {
+        "type": "IFCELEMENTARYSURFACE",
+        "value": 2777663545
+    },
+    {
+        "type": "IFCELLIPSE",
+        "value": 1704287377
+    },
+    {
+        "type": "IFCELLIPSEPROFILEDEF",
+        "value": 2835456948
+    },
+    {
+        "type": "IFCENERGYCONVERSIONDEVICE",
+        "value": 1658829314
+    },
+    {
+        "type": "IFCENERGYCONVERSIONDEVICETYPE",
+        "value": 2107101300
+    },
+    {
+        "type": "IFCENGINE",
+        "value": 2814081492
+    },
+    {
+        "type": "IFCENGINETYPE",
+        "value": 132023988
+    },
+    {
+        "type": "IFCEVAPORATIVECOOLER",
+        "value": 3747195512
+    },
+    {
+        "type": "IFCEVAPORATIVECOOLERTYPE",
+        "value": 3174744832
+    },
+    {
+        "type": "IFCEVAPORATOR",
+        "value": 484807127
+    },
+    {
+        "type": "IFCEVAPORATORTYPE",
+        "value": 3390157468
+    },
+    {
+        "type": "IFCEVENT",
+        "value": 4148101412
+    },
+    {
+        "type": "IFCEVENTTIME",
+        "value": 211053100
+    },
+    {
+        "type": "IFCEVENTTYPE",
+        "value": 4024345920
+    },
+    {
+        "type": "IFCEXTENDEDPROPERTIES",
+        "value": 297599258
+    },
+    {
+        "type": "IFCEXTERNALINFORMATION",
+        "value": 4294318154
+    },
+    {
+        "type": "IFCEXTERNALREFERENCE",
+        "value": 3200245327
+    },
+    {
+        "type": "IFCEXTERNALREFERENCERELATIONSHIP",
+        "value": 1437805879
+    },
+    {
+        "type": "IFCEXTERNALSPATIALELEMENT",
+        "value": 1209101575
+    },
+    {
+        "type": "IFCEXTERNALSPATIALSTRUCTUREELEMENT",
+        "value": 2853485674
+    },
+    {
+        "type": "IFCEXTERNALLYDEFINEDHATCHSTYLE",
+        "value": 2242383968
+    },
+    {
+        "type": "IFCEXTERNALLYDEFINEDSURFACESTYLE",
+        "value": 1040185647
+    },
+    {
+        "type": "IFCEXTERNALLYDEFINEDTEXTFONT",
+        "value": 3548104201
+    },
+    {
+        "type": "IFCEXTRUDEDAREASOLID",
+        "value": 477187591
+    },
+    {
+        "type": "IFCEXTRUDEDAREASOLIDTAPERED",
+        "value": 2804161546
+    },
+    {
+        "type": "IFCFACE",
+        "value": 2556980723
+    },
+    {
+        "type": "IFCFACEBASEDSURFACEMODEL",
+        "value": 2047409740
+    },
+    {
+        "type": "IFCFACEBOUND",
+        "value": 1809719519
+    },
+    {
+        "type": "IFCFACEOUTERBOUND",
+        "value": 803316827
+    },
+    {
+        "type": "IFCFACESURFACE",
+        "value": 3008276851
+    },
+    {
+        "type": "IFCFACETEDBREP",
+        "value": 807026263
+    },
+    {
+        "type": "IFCFACETEDBREPWITHVOIDS",
+        "value": 3737207727
+    },
+    {
+        "type": "IFCFACILITY",
+        "value": 24185140
+    },
+    {
+        "type": "IFCFACILITYPART",
+        "value": 1310830890
+    },
+    {
+        "type": "IFCFAILURECONNECTIONCONDITION",
+        "value": 4219587988
+    },
+    {
+        "type": "IFCFAN",
+        "value": 3415622556
+    },
+    {
+        "type": "IFCFANTYPE",
+        "value": 346874300
+    },
+    {
+        "type": "IFCFASTENER",
+        "value": 647756555
+    },
+    {
+        "type": "IFCFASTENERTYPE",
+        "value": 2489546625
+    },
+    {
+        "type": "IFCFEATUREELEMENT",
+        "value": 2827207264
+    },
+    {
+        "type": "IFCFEATUREELEMENTADDITION",
+        "value": 2143335405
+    },
+    {
+        "type": "IFCFEATUREELEMENTSUBTRACTION",
+        "value": 1287392070
+    },
+    {
+        "type": "IFCFILLAREASTYLE",
+        "value": 738692330
+    },
+    {
+        "type": "IFCFILLAREASTYLEHATCHING",
+        "value": 374418227
+    },
+    {
+        "type": "IFCFILLAREASTYLETILES",
+        "value": 315944413
+    },
+    {
+        "type": "IFCFILTER",
+        "value": 819412036
+    },
+    {
+        "type": "IFCFILTERTYPE",
+        "value": 1810631287
+    },
+    {
+        "type": "IFCFIRESUPPRESSIONTERMINAL",
+        "value": 1426591983
+    },
+    {
+        "type": "IFCFIRESUPPRESSIONTERMINALTYPE",
+        "value": 4222183408
+    },
+    {
+        "type": "IFCFIXEDREFERENCESWEPTAREASOLID",
+        "value": 2652556860
+    },
+    {
+        "type": "IFCFLOWCONTROLLER",
+        "value": 2058353004
+    },
+    {
+        "type": "IFCFLOWCONTROLLERTYPE",
+        "value": 3907093117
+    },
+    {
+        "type": "IFCFLOWFITTING",
+        "value": 4278956645
+    },
+    {
+        "type": "IFCFLOWFITTINGTYPE",
+        "value": 3198132628
+    },
+    {
+        "type": "IFCFLOWINSTRUMENT",
+        "value": 182646315
+    },
+    {
+        "type": "IFCFLOWINSTRUMENTTYPE",
+        "value": 4037862832
+    },
+    {
+        "type": "IFCFLOWMETER",
+        "value": 2188021234
+    },
+    {
+        "type": "IFCFLOWMETERTYPE",
+        "value": 3815607619
+    },
+    {
+        "type": "IFCFLOWMOVINGDEVICE",
+        "value": 3132237377
+    },
+    {
+        "type": "IFCFLOWMOVINGDEVICETYPE",
+        "value": 1482959167
+    },
+    {
+        "type": "IFCFLOWSEGMENT",
+        "value": 987401354
+    },
+    {
+        "type": "IFCFLOWSEGMENTTYPE",
+        "value": 1834744321
+    },
+    {
+        "type": "IFCFLOWSTORAGEDEVICE",
+        "value": 707683696
+    },
+    {
+        "type": "IFCFLOWSTORAGEDEVICETYPE",
+        "value": 1339347760
+    },
+    {
+        "type": "IFCFLOWTERMINAL",
+        "value": 2223149337
+    },
+    {
+        "type": "IFCFLOWTERMINALTYPE",
+        "value": 2297155007
+    },
+    {
+        "type": "IFCFLOWTREATMENTDEVICE",
+        "value": 3508470533
+    },
+    {
+        "type": "IFCFLOWTREATMENTDEVICETYPE",
+        "value": 3009222698
+    },
+    {
+        "type": "IFCFOOTING",
+        "value": 900683007
+    },
+    {
+        "type": "IFCFOOTINGTYPE",
+        "value": 1893162501
+    },
+    {
+        "type": "IFCFURNISHINGELEMENT",
+        "value": 263784265
+    },
+    {
+        "type": "IFCFURNISHINGELEMENTTYPE",
+        "value": 4238390223
+    },
+    {
+        "type": "IFCFURNITURE",
+        "value": 1509553395
+    },
+    {
+        "type": "IFCFURNITURETYPE",
+        "value": 1268542332
+    },
+    {
+        "type": "IFCGEOGRAPHICELEMENT",
+        "value": 3493046030
+    },
+    {
+        "type": "IFCGEOGRAPHICELEMENTTYPE",
+        "value": 4095422895
+    },
+    {
+        "type": "IFCGEOMETRICCURVESET",
+        "value": 987898635
+    },
+    {
+        "type": "IFCGEOMETRICREPRESENTATIONCONTEXT",
+        "value": 3448662350
+    },
+    {
+        "type": "IFCGEOMETRICREPRESENTATIONITEM",
+        "value": 2453401579
+    },
+    {
+        "type": "IFCGEOMETRICREPRESENTATIONSUBCONTEXT",
+        "value": 4142052618
+    },
+    {
+        "type": "IFCGEOMETRICSET",
+        "value": 3590301190
+    },
+    {
+        "type": "IFCGRID",
+        "value": 3009204131
+    },
+    {
+        "type": "IFCGRIDAXIS",
+        "value": 852622518
+    },
+    {
+        "type": "IFCGRIDPLACEMENT",
+        "value": 178086475
+    },
+    {
+        "type": "IFCGROUP",
+        "value": 2706460486
+    },
+    {
+        "type": "IFCHALFSPACESOLID",
+        "value": 812098782
+    },
+    {
+        "type": "IFCHEATEXCHANGER",
+        "value": 3319311131
+    },
+    {
+        "type": "IFCHEATEXCHANGERTYPE",
+        "value": 1251058090
+    },
+    {
+        "type": "IFCHUMIDIFIER",
+        "value": 2068733104
+    },
+    {
+        "type": "IFCHUMIDIFIERTYPE",
+        "value": 1806887404
+    },
+    {
+        "type": "IFCISHAPEPROFILEDEF",
+        "value": 1484403080
+    },
+    {
+        "type": "IFCIMAGETEXTURE",
+        "value": 3905492369
+    },
+    {
+        "type": "IFCINDEXEDCOLOURMAP",
+        "value": 3570813810
+    },
+    {
+        "type": "IFCINDEXEDPOLYCURVE",
+        "value": 2571569899
+    },
+    {
+        "type": "IFCINDEXEDPOLYGONALFACE",
+        "value": 178912537
+    },
+    {
+        "type": "IFCINDEXEDPOLYGONALFACEWITHVOIDS",
+        "value": 2294589976
+    },
+    {
+        "type": "IFCINDEXEDTEXTUREMAP",
+        "value": 1437953363
+    },
+    {
+        "type": "IFCINDEXEDTRIANGLETEXTUREMAP",
+        "value": 2133299955
+    },
+    {
+        "type": "IFCINTERCEPTOR",
+        "value": 4175244083
+    },
+    {
+        "type": "IFCINTERCEPTORTYPE",
+        "value": 3946677679
+    },
+    {
+        "type": "IFCINTERSECTIONCURVE",
+        "value": 3113134337
+    },
+    {
+        "type": "IFCINVENTORY",
+        "value": 2391368822
+    },
+    {
+        "type": "IFCIRREGULARTIMESERIES",
+        "value": 3741457305
+    },
+    {
+        "type": "IFCIRREGULARTIMESERIESVALUE",
+        "value": 3020489413
+    },
+    {
+        "type": "IFCJUNCTIONBOX",
+        "value": 2176052936
+    },
+    {
+        "type": "IFCJUNCTIONBOXTYPE",
+        "value": 4288270099
+    },
+    {
+        "type": "IFCLSHAPEPROFILEDEF",
+        "value": 572779678
+    },
+    {
+        "type": "IFCLABORRESOURCE",
+        "value": 3827777499
+    },
+    {
+        "type": "IFCLABORRESOURCETYPE",
+        "value": 428585644
+    },
+    {
+        "type": "IFCLAGTIME",
+        "value": 1585845231
+    },
+    {
+        "type": "IFCLAMP",
+        "value": 76236018
+    },
+    {
+        "type": "IFCLAMPTYPE",
+        "value": 1051575348
+    },
+    {
+        "type": "IFCLIBRARYINFORMATION",
+        "value": 2655187982
+    },
+    {
+        "type": "IFCLIBRARYREFERENCE",
+        "value": 3452421091
+    },
+    {
+        "type": "IFCLIGHTDISTRIBUTIONDATA",
+        "value": 4162380809
+    },
+    {
+        "type": "IFCLIGHTFIXTURE",
+        "value": 629592764
+    },
+    {
+        "type": "IFCLIGHTFIXTURETYPE",
+        "value": 1161773419
+    },
+    {
+        "type": "IFCLIGHTINTENSITYDISTRIBUTION",
+        "value": 1566485204
+    },
+    {
+        "type": "IFCLIGHTSOURCE",
+        "value": 1402838566
+    },
+    {
+        "type": "IFCLIGHTSOURCEAMBIENT",
+        "value": 125510826
+    },
+    {
+        "type": "IFCLIGHTSOURCEDIRECTIONAL",
+        "value": 2604431987
+    },
+    {
+        "type": "IFCLIGHTSOURCEGONIOMETRIC",
+        "value": 4266656042
+    },
+    {
+        "type": "IFCLIGHTSOURCEPOSITIONAL",
+        "value": 1520743889
+    },
+    {
+        "type": "IFCLIGHTSOURCESPOT",
+        "value": 3422422726
+    },
+    {
+        "type": "IFCLINE",
+        "value": 1281925730
+    },
+    {
+        "type": "IFCLINESEGMENT2D",
+        "value": 3092502836
+    },
+    {
+        "type": "IFCLINEARPLACEMENT",
+        "value": 388784114
+    },
+    {
+        "type": "IFCLINEARPOSITIONINGELEMENT",
+        "value": 1154579445
+    },
+    {
+        "type": "IFCLOCALPLACEMENT",
+        "value": 2624227202
+    },
+    {
+        "type": "IFCLOOP",
+        "value": 1008929658
+    },
+    {
+        "type": "IFCMANIFOLDSOLIDBREP",
+        "value": 1425443689
+    },
+    {
+        "type": "IFCMAPCONVERSION",
+        "value": 3057273783
+    },
+    {
+        "type": "IFCMAPPEDITEM",
+        "value": 2347385850
+    },
+    {
+        "type": "IFCMATERIAL",
+        "value": 1838606355
+    },
+    {
+        "type": "IFCMATERIALCLASSIFICATIONRELATIONSHIP",
+        "value": 1847130766
+    },
+    {
+        "type": "IFCMATERIALCONSTITUENT",
+        "value": 3708119000
+    },
+    {
+        "type": "IFCMATERIALCONSTITUENTSET",
+        "value": 2852063980
+    },
+    {
+        "type": "IFCMATERIALDEFINITION",
+        "value": 760658860
+    },
+    {
+        "type": "IFCMATERIALDEFINITIONREPRESENTATION",
+        "value": 2022407955
+    },
+    {
+        "type": "IFCMATERIALLAYER",
+        "value": 248100487
+    },
+    {
+        "type": "IFCMATERIALLAYERSET",
+        "value": 3303938423
+    },
+    {
+        "type": "IFCMATERIALLAYERSETUSAGE",
+        "value": 1303795690
+    },
+    {
+        "type": "IFCMATERIALLAYERWITHOFFSETS",
+        "value": 1847252529
+    },
+    {
+        "type": "IFCMATERIALLIST",
+        "value": 2199411900
+    },
+    {
+        "type": "IFCMATERIALPROFILE",
+        "value": 2235152071
+    },
+    {
+        "type": "IFCMATERIALPROFILESET",
+        "value": 164193824
+    },
+    {
+        "type": "IFCMATERIALPROFILESETUSAGE",
+        "value": 3079605661
+    },
+    {
+        "type": "IFCMATERIALPROFILESETUSAGETAPERING",
+        "value": 3404854881
+    },
+    {
+        "type": "IFCMATERIALPROFILEWITHOFFSETS",
+        "value": 552965576
+    },
+    {
+        "type": "IFCMATERIALPROPERTIES",
+        "value": 3265635763
+    },
+    {
+        "type": "IFCMATERIALRELATIONSHIP",
+        "value": 853536259
+    },
+    {
+        "type": "IFCMATERIALUSAGEDEFINITION",
+        "value": 1507914824
+    },
+    {
+        "type": "IFCMEASUREWITHUNIT",
+        "value": 2597039031
+    },
+    {
+        "type": "IFCMECHANICALFASTENER",
+        "value": 377706215
+    },
+    {
+        "type": "IFCMECHANICALFASTENERTYPE",
+        "value": 2108223431
+    },
+    {
+        "type": "IFCMEDICALDEVICE",
+        "value": 1437502449
+    },
+    {
+        "type": "IFCMEDICALDEVICETYPE",
+        "value": 1114901282
+    },
+    {
+        "type": "IFCMEMBER",
+        "value": 1073191201
+    },
+    {
+        "type": "IFCMEMBERSTANDARDCASE",
+        "value": 1911478936
+    },
+    {
+        "type": "IFCMEMBERTYPE",
+        "value": 3181161470
+    },
+    {
+        "type": "IFCMETRIC",
+        "value": 3368373690
+    },
+    {
+        "type": "IFCMIRROREDPROFILEDEF",
+        "value": 2998442950
+    },
+    {
+        "type": "IFCMONETARYUNIT",
+        "value": 2706619895
+    },
+    {
+        "type": "IFCMOTORCONNECTION",
+        "value": 2474470126
+    },
+    {
+        "type": "IFCMOTORCONNECTIONTYPE",
+        "value": 977012517
+    },
+    {
+        "type": "IFCNAMEDUNIT",
+        "value": 1918398963
+    },
+    {
+        "type": "IFCOBJECT",
+        "value": 3888040117
+    },
+    {
+        "type": "IFCOBJECTDEFINITION",
+        "value": 219451334
+    },
+    {
+        "type": "IFCOBJECTPLACEMENT",
+        "value": 3701648758
+    },
+    {
+        "type": "IFCOBJECTIVE",
+        "value": 2251480897
+    },
+    {
+        "type": "IFCOCCUPANT",
+        "value": 4143007308
+    },
+    {
+        "type": "IFCOFFSETCURVE",
+        "value": 590820931
+    },
+    {
+        "type": "IFCOFFSETCURVE2D",
+        "value": 3388369263
+    },
+    {
+        "type": "IFCOFFSETCURVE3D",
+        "value": 3505215534
+    },
+    {
+        "type": "IFCOFFSETCURVEBYDISTANCES",
+        "value": 2485787929
+    },
+    {
+        "type": "IFCOPENSHELL",
+        "value": 2665983363
+    },
+    {
+        "type": "IFCOPENINGELEMENT",
+        "value": 3588315303
+    },
+    {
+        "type": "IFCOPENINGSTANDARDCASE",
+        "value": 3079942009
+    },
+    {
+        "type": "IFCORGANIZATION",
+        "value": 4251960020
+    },
+    {
+        "type": "IFCORGANIZATIONRELATIONSHIP",
+        "value": 1411181986
+    },
+    {
+        "type": "IFCORIENTATIONEXPRESSION",
+        "value": 643959842
+    },
+    {
+        "type": "IFCORIENTEDEDGE",
+        "value": 1029017970
+    },
+    {
+        "type": "IFCOUTERBOUNDARYCURVE",
+        "value": 144952367
+    },
+    {
+        "type": "IFCOUTLET",
+        "value": 3694346114
+    },
+    {
+        "type": "IFCOUTLETTYPE",
+        "value": 2837617999
+    },
+    {
+        "type": "IFCOWNERHISTORY",
+        "value": 1207048766
+    },
+    {
+        "type": "IFCPARAMETERIZEDPROFILEDEF",
+        "value": 2529465313
+    },
+    {
+        "type": "IFCPATH",
+        "value": 2519244187
+    },
+    {
+        "type": "IFCPCURVE",
+        "value": 1682466193
+    },
+    {
+        "type": "IFCPERFORMANCEHISTORY",
+        "value": 2382730787
+    },
+    {
+        "type": "IFCPERMEABLECOVERINGPROPERTIES",
+        "value": 3566463478
+    },
+    {
+        "type": "IFCPERMIT",
+        "value": 3327091369
+    },
+    {
+        "type": "IFCPERSON",
+        "value": 2077209135
+    },
+    {
+        "type": "IFCPERSONANDORGANIZATION",
+        "value": 101040310
+    },
+    {
+        "type": "IFCPHYSICALCOMPLEXQUANTITY",
+        "value": 3021840470
+    },
+    {
+        "type": "IFCPHYSICALQUANTITY",
+        "value": 2483315170
+    },
+    {
+        "type": "IFCPHYSICALSIMPLEQUANTITY",
+        "value": 2226359599
+    },
+    {
+        "type": "IFCPILE",
+        "value": 1687234759
+    },
+    {
+        "type": "IFCPILETYPE",
+        "value": 1158309216
+    },
+    {
+        "type": "IFCPIPEFITTING",
+        "value": 310824031
+    },
+    {
+        "type": "IFCPIPEFITTINGTYPE",
+        "value": 804291784
+    },
+    {
+        "type": "IFCPIPESEGMENT",
+        "value": 3612865200
+    },
+    {
+        "type": "IFCPIPESEGMENTTYPE",
+        "value": 4231323485
+    },
+    {
+        "type": "IFCPIXELTEXTURE",
+        "value": 597895409
+    },
+    {
+        "type": "IFCPLACEMENT",
+        "value": 2004835150
+    },
+    {
+        "type": "IFCPLANARBOX",
+        "value": 603570806
+    },
+    {
+        "type": "IFCPLANAREXTENT",
+        "value": 1663979128
+    },
+    {
+        "type": "IFCPLANE",
+        "value": 220341763
+    },
+    {
+        "type": "IFCPLATE",
+        "value": 3171933400
+    },
+    {
+        "type": "IFCPLATESTANDARDCASE",
+        "value": 1156407060
+    },
+    {
+        "type": "IFCPLATETYPE",
+        "value": 4017108033
+    },
+    {
+        "type": "IFCPOINT",
+        "value": 2067069095
+    },
+    {
+        "type": "IFCPOINTONCURVE",
+        "value": 4022376103
+    },
+    {
+        "type": "IFCPOINTONSURFACE",
+        "value": 1423911732
+    },
+    {
+        "type": "IFCPOLYLOOP",
+        "value": 2924175390
+    },
+    {
+        "type": "IFCPOLYGONALBOUNDEDHALFSPACE",
+        "value": 2775532180
+    },
+    {
+        "type": "IFCPOLYGONALFACESET",
+        "value": 2839578677
+    },
+    {
+        "type": "IFCPOLYLINE",
+        "value": 3724593414
+    },
+    {
+        "type": "IFCPORT",
+        "value": 3740093272
+    },
+    {
+        "type": "IFCPOSITIONINGELEMENT",
+        "value": 1946335990
+    },
+    {
+        "type": "IFCPOSTALADDRESS",
+        "value": 3355820592
+    },
+    {
+        "type": "IFCPREDEFINEDCOLOUR",
+        "value": 759155922
+    },
+    {
+        "type": "IFCPREDEFINEDCURVEFONT",
+        "value": 2559016684
+    },
+    {
+        "type": "IFCPREDEFINEDITEM",
+        "value": 3727388367
+    },
+    {
+        "type": "IFCPREDEFINEDPROPERTIES",
+        "value": 3778827333
+    },
+    {
+        "type": "IFCPREDEFINEDPROPERTYSET",
+        "value": 3967405729
+    },
+    {
+        "type": "IFCPREDEFINEDTEXTFONT",
+        "value": 1775413392
+    },
+    {
+        "type": "IFCPRESENTATIONITEM",
+        "value": 677532197
+    },
+    {
+        "type": "IFCPRESENTATIONLAYERASSIGNMENT",
+        "value": 2022622350
+    },
+    {
+        "type": "IFCPRESENTATIONLAYERWITHSTYLE",
+        "value": 1304840413
+    },
+    {
+        "type": "IFCPRESENTATIONSTYLE",
+        "value": 3119450353
+    },
+    {
+        "type": "IFCPRESENTATIONSTYLEASSIGNMENT",
+        "value": 2417041796
+    },
+    {
+        "type": "IFCPROCEDURE",
+        "value": 2744685151
+    },
+    {
+        "type": "IFCPROCEDURETYPE",
+        "value": 569719735
+    },
+    {
+        "type": "IFCPROCESS",
+        "value": 2945172077
+    },
+    {
+        "type": "IFCPRODUCT",
+        "value": 4208778838
+    },
+    {
+        "type": "IFCPRODUCTDEFINITIONSHAPE",
+        "value": 673634403
+    },
+    {
+        "type": "IFCPRODUCTREPRESENTATION",
+        "value": 2095639259
+    },
+    {
+        "type": "IFCPROFILEDEF",
+        "value": 3958567839
+    },
+    {
+        "type": "IFCPROFILEPROPERTIES",
+        "value": 2802850158
+    },
+    {
+        "type": "IFCPROJECT",
+        "value": 103090709
+    },
+    {
+        "type": "IFCPROJECTLIBRARY",
+        "value": 653396225
+    },
+    {
+        "type": "IFCPROJECTORDER",
+        "value": 2904328755
+    },
+    {
+        "type": "IFCPROJECTEDCRS",
+        "value": 3843373140
+    },
+    {
+        "type": "IFCPROJECTIONELEMENT",
+        "value": 3651124850
+    },
+    {
+        "type": "IFCPROPERTY",
+        "value": 2598011224
+    },
+    {
+        "type": "IFCPROPERTYABSTRACTION",
+        "value": 986844984
+    },
+    {
+        "type": "IFCPROPERTYBOUNDEDVALUE",
+        "value": 871118103
+    },
+    {
+        "type": "IFCPROPERTYDEFINITION",
+        "value": 1680319473
+    },
+    {
+        "type": "IFCPROPERTYDEPENDENCYRELATIONSHIP",
+        "value": 148025276
+    },
+    {
+        "type": "IFCPROPERTYENUMERATEDVALUE",
+        "value": 4166981789
+    },
+    {
+        "type": "IFCPROPERTYENUMERATION",
+        "value": 3710013099
+    },
+    {
+        "type": "IFCPROPERTYLISTVALUE",
+        "value": 2752243245
+    },
+    {
+        "type": "IFCPROPERTYREFERENCEVALUE",
+        "value": 941946838
+    },
+    {
+        "type": "IFCPROPERTYSET",
+        "value": 1451395588
+    },
+    {
+        "type": "IFCPROPERTYSETDEFINITION",
+        "value": 3357820518
+    },
+    {
+        "type": "IFCPROPERTYSETTEMPLATE",
+        "value": 492091185
+    },
+    {
+        "type": "IFCPROPERTYSINGLEVALUE",
+        "value": 3650150729
+    },
+    {
+        "type": "IFCPROPERTYTABLEVALUE",
+        "value": 110355661
+    },
+    {
+        "type": "IFCPROPERTYTEMPLATE",
+        "value": 3521284610
+    },
+    {
+        "type": "IFCPROPERTYTEMPLATEDEFINITION",
+        "value": 1482703590
+    },
+    {
+        "type": "IFCPROTECTIVEDEVICE",
+        "value": 738039164
+    },
+    {
+        "type": "IFCPROTECTIVEDEVICETRIPPINGUNIT",
+        "value": 2295281155
+    },
+    {
+        "type": "IFCPROTECTIVEDEVICETRIPPINGUNITTYPE",
+        "value": 655969474
+    },
+    {
+        "type": "IFCPROTECTIVEDEVICETYPE",
+        "value": 1842657554
+    },
+    {
+        "type": "IFCPROXY",
+        "value": 3219374653
+    },
+    {
+        "type": "IFCPUMP",
+        "value": 90941305
+    },
+    {
+        "type": "IFCPUMPTYPE",
+        "value": 2250791053
+    },
+    {
+        "type": "IFCQUANTITYAREA",
+        "value": 2044713172
+    },
+    {
+        "type": "IFCQUANTITYCOUNT",
+        "value": 2093928680
+    },
+    {
+        "type": "IFCQUANTITYLENGTH",
+        "value": 931644368
+    },
+    {
+        "type": "IFCQUANTITYSET",
+        "value": 2090586900
+    },
+    {
+        "type": "IFCQUANTITYTIME",
+        "value": 3252649465
+    },
+    {
+        "type": "IFCQUANTITYVOLUME",
+        "value": 2405470396
+    },
+    {
+        "type": "IFCQUANTITYWEIGHT",
+        "value": 825690147
+    },
+    {
+        "type": "IFCRAILING",
+        "value": 2262370178
+    },
+    {
+        "type": "IFCRAILINGTYPE",
+        "value": 2893384427
+    },
+    {
+        "type": "IFCRAMP",
+        "value": 3024970846
+    },
+    {
+        "type": "IFCRAMPFLIGHT",
+        "value": 3283111854
+    },
+    {
+        "type": "IFCRAMPFLIGHTTYPE",
+        "value": 2324767716
+    },
+    {
+        "type": "IFCRAMPTYPE",
+        "value": 1469900589
+    },
+    {
+        "type": "IFCRATIONALBSPLINECURVEWITHKNOTS",
+        "value": 1232101972
+    },
+    {
+        "type": "IFCRATIONALBSPLINESURFACEWITHKNOTS",
+        "value": 683857671
+    },
+    {
+        "type": "IFCRECTANGLEHOLLOWPROFILEDEF",
+        "value": 2770003689
+    },
+    {
+        "type": "IFCRECTANGLEPROFILEDEF",
+        "value": 3615266464
+    },
+    {
+        "type": "IFCRECTANGULARPYRAMID",
+        "value": 2798486643
+    },
+    {
+        "type": "IFCRECTANGULARTRIMMEDSURFACE",
+        "value": 3454111270
+    },
+    {
+        "type": "IFCRECURRENCEPATTERN",
+        "value": 3915482550
+    },
+    {
+        "type": "IFCREFERENCE",
+        "value": 2433181523
+    },
+    {
+        "type": "IFCREFERENT",
+        "value": 4021432810
+    },
+    {
+        "type": "IFCREGULARTIMESERIES",
+        "value": 3413951693
+    },
+    {
+        "type": "IFCREINFORCEMENTBARPROPERTIES",
+        "value": 1580146022
+    },
+    {
+        "type": "IFCREINFORCEMENTDEFINITIONPROPERTIES",
+        "value": 3765753017
+    },
+    {
+        "type": "IFCREINFORCINGBAR",
+        "value": 979691226
+    },
+    {
+        "type": "IFCREINFORCINGBARTYPE",
+        "value": 2572171363
+    },
+    {
+        "type": "IFCREINFORCINGELEMENT",
+        "value": 3027567501
+    },
+    {
+        "type": "IFCREINFORCINGELEMENTTYPE",
+        "value": 964333572
+    },
+    {
+        "type": "IFCREINFORCINGMESH",
+        "value": 2320036040
+    },
+    {
+        "type": "IFCREINFORCINGMESHTYPE",
+        "value": 2310774935
+    },
+    {
+        "type": "IFCRELAGGREGATES",
+        "value": 160246688
+    },
+    {
+        "type": "IFCRELASSIGNS",
+        "value": 3939117080
+    },
+    {
+        "type": "IFCRELASSIGNSTOACTOR",
+        "value": 1683148259
+    },
+    {
+        "type": "IFCRELASSIGNSTOCONTROL",
+        "value": 2495723537
+    },
+    {
+        "type": "IFCRELASSIGNSTOGROUP",
+        "value": 1307041759
+    },
+    {
+        "type": "IFCRELASSIGNSTOGROUPBYFACTOR",
+        "value": 1027710054
+    },
+    {
+        "type": "IFCRELASSIGNSTOPROCESS",
+        "value": 4278684876
+    },
+    {
+        "type": "IFCRELASSIGNSTOPRODUCT",
+        "value": 2857406711
+    },
+    {
+        "type": "IFCRELASSIGNSTORESOURCE",
+        "value": 205026976
+    },
+    {
+        "type": "IFCRELASSOCIATES",
+        "value": 1865459582
+    },
+    {
+        "type": "IFCRELASSOCIATESAPPROVAL",
+        "value": 4095574036
+    },
+    {
+        "type": "IFCRELASSOCIATESCLASSIFICATION",
+        "value": 919958153
+    },
+    {
+        "type": "IFCRELASSOCIATESCONSTRAINT",
+        "value": 2728634034
+    },
+    {
+        "type": "IFCRELASSOCIATESDOCUMENT",
+        "value": 982818633
+    },
+    {
+        "type": "IFCRELASSOCIATESLIBRARY",
+        "value": 3840914261
+    },
+    {
+        "type": "IFCRELASSOCIATESMATERIAL",
+        "value": 2655215786
+    },
+    {
+        "type": "IFCRELCONNECTS",
+        "value": 826625072
+    },
+    {
+        "type": "IFCRELCONNECTSELEMENTS",
+        "value": 1204542856
+    },
+    {
+        "type": "IFCRELCONNECTSPATHELEMENTS",
+        "value": 3945020480
+    },
+    {
+        "type": "IFCRELCONNECTSPORTTOELEMENT",
+        "value": 4201705270
+    },
+    {
+        "type": "IFCRELCONNECTSPORTS",
+        "value": 3190031847
+    },
+    {
+        "type": "IFCRELCONNECTSSTRUCTURALACTIVITY",
+        "value": 2127690289
+    },
+    {
+        "type": "IFCRELCONNECTSSTRUCTURALMEMBER",
+        "value": 1638771189
+    },
+    {
+        "type": "IFCRELCONNECTSWITHECCENTRICITY",
+        "value": 504942748
+    },
+    {
+        "type": "IFCRELCONNECTSWITHREALIZINGELEMENTS",
+        "value": 3678494232
+    },
+    {
+        "type": "IFCRELCONTAINEDINSPATIALSTRUCTURE",
+        "value": 3242617779
+    },
+    {
+        "type": "IFCRELCOVERSBLDGELEMENTS",
+        "value": 886880790
+    },
+    {
+        "type": "IFCRELCOVERSSPACES",
+        "value": 2802773753
+    },
+    {
+        "type": "IFCRELDECLARES",
+        "value": 2565941209
+    },
+    {
+        "type": "IFCRELDECOMPOSES",
+        "value": 2551354335
+    },
+    {
+        "type": "IFCRELDEFINES",
+        "value": 693640335
+    },
+    {
+        "type": "IFCRELDEFINESBYOBJECT",
+        "value": 1462361463
+    },
+    {
+        "type": "IFCRELDEFINESBYPROPERTIES",
+        "value": 4186316022
+    },
+    {
+        "type": "IFCRELDEFINESBYTEMPLATE",
+        "value": 307848117
+    },
+    {
+        "type": "IFCRELDEFINESBYTYPE",
+        "value": 781010003
+    },
+    {
+        "type": "IFCRELFILLSELEMENT",
+        "value": 3940055652
+    },
+    {
+        "type": "IFCRELFLOWCONTROLELEMENTS",
+        "value": 279856033
+    },
+    {
+        "type": "IFCRELINTERFERESELEMENTS",
+        "value": 427948657
+    },
+    {
+        "type": "IFCRELNESTS",
+        "value": 3268803585
+    },
+    {
+        "type": "IFCRELPOSITIONS",
+        "value": 1441486842
+    },
+    {
+        "type": "IFCRELPROJECTSELEMENT",
+        "value": 750771296
+    },
+    {
+        "type": "IFCRELREFERENCEDINSPATIALSTRUCTURE",
+        "value": 1245217292
+    },
+    {
+        "type": "IFCRELSEQUENCE",
+        "value": 4122056220
+    },
+    {
+        "type": "IFCRELSERVICESBUILDINGS",
+        "value": 366585022
+    },
+    {
+        "type": "IFCRELSPACEBOUNDARY",
+        "value": 3451746338
+    },
+    {
+        "type": "IFCRELSPACEBOUNDARY1STLEVEL",
+        "value": 3523091289
+    },
+    {
+        "type": "IFCRELSPACEBOUNDARY2NDLEVEL",
+        "value": 1521410863
+    },
+    {
+        "type": "IFCRELVOIDSELEMENT",
+        "value": 1401173127
+    },
+    {
+        "type": "IFCRELATIONSHIP",
+        "value": 478536968
+    },
+    {
+        "type": "IFCREPARAMETRISEDCOMPOSITECURVESEGMENT",
+        "value": 816062949
+    },
+    {
+        "type": "IFCREPRESENTATION",
+        "value": 1076942058
+    },
+    {
+        "type": "IFCREPRESENTATIONCONTEXT",
+        "value": 3377609919
+    },
+    {
+        "type": "IFCREPRESENTATIONITEM",
+        "value": 3008791417
+    },
+    {
+        "type": "IFCREPRESENTATIONMAP",
+        "value": 1660063152
+    },
+    {
+        "type": "IFCRESOURCE",
+        "value": 2914609552
+    },
+    {
+        "type": "IFCRESOURCEAPPROVALRELATIONSHIP",
+        "value": 2943643501
+    },
+    {
+        "type": "IFCRESOURCECONSTRAINTRELATIONSHIP",
+        "value": 1608871552
+    },
+    {
+        "type": "IFCRESOURCELEVELRELATIONSHIP",
+        "value": 2439245199
+    },
+    {
+        "type": "IFCRESOURCETIME",
+        "value": 1042787934
+    },
+    {
+        "type": "IFCREVOLVEDAREASOLID",
+        "value": 1856042241
+    },
+    {
+        "type": "IFCREVOLVEDAREASOLIDTAPERED",
+        "value": 3243963512
+    },
+    {
+        "type": "IFCRIGHTCIRCULARCONE",
+        "value": 4158566097
+    },
+    {
+        "type": "IFCRIGHTCIRCULARCYLINDER",
+        "value": 3626867408
+    },
+    {
+        "type": "IFCROOF",
+        "value": 2016517767
+    },
+    {
+        "type": "IFCROOFTYPE",
+        "value": 2781568857
+    },
+    {
+        "type": "IFCROOT",
+        "value": 2341007311
+    },
+    {
+        "type": "IFCROUNDEDRECTANGLEPROFILEDEF",
+        "value": 2778083089
+    },
+    {
+        "type": "IFCSIUNIT",
+        "value": 448429030
+    },
+    {
+        "type": "IFCSANITARYTERMINAL",
+        "value": 3053780830
+    },
+    {
+        "type": "IFCSANITARYTERMINALTYPE",
+        "value": 1768891740
+    },
+    {
+        "type": "IFCSCHEDULINGTIME",
+        "value": 1054537805
+    },
+    {
+        "type": "IFCSEAMCURVE",
+        "value": 2157484638
+    },
+    {
+        "type": "IFCSECTIONPROPERTIES",
+        "value": 2042790032
+    },
+    {
+        "type": "IFCSECTIONREINFORCEMENTPROPERTIES",
+        "value": 4165799628
+    },
+    {
+        "type": "IFCSECTIONEDSOLID",
+        "value": 1862484736
+    },
+    {
+        "type": "IFCSECTIONEDSOLIDHORIZONTAL",
+        "value": 1290935644
+    },
+    {
+        "type": "IFCSECTIONEDSPINE",
+        "value": 1509187699
+    },
+    {
+        "type": "IFCSENSOR",
+        "value": 4086658281
+    },
+    {
+        "type": "IFCSENSORTYPE",
+        "value": 1783015770
+    },
+    {
+        "type": "IFCSHADINGDEVICE",
+        "value": 1329646415
+    },
+    {
+        "type": "IFCSHADINGDEVICETYPE",
+        "value": 4074543187
+    },
+    {
+        "type": "IFCSHAPEASPECT",
+        "value": 867548509
+    },
+    {
+        "type": "IFCSHAPEMODEL",
+        "value": 3982875396
+    },
+    {
+        "type": "IFCSHAPEREPRESENTATION",
+        "value": 4240577450
+    },
+    {
+        "type": "IFCSHELLBASEDSURFACEMODEL",
+        "value": 4124623270
+    },
+    {
+        "type": "IFCSIMPLEPROPERTY",
+        "value": 3692461612
+    },
+    {
+        "type": "IFCSIMPLEPROPERTYTEMPLATE",
+        "value": 3663146110
+    },
+    {
+        "type": "IFCSITE",
+        "value": 4097777520
+    },
+    {
+        "type": "IFCSLAB",
+        "value": 1529196076
+    },
+    {
+        "type": "IFCSLABELEMENTEDCASE",
+        "value": 3127900445
+    },
+    {
+        "type": "IFCSLABSTANDARDCASE",
+        "value": 3027962421
+    },
+    {
+        "type": "IFCSLABTYPE",
+        "value": 2533589738
+    },
+    {
+        "type": "IFCSLIPPAGECONNECTIONCONDITION",
+        "value": 2609359061
+    },
+    {
+        "type": "IFCSOLARDEVICE",
+        "value": 3420628829
+    },
+    {
+        "type": "IFCSOLARDEVICETYPE",
+        "value": 1072016465
+    },
+    {
+        "type": "IFCSOLIDMODEL",
+        "value": 723233188
+    },
+    {
+        "type": "IFCSPACE",
+        "value": 3856911033
+    },
+    {
+        "type": "IFCSPACEHEATER",
+        "value": 1999602285
+    },
+    {
+        "type": "IFCSPACEHEATERTYPE",
+        "value": 1305183839
+    },
+    {
+        "type": "IFCSPACETYPE",
+        "value": 3812236995
+    },
+    {
+        "type": "IFCSPATIALELEMENT",
+        "value": 1412071761
+    },
+    {
+        "type": "IFCSPATIALELEMENTTYPE",
+        "value": 710998568
+    },
+    {
+        "type": "IFCSPATIALSTRUCTUREELEMENT",
+        "value": 2706606064
+    },
+    {
+        "type": "IFCSPATIALSTRUCTUREELEMENTTYPE",
+        "value": 3893378262
+    },
+    {
+        "type": "IFCSPATIALZONE",
+        "value": 463610769
+    },
+    {
+        "type": "IFCSPATIALZONETYPE",
+        "value": 2481509218
+    },
+    {
+        "type": "IFCSPHERE",
+        "value": 451544542
+    },
+    {
+        "type": "IFCSPHERICALSURFACE",
+        "value": 4015995234
+    },
+    {
+        "type": "IFCSTACKTERMINAL",
+        "value": 1404847402
+    },
+    {
+        "type": "IFCSTACKTERMINALTYPE",
+        "value": 3112655638
+    },
+    {
+        "type": "IFCSTAIR",
+        "value": 331165859
+    },
+    {
+        "type": "IFCSTAIRFLIGHT",
+        "value": 4252922144
+    },
+    {
+        "type": "IFCSTAIRFLIGHTTYPE",
+        "value": 1039846685
+    },
+    {
+        "type": "IFCSTAIRTYPE",
+        "value": 338393293
+    },
+    {
+        "type": "IFCSTRUCTURALACTION",
+        "value": 682877961
+    },
+    {
+        "type": "IFCSTRUCTURALACTIVITY",
+        "value": 3544373492
+    },
+    {
+        "type": "IFCSTRUCTURALANALYSISMODEL",
+        "value": 2515109513
+    },
+    {
+        "type": "IFCSTRUCTURALCONNECTION",
+        "value": 1179482911
+    },
+    {
+        "type": "IFCSTRUCTURALCONNECTIONCONDITION",
+        "value": 2273995522
+    },
+    {
+        "type": "IFCSTRUCTURALCURVEACTION",
+        "value": 1004757350
+    },
+    {
+        "type": "IFCSTRUCTURALCURVECONNECTION",
+        "value": 4243806635
+    },
+    {
+        "type": "IFCSTRUCTURALCURVEMEMBER",
+        "value": 214636428
+    },
+    {
+        "type": "IFCSTRUCTURALCURVEMEMBERVARYING",
+        "value": 2445595289
+    },
+    {
+        "type": "IFCSTRUCTURALCURVEREACTION",
+        "value": 2757150158
+    },
+    {
+        "type": "IFCSTRUCTURALITEM",
+        "value": 3136571912
+    },
+    {
+        "type": "IFCSTRUCTURALLINEARACTION",
+        "value": 1807405624
+    },
+    {
+        "type": "IFCSTRUCTURALLOAD",
+        "value": 2162789131
+    },
+    {
+        "type": "IFCSTRUCTURALLOADCASE",
+        "value": 385403989
+    },
+    {
+        "type": "IFCSTRUCTURALLOADCONFIGURATION",
+        "value": 3478079324
+    },
+    {
+        "type": "IFCSTRUCTURALLOADGROUP",
+        "value": 1252848954
+    },
+    {
+        "type": "IFCSTRUCTURALLOADLINEARFORCE",
+        "value": 1595516126
+    },
+    {
+        "type": "IFCSTRUCTURALLOADORRESULT",
+        "value": 609421318
+    },
+    {
+        "type": "IFCSTRUCTURALLOADPLANARFORCE",
+        "value": 2668620305
+    },
+    {
+        "type": "IFCSTRUCTURALLOADSINGLEDISPLACEMENT",
+        "value": 2473145415
+    },
+    {
+        "type": "IFCSTRUCTURALLOADSINGLEDISPLACEMENTDISTORTION",
+        "value": 1973038258
+    },
+    {
+        "type": "IFCSTRUCTURALLOADSINGLEFORCE",
+        "value": 1597423693
+    },
+    {
+        "type": "IFCSTRUCTURALLOADSINGLEFORCEWARPING",
+        "value": 1190533807
+    },
+    {
+        "type": "IFCSTRUCTURALLOADSTATIC",
+        "value": 2525727697
+    },
+    {
+        "type": "IFCSTRUCTURALLOADTEMPERATURE",
+        "value": 3408363356
+    },
+    {
+        "type": "IFCSTRUCTURALMEMBER",
+        "value": 530289379
+    },
+    {
+        "type": "IFCSTRUCTURALPLANARACTION",
+        "value": 1621171031
+    },
+    {
+        "type": "IFCSTRUCTURALPOINTACTION",
+        "value": 2082059205
+    },
+    {
+        "type": "IFCSTRUCTURALPOINTCONNECTION",
+        "value": 734778138
+    },
+    {
+        "type": "IFCSTRUCTURALPOINTREACTION",
+        "value": 1235345126
+    },
+    {
+        "type": "IFCSTRUCTURALREACTION",
+        "value": 3689010777
+    },
+    {
+        "type": "IFCSTRUCTURALRESULTGROUP",
+        "value": 2986769608
+    },
+    {
+        "type": "IFCSTRUCTURALSURFACEACTION",
+        "value": 3657597509
+    },
+    {
+        "type": "IFCSTRUCTURALSURFACECONNECTION",
+        "value": 1975003073
+    },
+    {
+        "type": "IFCSTRUCTURALSURFACEMEMBER",
+        "value": 3979015343
+    },
+    {
+        "type": "IFCSTRUCTURALSURFACEMEMBERVARYING",
+        "value": 2218152070
+    },
+    {
+        "type": "IFCSTRUCTURALSURFACEREACTION",
+        "value": 603775116
+    },
+    {
+        "type": "IFCSTYLEMODEL",
+        "value": 2830218821
+    },
+    {
+        "type": "IFCSTYLEDITEM",
+        "value": 3958052878
+    },
+    {
+        "type": "IFCSTYLEDREPRESENTATION",
+        "value": 3049322572
+    },
+    {
+        "type": "IFCSUBCONTRACTRESOURCE",
+        "value": 148013059
+    },
+    {
+        "type": "IFCSUBCONTRACTRESOURCETYPE",
+        "value": 4095615324
+    },
+    {
+        "type": "IFCSUBEDGE",
+        "value": 2233826070
+    },
+    {
+        "type": "IFCSURFACE",
+        "value": 2513912981
+    },
+    {
+        "type": "IFCSURFACECURVE",
+        "value": 699246055
+    },
+    {
+        "type": "IFCSURFACECURVESWEPTAREASOLID",
+        "value": 2028607225
+    },
+    {
+        "type": "IFCSURFACEFEATURE",
+        "value": 3101698114
+    },
+    {
+        "type": "IFCSURFACEOFLINEAREXTRUSION",
+        "value": 2809605785
+    },
+    {
+        "type": "IFCSURFACEOFREVOLUTION",
+        "value": 4124788165
+    },
+    {
+        "type": "IFCSURFACEREINFORCEMENTAREA",
+        "value": 2934153892
+    },
+    {
+        "type": "IFCSURFACESTYLE",
+        "value": 1300840506
+    },
+    {
+        "type": "IFCSURFACESTYLELIGHTING",
+        "value": 3303107099
+    },
+    {
+        "type": "IFCSURFACESTYLEREFRACTION",
+        "value": 1607154358
+    },
+    {
+        "type": "IFCSURFACESTYLERENDERING",
+        "value": 1878645084
+    },
+    {
+        "type": "IFCSURFACESTYLESHADING",
+        "value": 846575682
+    },
+    {
+        "type": "IFCSURFACESTYLEWITHTEXTURES",
+        "value": 1351298697
+    },
+    {
+        "type": "IFCSURFACETEXTURE",
+        "value": 626085974
+    },
+    {
+        "type": "IFCSWEPTAREASOLID",
+        "value": 2247615214
+    },
+    {
+        "type": "IFCSWEPTDISKSOLID",
+        "value": 1260650574
+    },
+    {
+        "type": "IFCSWEPTDISKSOLIDPOLYGONAL",
+        "value": 1096409881
+    },
+    {
+        "type": "IFCSWEPTSURFACE",
+        "value": 230924584
+    },
+    {
+        "type": "IFCSWITCHINGDEVICE",
+        "value": 1162798199
+    },
+    {
+        "type": "IFCSWITCHINGDEVICETYPE",
+        "value": 2315554128
+    },
+    {
+        "type": "IFCSYSTEM",
+        "value": 2254336722
+    },
+    {
+        "type": "IFCSYSTEMFURNITUREELEMENT",
+        "value": 413509423
+    },
+    {
+        "type": "IFCSYSTEMFURNITUREELEMENTTYPE",
+        "value": 1580310250
+    },
+    {
+        "type": "IFCTSHAPEPROFILEDEF",
+        "value": 3071757647
+    },
+    {
+        "type": "IFCTABLE",
+        "value": 985171141
+    },
+    {
+        "type": "IFCTABLECOLUMN",
+        "value": 2043862942
+    },
+    {
+        "type": "IFCTABLEROW",
+        "value": 531007025
+    },
+    {
+        "type": "IFCTANK",
+        "value": 812556717
+    },
+    {
+        "type": "IFCTANKTYPE",
+        "value": 5716631
+    },
+    {
+        "type": "IFCTASK",
+        "value": 3473067441
+    },
+    {
+        "type": "IFCTASKTIME",
+        "value": 1549132990
+    },
+    {
+        "type": "IFCTASKTIMERECURRING",
+        "value": 2771591690
+    },
+    {
+        "type": "IFCTASKTYPE",
+        "value": 3206491090
+    },
+    {
+        "type": "IFCTELECOMADDRESS",
+        "value": 912023232
+    },
+    {
+        "type": "IFCTENDON",
+        "value": 3824725483
+    },
+    {
+        "type": "IFCTENDONANCHOR",
+        "value": 2347447852
+    },
+    {
+        "type": "IFCTENDONANCHORTYPE",
+        "value": 3081323446
+    },
+    {
+        "type": "IFCTENDONCONDUIT",
+        "value": 3663046924
+    },
+    {
+        "type": "IFCTENDONCONDUITTYPE",
+        "value": 2281632017
+    },
+    {
+        "type": "IFCTENDONTYPE",
+        "value": 2415094496
+    },
+    {
+        "type": "IFCTESSELLATEDFACESET",
+        "value": 2387106220
+    },
+    {
+        "type": "IFCTESSELLATEDITEM",
+        "value": 901063453
+    },
+    {
+        "type": "IFCTEXTLITERAL",
+        "value": 4282788508
+    },
+    {
+        "type": "IFCTEXTLITERALWITHEXTENT",
+        "value": 3124975700
+    },
+    {
+        "type": "IFCTEXTSTYLE",
+        "value": 1447204868
+    },
+    {
+        "type": "IFCTEXTSTYLEFONTMODEL",
+        "value": 1983826977
+    },
+    {
+        "type": "IFCTEXTSTYLEFORDEFINEDFONT",
+        "value": 2636378356
+    },
+    {
+        "type": "IFCTEXTSTYLETEXTMODEL",
+        "value": 1640371178
+    },
+    {
+        "type": "IFCTEXTURECOORDINATE",
+        "value": 280115917
+    },
+    {
+        "type": "IFCTEXTURECOORDINATEGENERATOR",
+        "value": 1742049831
+    },
+    {
+        "type": "IFCTEXTUREMAP",
+        "value": 2552916305
+    },
+    {
+        "type": "IFCTEXTUREVERTEX",
+        "value": 1210645708
+    },
+    {
+        "type": "IFCTEXTUREVERTEXLIST",
+        "value": 3611470254
+    },
+    {
+        "type": "IFCTIMEPERIOD",
+        "value": 1199560280
+    },
+    {
+        "type": "IFCTIMESERIES",
+        "value": 3101149627
+    },
+    {
+        "type": "IFCTIMESERIESVALUE",
+        "value": 581633288
+    },
+    {
+        "type": "IFCTOPOLOGICALREPRESENTATIONITEM",
+        "value": 1377556343
+    },
+    {
+        "type": "IFCTOPOLOGYREPRESENTATION",
+        "value": 1735638870
+    },
+    {
+        "type": "IFCTOROIDALSURFACE",
+        "value": 1935646853
+    },
+    {
+        "type": "IFCTRANSFORMER",
+        "value": 3825984169
+    },
+    {
+        "type": "IFCTRANSFORMERTYPE",
+        "value": 1692211062
+    },
+    {
+        "type": "IFCTRANSITIONCURVESEGMENT2D",
+        "value": 2595432518
+    },
+    {
+        "type": "IFCTRANSPORTELEMENT",
+        "value": 1620046519
+    },
+    {
+        "type": "IFCTRANSPORTELEMENTTYPE",
+        "value": 2097647324
+    },
+    {
+        "type": "IFCTRAPEZIUMPROFILEDEF",
+        "value": 2715220739
+    },
+    {
+        "type": "IFCTRIANGULATEDFACESET",
+        "value": 2916149573
+    },
+    {
+        "type": "IFCTRIANGULATEDIRREGULARNETWORK",
+        "value": 1229763772
+    },
+    {
+        "type": "IFCTRIMMEDCURVE",
+        "value": 3593883385
+    },
+    {
+        "type": "IFCTUBEBUNDLE",
+        "value": 3026737570
+    },
+    {
+        "type": "IFCTUBEBUNDLETYPE",
+        "value": 1600972822
+    },
+    {
+        "type": "IFCTYPEOBJECT",
+        "value": 1628702193
+    },
+    {
+        "type": "IFCTYPEPROCESS",
+        "value": 3736923433
+    },
+    {
+        "type": "IFCTYPEPRODUCT",
+        "value": 2347495698
+    },
+    {
+        "type": "IFCTYPERESOURCE",
+        "value": 3698973494
+    },
+    {
+        "type": "IFCUSHAPEPROFILEDEF",
+        "value": 427810014
+    },
+    {
+        "type": "IFCUNITASSIGNMENT",
+        "value": 180925521
+    },
+    {
+        "type": "IFCUNITARYCONTROLELEMENT",
+        "value": 630975310
+    },
+    {
+        "type": "IFCUNITARYCONTROLELEMENTTYPE",
+        "value": 3179687236
+    },
+    {
+        "type": "IFCUNITARYEQUIPMENT",
+        "value": 4292641817
+    },
+    {
+        "type": "IFCUNITARYEQUIPMENTTYPE",
+        "value": 1911125066
+    },
+    {
+        "type": "IFCVALVE",
+        "value": 4207607924
+    },
+    {
+        "type": "IFCVALVETYPE",
+        "value": 728799441
+    },
+    {
+        "type": "IFCVECTOR",
+        "value": 1417489154
+    },
+    {
+        "type": "IFCVERTEX",
+        "value": 2799835756
+    },
+    {
+        "type": "IFCVERTEXLOOP",
+        "value": 2759199220
+    },
+    {
+        "type": "IFCVERTEXPOINT",
+        "value": 1907098498
+    },
+    {
+        "type": "IFCVIBRATIONDAMPER",
+        "value": 1530820697
+    },
+    {
+        "type": "IFCVIBRATIONDAMPERTYPE",
+        "value": 3956297820
+    },
+    {
+        "type": "IFCVIBRATIONISOLATOR",
+        "value": 2391383451
+    },
+    {
+        "type": "IFCVIBRATIONISOLATORTYPE",
+        "value": 3313531582
+    },
+    {
+        "type": "IFCVIRTUALELEMENT",
+        "value": 2769231204
+    },
+    {
+        "type": "IFCVIRTUALGRIDINTERSECTION",
+        "value": 891718957
+    },
+    {
+        "type": "IFCVOIDINGFEATURE",
+        "value": 926996030
+    },
+    {
+        "type": "IFCWALL",
+        "value": 2391406946
+    },
+    {
+        "type": "IFCWALLELEMENTEDCASE",
+        "value": 4156078855
+    },
+    {
+        "type": "IFCWALLSTANDARDCASE",
+        "value": 3512223829
+    },
+    {
+        "type": "IFCWALLTYPE",
+        "value": 1898987631
+    },
+    {
+        "type": "IFCWASTETERMINAL",
+        "value": 4237592921
+    },
+    {
+        "type": "IFCWASTETERMINALTYPE",
+        "value": 1133259667
+    },
+    {
+        "type": "IFCWINDOW",
+        "value": 3304561284
+    },
+    {
+        "type": "IFCWINDOWLININGPROPERTIES",
+        "value": 336235671
+    },
+    {
+        "type": "IFCWINDOWPANELPROPERTIES",
+        "value": 512836454
+    },
+    {
+        "type": "IFCWINDOWSTANDARDCASE",
+        "value": 486154966
+    },
+    {
+        "type": "IFCWINDOWSTYLE",
+        "value": 1299126871
+    },
+    {
+        "type": "IFCWINDOWTYPE",
+        "value": 4009809668
+    },
+    {
+        "type": "IFCWORKCALENDAR",
+        "value": 4088093105
+    },
+    {
+        "type": "IFCWORKCONTROL",
+        "value": 1028945134
+    },
+    {
+        "type": "IFCWORKPLAN",
+        "value": 4218914973
+    },
+    {
+        "type": "IFCWORKSCHEDULE",
+        "value": 3342526732
+    },
+    {
+        "type": "IFCWORKTIME",
+        "value": 1236880293
+    },
+    {
+        "type": "IFCZSHAPEPROFILEDEF",
+        "value": 2543172580
+    },
+    {
+        "type": "IFCZONE",
+        "value": 1033361043
+    }
+]
