@@ -1,13 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Threejs IFC Loader Angular</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      overflow: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      position: relative;
+      /* display: none; */
+    }
+
+    ::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    ::-webkit-scrollbar-corner {
+      display: none;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: darkgray;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: grey;
+    }
+  </style>
 </head>
+
 <body>
-  <app-root></app-root>
+  <app-root style="overflow: hidden !important;"></app-root>
 </body>
+
 </html>

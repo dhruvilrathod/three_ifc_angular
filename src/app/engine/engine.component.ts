@@ -18,7 +18,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   public rendererCanvas: ElementRef<HTMLCanvasElement>;
   public selectedObjectID: number = null;
   public ifcModelID: number = null;
-  public hoveredObjectType: string = null;
+  public hoveredObjectType;
   public selectedModelID: any = null;
   public ifcObjects: any;
 
@@ -48,20 +48,32 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   // public variables to show in view
 
+  public elementListModalOpen: boolean = false;
+  public elementDetailsModalOpen: boolean = false;
+  public metadataModalOpen: boolean = false;
+
   public allIFCCategories = [];
   // IFC types list (from view)
   public types = [];
   public ifcTypesSelectedDetails = [];
+  public allCategories = [];
   // after item selected from model
   public selectedItemProperties = [];
   public selectedItemPropertySets = [];
   public elementIfcType: string;
   // ifc metadata on load
-  public ifcMetadata = [];
-
+  public metaDataVariables = ["IFCAPPLICATION", 'IFCORGANIZATION', 'IFCPOSTALADDRESS', 'IFCTELECOMADDRESS', 'IFCPERSON', 'IFCACTORROLE'];
+  public IFCAPPLICATION = [];
+  public IFCORGANIZATION = [];
+  public IFCPOSTALADDRESS = [];
+  public IFCTELECOMADDRESS = [];
+  public IFCPERSON = [];
 
   // ifc view control varialbes
   public isTranperentModel: boolean = false;
+  public instructionModalOpen: boolean = false;
+  public liveDetailsModal: boolean = true;
+  public metadataDetailsModalOpen: boolean = false;
 
 
   public constructor(
@@ -113,6 +125,13 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public ifcFileSelected(e: any): void {
+  }
+
+  public closeAllModals () {
+    this.elementListModalOpen = false;
+    this.instructionModalOpen = false;
+    this.elementDetailsModalOpen = false;
+    this.metadataModalOpen = false;
   }
 
 
@@ -192,10 +211,23 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.renderer.setSize(this.size.width, this.size.height);
   }
 
+  public resetModel() {
+
+  }
+
+  public resetAllDetails() {
+    this.ifcTypesSelectedDetails = [];
+    this.allIFCCategories = [];
+    this.selectedItemProperties = [];
+    this.selectedItemPropertySets = [];
+    this.elementIfcType = null;
+  }
+
   // ******************************* CODE FOR WORK WITH IFC *************************
 
   private ifcLoader = new IFCLoader();
   private ifcModels = [];
+  public objectToAdd = [];
   private mouse: THREE.Vector2 = new THREE.Vector2();
   private ifc = this.ifcLoader.ifcManager;
   public raycaster: THREE.Raycaster = new THREE.Raycaster();
@@ -246,17 +278,19 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
             opacity: 0.1,
             color: 0x77aaff
           }));
-        this.scene.add(modelCopy);
+        // this.scene.add(modelCopy);
       }
-      else {
-        // add to scene
-        this.scene.add(ifcModel);
-      }
+      // else {
+      // add to scene
+      // this.scene.add(ifcModel);
+      // }
 
       // not to add into scene
       this.boxHelper = new THREE.BoxHelper(ifcModel);
       this.box3.setFromObject(this.boxHelper);
       this.box3.getSize(this.boxSize);
+      // this.scene.add(this.boxHelper);
+      console.log(this.boxHelper);
 
       //spatial code
       this.spatialStructure = this.ifc.getSpatialStructure(this.ifcModel.modelID, false);
@@ -264,12 +298,15 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         // console.log(data);
         console.log(data.children.length);
         if (data.children.length > 0) {
+          data.checked = true;
           this.types.push(data);
           this.findAllChildrenTypes(data.children);
         }
         else console.log('Empty IFC selected');
         console.log(this.types);
-        this.populateIFCCategories();
+        this.populateIFCCategories().then(() => {
+          this.setupAllCategories();
+        });
         return this.types;
       }
       )
@@ -292,7 +329,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     return this.raycaster.intersectObjects(this.ifcModels);
   }
 
-  public populateIFCCategories() {
+  public async populateIFCCategories() {
     console.log('populate categories called');
     // console.log(WEBIFC);
     for (var i in WEBIFC) {
@@ -311,30 +348,41 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async newSubsetOfType(category) {
+    console.log('newSubsetOfType called');
     const ids = await this.getAll(category);
-    return this.ifc.createSubset({
+    var obj = this.ifc.createSubset({
       modelID: 0,
       ids,
       scene: this.scene,
       removePrevious: true,
       customID: category.toString()
     });
+    this.objectToAdd.push(obj);
+    // this.scene.add(obj);
+    return obj;
   }
 
   public subsets = {};
 
   async setupAllCategories() {
-    const allCategories = Object.values(this.allIFCCategories);
-    for (let i = 0; i < allCategories.length; i++) {
-      const category = allCategories[i];
+    console.log('setupcategories called');
+    this.allCategories = Object.values(this.allIFCCategories);
+    console.log(this.allCategories);
+    for (let i = 0; i < this.allCategories.length; i++) {
+      const category = this.allCategories[i];
       // console.log(category);
       await this.setupCategory(category.value);
+    }
+    for (var i = 0; i < this.objectToAdd.length; i++) {
+      this.scene.add(this.objectToAdd[i]);
     }
   }
 
   async setupCategory(category) {
     this.subsets[category] = await this.newSubsetOfType(category);
-    this.setupCheckBox(category);
+    // this.setupCheckBox(category);
+    console.log(this.subsets[category]);
+
   }
 
   getName(category) {
@@ -359,8 +407,29 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
+  checkboxSelected(type, e, i) {
+    this.types[i].checked = !this.types[i].checked;
+    console.log(this.types);
+    this.allCategories.map((data) => {
+      if (data.type == type) {
+        console.log(this.ifcModel);
+        console.log(this.subsets[data.value]);
+        var uuidOfObjectToRemove = this.subsets[data.value].uuid;
+        console.log(uuidOfObjectToRemove);
+        var objectToRemove = this.scene.getObjectByProperty('uuid', uuidOfObjectToRemove);
+        console.log(objectToRemove);
+        if (e.target.checked) {
+          this.objectToAdd.map((obj) => {
+            if (obj.uuid == uuidOfObjectToRemove) this.scene.add(obj);
+          });
+        }
+        else objectToRemove.removeFromParent();
+      }
+    })
+  }
+
   //this will highlight on mouse hover
-  highlightHover(event: any): string {
+  highlightHover(event: any) {
     const found = this.cast(event)[0];
     if (found) {
       //@ts-ignore
@@ -377,7 +446,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         scene: this.scene,
         removePrevious: true
       });
-      var hoverElemetType = this.parseElementDetailsFromIFCExpressID(id);
+      var hoverElemetType = this.parseElementDetailsFromIFCExpressID(id);      
+      // console.log(hoverElemetType);
       return hoverElemetType;
     } else {
       this.ifc.removeSubset(this.preselectModel.id, this.preselectMat);
@@ -385,184 +455,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  public fetchMetadataFromIFC(ifcText: string) {
-    const metaDataVariables = ['IFCAPPLICATION', 'IFCORGANIZATION', 'IFCPOSTALADDRESS', 'IFCTELECOMADDRESS', 'IFCPERSON', 'IFCACTORROLE'];
-    for (var x = 0; x < metaDataVariables.length; x++) {
-      var lineIndex = ifcText.indexOf(metaDataVariables[x]);
-      var line = '';
-      for (var l = lineIndex; l < l + 10000; l++) {
-        if (this.ifcText[l] == '\n' || this.ifcText[l] == '\r') break;
-        else {
-          line += this.ifcText[l];
-        }
-      }
-      // console.log(line);
-      var pos = 0;
-      var occurence = -1;
-      var i = -1;
-      while (pos != -1) {
-        pos = ifcText.indexOf(metaDataVariables[x], i + 1);
-        var lineIndex = pos;
-        if (lineIndex != -1) {
-          var line = '';
-          for (var l = lineIndex; l < l + 10000; l++) {
-            if (this.ifcText[l] == '\n' || this.ifcText[l] == '\r') break;
-            else {
-              line += this.ifcText[l];
-            }
-          }
-          var foundFirstQuote = false;
-          var value = '';
-          for (var i = 0; i < line.length; i++) {
-            if ((line[i] == `'` || line[i] == `"`)) {
-              foundFirstQuote = !foundFirstQuote;
-            }
-            if (foundFirstQuote) {
-              value += line[i]
-            }
-            if (line[i] == `$`) value += `'`;
-          }
-          // console.log(value);
-          switch (line.split("(")[0]) {
-            case 'IFCORGANIZATION':
-              this.ifcMetadata.push({
-                "Organization Details": {
-                  "Organization ID": value.split(`'`)[1],
-                  "Organization Name": value.split(`'`)[2],
-                  "Organization Description": value.split(`'`)[3]
-                }
-              });
-              console.log('fetch IFCORGANIZATION: ------------');
-              console.log('Organization ID:', value.split(`'`)[1]);
-              console.log('Organization Name:', value.split(`'`)[2]);
-              console.log('Organization Description:', value.split(`'`)[3]);
-              break;
-            case 'IFCAPPLICATION':
-              this.ifcMetadata.push({
-                "Application Details": {
-                  "Application Name": value.split(`'`)[2],
-                  "Application Version": value.split(`'`)[1],
-                  "Application Identifier": value.split(`'`)[3]
-                }
-              });
-              console.log('fetch IFCAPPLICATION: ------------');
-              console.log('Ifc application Name: ', value.split(`'`)[2]);
-              console.log('Ifc application version: ', value.split(`'`)[1]);
-              console.log('Ifc application idedntifier: ', value.split(`'`)[3]);
-              break;
-            case 'IFCTELECOMADDRESS':
-              this.ifcMetadata.push({
-                "Contact Details:": {
-                  "Contact Number": value.split(`'`)[4],
-                  "Email ID": value.split(`'`)[7],
-                  "Website": value.split(`'`)[8]
-                }
-              });
-              console.log('fetch IFCTELECOMADDRESS: ------------');
-              console.log('Ifc contact number Name: ', value.split(`'`)[4]);
-              console.log('Ifc contact email: ', value.split(`'`)[7]);
-              console.log('Ifc website: ', value.split(`'`)[8]);
-              break;
-            case 'IFCACTORROLE':
-              this.ifcMetadata.push({
-                "Actor Details": {
-                  "Actor Role (User Defined)": value.split(`'`)[1],
-                  "Actor Role Description": value.split(`'`)[2]
-                }
-              });
-              console.log('fetch IFCACTORROLE: ------------');
-              console.log('ifc actor role (userdefined): ', value.split(`'`)[1]);
-              console.log('ifc actor role description: ', value.split(`'`)[2]);
-              break;
-            case 'IFCPOSTALADDRESS':
-              this.ifcMetadata.push({
-                "Address Details": {
-                  "Internal Location": value.split(`'`)[4],
-                  "Address": value.split(`'`)[5],
-                  "Postal Box Address": value.split(`'`)[6],
-                  "Twon": value.split(`'`)[7],
-                  "Region": value.split(`'`)[8],
-                  "Postal Code": value.split(`'`)[9],
-                  "Country": value.split(`'`)[10]
-                }
-              });
-              console.log('fetch IFCPOSTALADDRESS: ------------');
-              console.log('internal location: ', value.split(`'`)[4]);
-              console.log('address: ', value.split(`'`)[5]);
-              console.log('postal box: ', value.split(`'`)[6]);
-              console.log('town: ', value.split(`'`)[7]);
-              console.log('region: ', value.split(`'`)[8]);
-              console.log('postal code: ', value.split(`'`)[9]);
-              console.log('country: ', value.split(`'`)[10]);
-              break;
-            case 'IFCPERSON':
-              this.ifcMetadata.push({
-                "Person Details": {
-                  "ID": value.split(`'`)[1],
-                  "Full Name": value.split(`'`)[5] + ' ' + value.split(`'`)[3] + ' ' + value.split(`'`)[4] + ' ' + value.split(`'`)[2] + ' ' + value.split(`'`)[6],
-                }
-              });
-              console.log('fetch IFCPERSON: ------------');
-              console.log('Full Name: ', value.split(`'`)[3] + ' ' + value.split(`'`)[4] + ' ' + value.split(`'`)[2]);
-              console.log('ID: ', value.split(`'`)[1]);
-              break;
-            default:
-              break;
-          }
-        }
-        occurence += 1;
-        i = pos;
-      }
-      // console.log('occurence of IFCORGANIZATION: ', occurence);   
-    }
-    console.log(this.ifcMetadata);
-
-  }
-
-
-  public parseElementDetailsFromIFCExpressID(id: number): string {
-    // console.log('element found function called');
-    var expressId = '#' + id.toString() + '=';
-    var lineIndex = this.ifcText.indexOf(expressId);
-    var line = ''
-    for (var l = lineIndex; l < l + 500; l++) {
-      if (this.ifcText[l] == '\n' || this.ifcText[l] == '\r') break;
-      else {
-        line += this.ifcText[l];
-      }
-    }
-    // console.log(line);
-    var returned;
-    if (line.includes('IFCQUANTITY')) returned = this.parseIFCQUANTITY(line);
-    else if (line.includes('IFCPROPERTYSINGLEVALUE')) returned = this.parseIFCPROPERTYSINGLEVALUE(line);
-    return returned;
-  }
-
-  public parseIFCQUANTITY(line: string) {
-    // console.log('parseIFCQUANTITYLENGTH function called');
-    var propertyName = line.split('(')[1].split(',')[0].replace(/[^a-zA-Z0-9 .]/g, "");
-    var propertyDescription = line.split('(')[1].split(',')[1].replace("$", '');
-    var propertyValue = line.split('(')[1].split(',')[3].replace(/[^a-zA-Z0-9 .]/g, "");
-    if (propertyName == propertyValue) propertyValue = null;
-    console.log(propertyName, propertyValue, propertyDescription);
-    return {
-      name: propertyName.replace(/'/g, ''),
-      value: propertyValue.replace(/'/g, '').replace(".F.", 'False').replace(".T.", 'True'),
-      description: propertyDescription
-    };
-  }
-
-  public parseIFCPROPERTYSINGLEVALUE(line: string) {
-    var propertyName = line.split('(')[1].split(',')[0];
-    var propertyValue = line.split('(')[2].split(')')[0];
-    console.log(propertyName, propertyValue);
-    return {
-      name: propertyName.replace(/'/g, ''),
-      value: propertyValue.replace(/'/g, '').replace(".F.", 'False').replace(".T.", 'True')
-    };
-  }
-
   highlightSelect(event: any): number {
+    this.resetAllDetails();
     const found = this.cast(event)[0];
     if (found) {
       //@ts-ignore
@@ -653,7 +547,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         console.log(this.selectedItemPropertySets);
       });
 
-
+      this.showElementDetails(id);
       return id;
     } else {
       this.ifc.removeSubset(this.selectModel.id, this.selectMat);
@@ -661,7 +555,62 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  public ifcSelected(expressID: number) {
+  public removeHighlight(): number {
+    this.ifc.removeSubset(this.selectModel.id, this.selectMat);
+    this.ifc.removeSubset(this.preselectModel.id, this.preselectMat);
+    return null;
+  }
+
+  public parseElementDetailsFromIFCExpressID(id: number) {
+    // console.log('element found function called');
+    var expressId = '#' + id.toString() + '=';
+    var lineIndex = this.ifcText.indexOf(expressId);
+    var line = ''
+    for (var l = lineIndex; l < l + 500; l++) {
+      if (this.ifcText[l] == '\n' || this.ifcText[l] == '\r') break;
+      else {
+        line += this.ifcText[l];
+      }
+    }
+    // console.log(line);
+    var returned;
+    if (line.includes('IFCQUANTITY')) returned = this.parseIFCQUANTITY(line);
+    else if (line.includes('IFCPROPERTYSINGLEVALUE')) returned = this.parseIFCPROPERTYSINGLEVALUE(line);
+    else return {
+      type: line.split(`(`)[0].replace(/[^a-zA-Z]/g, ``),
+      expressId: id
+    }
+    return returned;
+  }
+
+  public parseIFCQUANTITY(line: string) {
+    // console.log('parseIFCQUANTITYLENGTH function called');
+    var propertyName = line.split('(')[1].split(',')[0].replace(/[^a-zA-Z0-9 .]/g, "");
+    var propertyDescription = line.split('(')[1].split(',')[1].replace("$", '');
+    var propertyValue = line.split('(')[1].split(',')[3].replace(/[^a-zA-Z0-9 .]/g, "");
+    if (propertyName == propertyValue) propertyValue = '';
+    console.log(propertyName, propertyValue, propertyDescription);
+    return {
+      name: propertyName.replace(/'/g, ''),
+      value: propertyValue.replace(/'/g, '').replace(".F.", 'False').replace(".T.", 'True').replace(".U.", 'Unknown'),
+      description: propertyDescription
+    };
+  }
+
+  public parseIFCPROPERTYSINGLEVALUE(line: string) {
+    var propertyName = line.split('(')[1].split(',')[0];
+    var propertyValue = line.split('(')[2].split(')')[0];
+    if (propertyName == propertyValue) propertyValue = '';
+    console.log(propertyName, propertyValue);
+    return {
+      name: propertyName.replace(/'/g, ''),
+      value: propertyValue.replace(/'/g, '').replace(".F.", 'False').replace(".T.", 'True').replace(".U.", 'Unknown'),
+    };
+  }
+
+  public showElementDetails(expressID: number) {
+    this.resetAllDetails();
+    this.elementDetailsModalOpen = true;
     this.ifc.getItemProperties(this.ifcModelID, expressID).then((data) => {
       for (var x in data) {
         if (data[x] !== null && data[x] !== undefined) {
@@ -733,6 +682,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
       for (var i = 0; i < c.length; i++) {
         if (c[i].type != undefined) {
           if (!this.types.find(o => o.type == c[i].type)) {
+            c[i].checked = true;
             this.types.push(c[i]);
           }
         }
@@ -742,11 +692,221 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     return;
   }
 
-
-  public removeHighlight(): number {
-    this.ifc.removeSubset(this.selectModel.id, this.selectMat);
-    this.ifc.removeSubset(this.preselectModel.id, this.preselectMat);
-    return null;
+  public fetchMetadataFromIFC(ifcText: string) {
+    for (var x = 0; x < this.metaDataVariables.length; x++) {
+      var lineIndex = ifcText.indexOf(this.metaDataVariables[x]);
+      var line = '';
+      for (var l = lineIndex; l < l + 10000; l++) {
+        if (this.ifcText[l] == '\n' || this.ifcText[l] == '\r') break;
+        else {
+          line += this.ifcText[l];
+        }
+      }
+      // console.log(line);
+      var pos = 0;
+      var occurence = -1;
+      var i = -1;
+      while (pos != -1) {
+        pos = ifcText.indexOf(this.metaDataVariables[x], i + 1);
+        var lineIndex = pos;
+        if (lineIndex != -1) {
+          var line = '';
+          for (var l = lineIndex; l < l + 10000; l++) {
+            if (this.ifcText[l] == '\n' || this.ifcText[l] == '\r') break;
+            else {
+              line += this.ifcText[l];
+            }
+          }
+          var foundFirstQuote = false;
+          var value = '';
+          for (var i = 0; i < line.length; i++) {
+            if ((line[i] == `'` || line[i] == `"`)) {
+              foundFirstQuote = !foundFirstQuote;
+            }
+            if (foundFirstQuote) {
+              value += line[i]
+            }
+            if (line[i] == `$`) value += `'`;
+          }
+          // console.log(value);
+          switch (line.split("(")[0]) {
+            case 'IFCORGANIZATION':
+              // this.ifcMetadata.push({
+              //   "Organization Details": {
+              //     "Organization ID": value.split(`'`)[1],
+              //     "Organization Name": value.split(`'`)[2],
+              //     "Organization Description": value.split(`'`)[3]
+              //   }
+              // });
+              this.IFCORGANIZATION.push({
+                name: "Organization ID",
+                value: value.split(`'`)[1]
+              });
+              this.IFCORGANIZATION.push({
+                name: "Organization Name",
+                value: value.split(`'`)[2]
+              });
+              this.IFCORGANIZATION.push({
+                name: "Organization Description",
+                value: value.split(`'`)[3]
+              });
+              console.log('fetch IFCORGANIZATION: ------------');
+              console.log('Organization ID:', value.split(`'`)[1]);
+              console.log('Organization Name:', value.split(`'`)[2]);
+              console.log('Organization Description:', value.split(`'`)[3]);
+              break;
+            case 'IFCAPPLICATION':
+              // this.ifcMetadata.push({
+              //   "Application Details": {
+              //     "Application Name": value.split(`'`)[2],
+              //     "Application Version": value.split(`'`)[1],
+              //     "Application Identifier": value.split(`'`)[3]
+              //   }
+              // });
+              this.IFCAPPLICATION.push({
+                name: "Application Name",
+                value: value.split(`'`)[2]
+              });
+              this.IFCAPPLICATION.push({
+                name: "Application Version",
+                value: value.split(`'`)[1]
+              });
+              this.IFCAPPLICATION.push({
+                name: "Application Identifier",
+                value: value.split(`'`)[3]
+              });
+              console.log('fetch IFCAPPLICATION: ------------');
+              console.log('Ifc application Name: ', value.split(`'`)[2]);
+              console.log('Ifc application version: ', value.split(`'`)[1]);
+              console.log('Ifc application idedntifier: ', value.split(`'`)[3]);
+              break;
+            case 'IFCTELECOMADDRESS':
+              // this.ifcMetadata.push({
+              //   "Contact Details:": {
+              //     "Contact Number": value.split(`'`)[4],
+              //     "Email ID": value.split(`'`)[7],
+              //     "Website": value.split(`'`)[8]
+              //   }
+              // });
+              this.IFCTELECOMADDRESS.push({
+                name: "Contact Number",
+                value: value.split(`'`)[4]
+              });
+              this.IFCTELECOMADDRESS.push({
+                name: "Email ID",
+                value: value.split(`'`)[7]
+              });
+              this.IFCTELECOMADDRESS.push({
+                name: "Website",
+                value: value.split(`'`)[8]
+              });
+              console.log('fetch IFCTELECOMADDRESS: ------------');
+              console.log('Ifc contact number Name: ', value.split(`'`)[4]);
+              console.log('Ifc contact email: ', value.split(`'`)[7]);
+              console.log('Ifc website: ', value.split(`'`)[8]);
+              break;
+            case 'IFCACTORROLE':
+              this.IFCPERSON.push({
+                "Actor Details": {
+                  "Actor Role (User Defined)": value.split(`'`)[1],
+                  "Actor Role Description": value.split(`'`)[2]
+                }
+              });
+              this.IFCPERSON.push({
+                name: "Actor Role (User Defined)",
+                value: value.split(`'`)[1]
+              });
+              this.IFCPERSON.push({
+                name: "Actor Role Description",
+                value: value.split(`'`)[2]
+              });
+              console.log('fetch IFCACTORROLE: ------------');
+              console.log('ifc actor role (userdefined): ', value.split(`'`)[1]);
+              console.log('ifc actor role description: ', value.split(`'`)[2]);
+              break;
+            case 'IFCPOSTALADDRESS':
+              // this.IFCPOSTALADDRESS.push({
+              //   "Address Details": {
+              //     "Internal Location": value.split(`'`)[4],
+              //     "Address": value.split(`'`)[5],
+              //     "Postal Box Address": value.split(`'`)[6],
+              //     "Twon": value.split(`'`)[7],
+              //     "Region": value.split(`'`)[8],
+              //     "Postal Code": value.split(`'`)[9],
+              //     "Country": value.split(`'`)[10]
+              //   }
+              // });
+              this.IFCPOSTALADDRESS.push({
+                name: "Internal Location",
+                value: value.split(`'`)[4]
+              });
+              this.IFCPOSTALADDRESS.push({
+                name: "Address",
+                value: value.split(`'`)[5]
+              });
+              this.IFCPOSTALADDRESS.push({
+                name: "Postal Box Address",
+                value: value.split(`'`)[6]
+              });
+              this.IFCPOSTALADDRESS.push({
+                name: "Town",
+                value: value.split(`'`)[7]
+              });
+              this.IFCPOSTALADDRESS.push({
+                name: "Region",
+                value: value.split(`'`)[8]
+              });
+              this.IFCPOSTALADDRESS.push({
+                name: "Postal Code",
+                value: value.split(`'`)[9]
+              });
+              this.IFCPOSTALADDRESS.push({
+                name: "Country",
+                value: value.split(`'`)[10]
+              });
+              console.log('fetch IFCPOSTALADDRESS: ------------');
+              console.log(value);
+              console.log('internal location: ', value.split(`'`)[4]);
+              console.log('address: ', value.split(`'`)[5]);
+              console.log('postal box: ', value.split(`'`)[6]);
+              console.log('town: ', value.split(`'`)[7]);
+              console.log('region: ', value.split(`'`)[8]);
+              console.log('postal code: ', value.split(`'`)[9]);
+              console.log('country: ', value.split(`'`)[10]);
+              break;
+            case 'IFCPERSON':
+              // this.ifcMetadata.push({
+              //   "Person Details": {
+              //     "ID": value.split(`'`)[1],
+              //     "Full Name": value.split(`'`)[5] + ' ' + value.split(`'`)[3] + ' ' + value.split(`'`)[4] + ' ' + value.split(`'`)[2] + ' ' + value.split(`'`)[6],
+              //   }
+              // });
+              this.IFCPERSON.push({
+                name: "ID",
+                value: value.split(`'`)[1]
+              });
+              this.IFCPERSON.push({
+                name: "Full Name",
+                value: value.split(`'`)[5] + ' ' + value.split(`'`)[3] + ' ' + value.split(`'`)[4] + ' ' + value.split(`'`)[2] + ' ' + value.split(`'`)[6]
+              });
+              console.log('fetch IFCPERSON: ------------');
+              console.log('Full Name: ', value.split(`'`)[3] + ' ' + value.split(`'`)[4] + ' ' + value.split(`'`)[2]);
+              console.log('ID: ', value.split(`'`)[1]);
+              break;
+            default:
+              break;
+          }
+        }
+        occurence += 1;
+        i = pos;
+      }
+      // console.log('occurence of IFCORGANIZATION: ', occurence);         
+    }
+    console.log(this.IFCAPPLICATION);
+    console.log(this.IFCORGANIZATION);
+    console.log(this.IFCPOSTALADDRESS);
+    console.log(this.IFCTELECOMADDRESS);
+    console.log(this.IFCPERSON);
   }
 
   public makeHiddenVisible(event): void {

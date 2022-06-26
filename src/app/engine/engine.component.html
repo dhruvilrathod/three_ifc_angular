@@ -1,23 +1,208 @@
-<div style="position: absolute;" class="z-10">
-  double click to select object from model <br>
-  single click to unselect object <br>
-  use shift to change prespective of camera <br>
-  selected objectID: {{selectedObjectID}}
-  <br>
-  Hovered object type: {{hoveredObjectType}}
-  <br>
-<br>
-  <!-- <input type="file" name="ifc_input" id="ifc_input" (change)="ifcFileSelected($event)"> -->
-</div>
+<!-- div to show canvas -->
 <div id="canvasContainer" class="z-0">
-  <canvas id="c1" #c1 (dblclick)="doubleClickedEvent($event)" (mousemove)="mouseOverEvent($event)"></canvas>
+  <canvas id="c1" style="overflow: hidden !important;" #c1 (dblclick)="doubleClickedEvent($event)"
+    (click)="closeAllModals()" (mousemove)="mouseOverEvent($event)"></canvas>
 </div>
 
-<div id="hoverInfoContaier" class="z-10 absolute top-4 left-4 shadow-lg">
-  <div class="container bg-blue-400 rounded-lg p-4">
-    <span *ngFor="let type of types; let i = index" id="{{type.type}}">{{type.type}} {{type.expressID}}<br></span>    
+<!-- div for button controls -->
+<div class="z-10 absolute top-0 left-0">
+  <button title="List Of Elements" (click)="elementListModalOpen = !elementListModalOpen"
+    class="m-2 w-24 p-2 border rounded border-blue-800 text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800">Elements</button>
+  <br>
+  <button title="Show Model's Metadata" (click)="metadataDetailsModalOpen = !metadataDetailsModalOpen"
+    class="m-2 w-24 p-2 border rounded border-blue-800 text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800">Metadata</button><br>
+  <button title="Reset IFC Model"
+    class="m-2 w-24 p-2 border rounded border-blue-800 text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800">Reset</button><br>
+</div>
+
+<!-- div for controls -->
+<div class="z-10 absolute top-0 right-0">
+  <button title="Instructions" (click)="instructionModalOpen = !instructionModalOpen"
+    class="m-2 p-2 border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+      stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  </button>
+  <br>
+  <button title="Full-Screen"
+    class="m-2 p-2 border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+      stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+    </svg>
+  </button>
+  <br>
+  <button title="Exit Full-Screen"
+    class="m-2 p-2 border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+      stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+    </svg>
+  </button>
+</div>
+
+
+<!-- modal containers -->
+<div class="z-20 absolute top-2 left-2 flex">
+
+  <!-- IFC types List -->
+  <div *ngIf="elementListModalOpen" class="bg-blue-100 rounded-lg p-2 max-h-[95vh] h-fit m-2 shadow-lg">
+    <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+      Element List
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
+        (click)="elementListModalOpen = false" fill="currentColor">
+        <path fill-rule="evenodd"
+          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+          clip-rule="evenodd" />
+      </svg>
+    </div>
+    <div class="my-1 p-2 container bg-blue-200 rounded max-h-[88vh] overflow-scroll">
+      <div *ngFor="let type of types; let i = index">
+        <input type="checkbox" id="{{type.type}}" (change)="checkboxSelected(type.type, $event, i)"
+          [checked]="type.checked">
+        <span class="hover:underline cursor-pointer mx-2"
+          (click)="showElementDetails(type.expressID)">{{type.type}}</span><br>
+      </div>
+    </div>
+  </div>
+
+  <!-- Details of selected types -->
+  <div *ngIf="elementDetailsModalOpen" class="bg-blue-100 rounded-lg p-2 max-h-[95vh] h-fit m-2 shadow-lg">
+    <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+      Element Details ({{elementIfcType}})
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
+        (click)="elementDetailsModalOpen = false" fill="currentColor">
+        <path fill-rule="evenodd"
+          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+          clip-rule="evenodd" />
+      </svg>
+    </div>
+    <div class="my-1 container max-h-[88vh] overflow-scroll">
+      <table class="p-2 w-[40vw]">
+        <thead>
+          <tr>
+            <th class="sticky top-0 bg-gray-900 text-white">Property</th>
+            <th class="sticky top-0 bg-gray-900 text-white">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of ifcTypesSelectedDetails; let i = index"
+            [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'" class="hover:bg-blue-300">
+            <td class="px-2">{{d.name}}</td>
+            <td class="px-2" *ngIf="d.value == ''">N/A</td>
+            <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Metadata details -->
+  <div *ngIf="metadataDetailsModalOpen" class="bg-blue-100 rounded-lg p-2 max-h-[95vh] h-fit m-2 shadow-lg">
+    <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+      IFC Model Metadata
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
+        (click)="metadataDetailsModalOpen = false" fill="currentColor">
+        <path fill-rule="evenodd"
+          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+          clip-rule="evenodd" />
+      </svg>
+    </div>
+    <div class="my-1 container max-h-[88vh] overflow-scroll">
+      <table class="w-[50vw]">
+        <thead>
+          <tr>
+            <th class="top-0 bg-gray-900 text-white">Property</th>
+            <th class="top-0 bg-gray-900 text-white">Value</th>
+          </tr>
+        </thead>
+        <tr class="h-8" *ngIf="IFCAPPLICATION.length > 0">
+          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Application Details</td>
+        </tr>
+        <tr *ngFor="let d of IFCAPPLICATION; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+          class="hover:bg-blue-300">
+          <td class="px-2">{{d.name}}</td>
+          <td class="px-2" *ngIf="d.value == ''">N/A</td>
+          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+        </tr>
+        <tr class="h-8" *ngIf="IFCORGANIZATION.length > 0">
+          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Organization Details</td>
+        </tr>
+        <tr *ngFor="let d of IFCORGANIZATION; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+          class="hover:bg-blue-300">
+          <td class="px-2">{{d.name}}</td>
+          <td class="px-2" *ngIf="d.value == ''">N/A</td>
+          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+        </tr>
+        <tr class="h-8" *ngIf="IFCPOSTALADDRESS.length > 0">
+          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Address Details</td>
+        </tr>
+        <tr *ngFor="let d of IFCPOSTALADDRESS; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+          class="hover:bg-blue-300">
+          <td class="px-2">{{d.name}}</td>
+          <td class="px-2" *ngIf="d.value == ''">N/A</td>
+          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+        </tr>
+        <tr class="h-8" *ngIf="IFCTELECOMADDRESS.length > 0">
+          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Contact Details</td>
+        </tr>
+        <tr *ngFor="let d of IFCTELECOMADDRESS; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+          class="hover:bg-blue-300">
+          <td class="px-2">{{d.name}}</td>
+          <td class="px-2" *ngIf="d.value == ''">N/A</td>
+          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+        </tr>
+        <tr class="h-8" *ngIf="IFCPERSON.length > 0">
+          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Person Details</td>
+        </tr>
+        <tr *ngFor="let d of IFCPERSON; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+          class="hover:bg-blue-300">
+          <td class="px-2">{{d.name}}</td>
+          <td class="px-2" *ngIf="d.value == ''">N/A</td>
+          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
+
+<!-- instructions -->
+<div *ngIf="instructionModalOpen" class="z-10 absolute top-0 bg-blue-100 rounded-lg p-2 h-fit m-2 shadow-lg right-12">
+  <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+    Instructions Of Usage
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
+      (click)="instructionModalOpen = false" fill="currentColor">
+      <path fill-rule="evenodd"
+        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+        clip-rule="evenodd" />
+    </svg>
+  </div>
+  <div class="my-1 p-2 container bg-blue-200 rounded">
+    <span>1. Use mouse device for better grip.</span> <br>
+    <span>2. Single click and drag mouse to rotate model around Y axes.</span> <br>
+    <span>3. Use Shift + Click + mouse drag for changing the pan position.</span> <br>
+    <span>4. Hover on any element to see it's type.</span> <br>
+    <span>5. Double click on any element to see it's details.</span> <br>
+    <span>6. Reset button will reset everything.</span> <br>
+  </div>
+</div>
+
+<!-- live -->
+<div *ngIf="hoveredObjectType != null"
+  class="z-10 absolute bottom-0 right-0 bg-blue-100 rounded-lg p-2 h-fit m-2 shadow-lg">
+  <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+    Live Details
+  </div>
+  <div class="my-1 p-2 container bg-blue-200 rounded">
+    Type: {{hoveredObjectType.type}} <br>
+    Express ID: {{hoveredObjectType.expressId}} <br>
+  </div>
+</div>
+
 
 <div id="panelContainer">
 
