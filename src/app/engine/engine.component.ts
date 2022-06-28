@@ -16,15 +16,14 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChild('c1', { static: true })
   public rendererCanvas: ElementRef<HTMLCanvasElement>;
-  public selectedObjectID: number = null;
-  public ifcModelID: number = null;
-  public hoveredObjectType;
-  public selectedModelID: any = null;
-  public ifcObjects: any;
 
-  // private ifcurl: string = 'http://127.0.0.1:5500/my_ifc1.ifc';
-  // private ifcurl: string = './assets/Electrical Design.ifc';
-  private ifcurl: string = './assets/Architecture Design.ifc';
+  // sample url
+  // public ifcurl: string = 'http://127.0.0.1:5500/my_ifc1.ifc';
+  // public ifcurl: string = './assets/Electrical Design.ifc';
+  // public ifcurl: string = './assets/Architecture Design.ifc';
+
+  public ifcurl: string;
+  public ifcFileName: string;
 
   private ifcText: string = null;
   private canvas: HTMLCanvasElement;
@@ -47,13 +46,23 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 
   // public variables to show in view
+  public selectedObjectID: number = null;
+  public ifcModelID: number = null;
+  public hoveredObjectType;
+  public selectedModelID: any = null;
+  public ifcObjects: any;
 
   public elementListModalOpen: boolean = false;
   public elementDetailsModalOpen: boolean = false;
   public metadataModalOpen: boolean = false;
+  public isControlPanelModalOpen: boolean = false;
+  public isLoading: boolean = true;
+  public loadingMessage: string = '';
+  public isFullScreen: boolean = false;
 
-  public allIFCCategories = [];
+
   // IFC types list (from view)
+  public allIFCCategories = [];
   public types = [];
   public ifcTypesSelectedDetails = [];
   public allCategories = [];
@@ -73,7 +82,10 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   public isTranperentModel: boolean = false;
   public instructionModalOpen: boolean = false;
   public liveDetailsModal: boolean = true;
-  public metadataDetailsModalOpen: boolean = false;
+  public isAxesHelperOn: boolean = true;
+  public isBasePlaneOn: boolean = true;
+  public isLiveDetailsOn: boolean = true;
+  public isErrorHappened: boolean = false;
 
 
   public constructor(
@@ -82,9 +94,14 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) { }
 
   public ngOnInit(): void {
-    this.createScene(this.rendererCanvas);
-    this.animate();
-    this.loadIFC(this.ifcurl);
+    this.isLoading = true;
+    if (this.ifcurl != null && this.ifcurl != '') {
+      this.ifcFileName = this.ifcurl.substring(this.ifcurl.lastIndexOf('/') + 1);
+      this.loadIFC(this.ifcurl).then(() => this.createScene(this.rendererCanvas).then(() => this.animate()))
+
+      // this.createScene(this.rendererCanvas).then(() => { this.loadIFC(this.ifcurl).then(() => this.animate()) });
+    }
+    else this.isLoading = false;
   }
 
   public ngAfterViewChecked(): void {
@@ -102,8 +119,19 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
+
+  public linkInserted(url) {
+    this.ifcurl = url;
+    if (this.ifcurl != '' && this.ifcurl != null) {
+      this.ifcFileName = this.ifcurl.substring(this.ifcurl.lastIndexOf('/') + 1).replace('%20', ' ');
+      this.createScene(this.rendererCanvas).then(() => { this.loadIFC(this.ifcurl).then(() => this.animate()) });
+    }
+  }
+
   public loadIFCFile(url): void {
     console.log('load file function called');
+    this.loadingMessage = 'Fetching Metadata';
+    this.isLoading = true;
     this.http.get(url, { responseType: 'text' }).subscribe((data) => {
       // console.log(data);
       this.ifcText = data;
@@ -112,32 +140,120 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public doubleClickedEvent(e): void {
-    this.selectedObjectID = this.highlightSelect(e);
+    this.highlightSelect(e);
   }
 
   public mouseOverEvent(e): void {
-    this.hoveredObjectType = this.highlightHover(e);
-    // this.makeHiddenVisible(e);
+    if (this.isLiveDetailsOn) this.hoveredObjectType = this.highlightHover(e);
   }
 
   public onRemoveHighlight(): void {
     this.selectedObjectID = this.removeHighlight();
   }
 
-  public ifcFileSelected(e: any): void {
+  public controlChange(control) {
+    if (control == 'base_plane') {
+      this.isBasePlaneOn = !this.isBasePlaneOn;
+      if (this.isBasePlaneOn) this.scene.add(this.gridHelper);
+      else this.scene.remove(this.gridHelper)
+    }
+    else if (control == 'axes_helper') {
+      this.isAxesHelperOn = !this.isAxesHelperOn;
+      if (this.isAxesHelperOn) this.scene.add(this.axes);
+      else this.scene.remove(this.axes);
+    }
   }
 
-  public closeAllModals () {
+  public fullScreen(): void {
+    this.isFullScreen = !this.isFullScreen;
+    if (this.isFullScreen) {
+      this.closeAllModals();
+      const docElmWithBrowsersFullScreenFunctions = document.documentElement as HTMLElement & {
+        mozRequestFullScreen(): Promise<void>;
+        webkitRequestFullscreen(): Promise<void>;
+        msRequestFullscreen(): Promise<void>;
+      };
+
+      if (docElmWithBrowsersFullScreenFunctions.requestFullscreen) {
+        docElmWithBrowsersFullScreenFunctions.requestFullscreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen) { /* Firefox */
+        docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.msRequestFullscreen) { /* IE/Edge */
+        docElmWithBrowsersFullScreenFunctions.msRequestFullscreen();
+      }
+    }
+    else {
+      const docWithBrowsersExitFunctions = document as Document & {
+        mozCancelFullScreen(): Promise<void>;
+        webkitExitFullscreen(): Promise<void>;
+        msExitFullscreen(): Promise<void>;
+      };
+      if (docWithBrowsersExitFunctions.exitFullscreen) {
+        docWithBrowsersExitFunctions.exitFullscreen();
+      } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) { /* Firefox */
+        docWithBrowsersExitFunctions.mozCancelFullScreen();
+      } else if (docWithBrowsersExitFunctions.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        docWithBrowsersExitFunctions.webkitExitFullscreen();
+      } else if (docWithBrowsersExitFunctions.msExitFullscreen) { /* IE/Edge */
+        docWithBrowsersExitFunctions.msExitFullscreen();
+      }
+    }
+  }
+
+
+  public resetEverything(): void {
+    this.isTranperentModel = false;
+    this.instructionModalOpen = false;
+    this.liveDetailsModal = true;
+    this.isAxesHelperOn = true;
+    this.isBasePlaneOn = true;
+    this.isControlPanelModalOpen = false;
+    this.isLiveDetailsOn = true;
+    if (this.frameId != null) {
+      cancelAnimationFrame(this.frameId);
+    }
+    this.ngOnInit();
+    this.resetAllDetails();
+  }
+
+  public closeAllModals() {
     this.elementListModalOpen = false;
     this.instructionModalOpen = false;
     this.elementDetailsModalOpen = false;
     this.metadataModalOpen = false;
+    this.isControlPanelModalOpen = false;
   }
 
+  public resetAllDetails() {
+    this.ifcTypesSelectedDetails = [];
+    this.allIFCCategories = [];
+    this.selectedItemProperties = [];
+    this.selectedItemPropertySets = [];
+    this.elementIfcType = '';
+  }
+
+  public exitViewer() {
+    this.allIFCCategories = [];
+    this.IFCAPPLICATION = [];
+    this.IFCORGANIZATION = [];
+    this.IFCPOSTALADDRESS = [];
+    this.IFCTELECOMADDRESS = [];
+    this.IFCPERSON = [];
+    this.types = [];
+    this.isErrorHappened = false;
+    this.ifcurl = null;
+    this.ifcFileName = null;
+    this.closeAllModals();
+    this.resetEverything();
+  }
 
   // ********************* SERVICE CODE *************************************
 
-  public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
+  public async createScene(canvas: ElementRef<HTMLCanvasElement>) {
+    this.loadingMessage = 'Creating the scene';
+    this.isErrorHappened = false;
     this.canvas = canvas.nativeElement;
 
     this.renderer = new THREE.WebGLRenderer({
@@ -183,7 +299,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   // keep the scene alive
   public animate(): void {
     this.ngZone.runOutsideAngular(() => {
-      if (document.readyState !== 'loading') {
+      if (document.readyState !== 'loading' && !this.isErrorHappened) {
         this.render();
       } else {
         window.addEventListener('DOMContentLoaded', () => {
@@ -211,17 +327,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.renderer.setSize(this.size.width, this.size.height);
   }
 
-  public resetModel() {
-
-  }
-
-  public resetAllDetails() {
-    this.ifcTypesSelectedDetails = [];
-    this.allIFCCategories = [];
-    this.selectedItemProperties = [];
-    this.selectedItemPropertySets = [];
-    this.elementIfcType = null;
-  }
 
   // ******************************* CODE FOR WORK WITH IFC *************************
 
@@ -262,6 +367,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   // function to load ifc model
   public async loadIFC(url: string): Promise<any> {
+    this.loadingMessage = 'Loading IFC Model';
+    this.isLoading = true;
     this.ifcLoader.ifcManager.setWasmPath('./assets/');
     this.ifcLoader.load(url, async (ifcModel: IFCModel) => {
       this.ifcModels.push(ifcModel);
@@ -310,8 +417,9 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         return this.types;
       }
       )
+      this.isErrorHappened = false;
       this.loadIFCFile(this.ifcurl);
-    }, (progress) => console.log(progress), (error) => console.log(error));
+    }, (progress) => console.log(progress), (error) => this.isErrorHappened = true);
     return;
   }
 
@@ -446,7 +554,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         scene: this.scene,
         removePrevious: true
       });
-      var hoverElemetType = this.parseElementDetailsFromIFCExpressID(id);      
+      var hoverElemetType = this.parseElementDetailsFromIFCExpressID(id);
       // console.log(hoverElemetType);
       return hoverElemetType;
     } else {
@@ -457,6 +565,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   highlightSelect(event: any): number {
     this.resetAllDetails();
+    this.isLoading = true;
+    this.loadingMessage = 'Getting data';
     const found = this.cast(event)[0];
     if (found) {
       //@ts-ignore
@@ -551,6 +661,10 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
       return id;
     } else {
       this.ifc.removeSubset(this.selectModel.id, this.selectMat);
+      this.elementDetailsModalOpen = false;
+      this.elementIfcType = null;
+      this.isLoading = false;
+      this.loadingMessage = '';
       return null;
     }
   }
@@ -608,9 +722,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     };
   }
 
-  public showElementDetails(expressID: number) {
+  public showElementDetails(expressID: number): void {
     this.resetAllDetails();
-    this.elementDetailsModalOpen = true;
     this.ifc.getItemProperties(this.ifcModelID, expressID).then((data) => {
       for (var x in data) {
         if (data[x] !== null && data[x] !== undefined) {
@@ -673,6 +786,10 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
     this.elementIfcType = this.ifc.getIfcType(this.ifcModelID, expressID);
     console.log('ifc type: ', this.elementIfcType);
+    this.isLoading = false;
+    this.loadingMessage = '';
+    this.elementDetailsModalOpen = true;
+    return;
   }
 
 
@@ -902,11 +1019,12 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       // console.log('occurence of IFCORGANIZATION: ', occurence);         
     }
-    console.log(this.IFCAPPLICATION);
-    console.log(this.IFCORGANIZATION);
-    console.log(this.IFCPOSTALADDRESS);
-    console.log(this.IFCTELECOMADDRESS);
-    console.log(this.IFCPERSON);
+    // console.log(this.IFCAPPLICATION);
+    // console.log(this.IFCORGANIZATION);
+    // console.log(this.IFCPOSTALADDRESS);
+    // console.log(this.IFCTELECOMADDRESS);
+    // console.log(this.IFCPERSON);
+    this.isLoading = false;
   }
 
   public makeHiddenVisible(event): void {

@@ -1,210 +1,329 @@
-<!-- div to show canvas -->
-<div id="canvasContainer" class="z-0">
+<div *ngIf="ifcurl == '' || ifcurl == null || isErrorHappened"
+  class="w-full h-full flex justify-center items-center top-0 left-0 z-50 absolute">
+  <div class="w-1/2 bg-blue-200 rounded-lg shadow-lg text-center">
+    <form class="my-5 w-full text-center">
+      <input type="text" class="w-11/12 p-2 mx-auto bg-white h-12 border border-blue-600 rounded" name="ifclink"
+        value="{{ifcurl}}" id="ifclink" #ifclink for="ifclink" placeholder="https://... (Link to IFC file)" required>
+      <br>
+      <button (click)="linkInserted(ifclink.value)" type="button"
+        class="w-40 flex mx-auto my-6 justify-center items-center p-2 select-none border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">Load
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
+      <div *ngIf="isErrorHappened" class="text-xl text-red-500 text-center justify-center items-center">Something went
+        wrong! Try again.</div>
+    </form>
+    OR
+    <br>
+    <button type="button" (click)="linkInserted('http://127.0.0.1:5500/src/assets/Architecture Design.ifc')"
+      class="w-40 flex mx-auto my-6 justify-center items-center p-2 select-none border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">Try Example
+    </button>
+  </div>
+</div>
+
+<div [ngClass]="isErrorHappened || ifcurl == '' || ifcurl == null ? 'hidden': ''" id="canvasContainer" class="z-0">
   <canvas id="c1" style="overflow: hidden !important;" #c1 (dblclick)="doubleClickedEvent($event)"
-    (click)="closeAllModals()" (mousemove)="mouseOverEvent($event)"></canvas>
-</div>
-
-<!-- div for button controls -->
-<div class="z-10 absolute top-0 left-0">
-  <button title="List Of Elements" (click)="elementListModalOpen = !elementListModalOpen"
-    class="m-2 w-24 p-2 border rounded border-blue-800 text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800">Elements</button>
-  <br>
-  <button title="Show Model's Metadata" (click)="metadataDetailsModalOpen = !metadataDetailsModalOpen"
-    class="m-2 w-24 p-2 border rounded border-blue-800 text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800">Metadata</button><br>
-  <button title="Reset IFC Model"
-    class="m-2 w-24 p-2 border rounded border-blue-800 text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800">Reset</button><br>
-</div>
-
-<!-- div for controls -->
-<div class="z-10 absolute top-0 right-0">
-  <button title="Instructions" (click)="instructionModalOpen = !instructionModalOpen"
-    class="m-2 p-2 border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-      stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round"
-        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  </button>
-  <br>
-  <button title="Full-Screen"
-    class="m-2 p-2 border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-      stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round"
-        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-    </svg>
-  </button>
-  <br>
-  <button title="Exit Full-Screen"
-    class="m-2 p-2 border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-      stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round"
-        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-    </svg>
-  </button>
+    (mousemove)="mouseOverEvent($event)"></canvas>
 </div>
 
 
-<!-- modal containers -->
-<div class="z-20 absolute top-2 left-2 flex">
+<!-- show only if ifc url exists -->
+<div *ngIf="ifcurl != '' && ifcurl != null && isErrorHappened == false">
 
-  <!-- IFC types List -->
-  <div *ngIf="elementListModalOpen" class="bg-blue-100 rounded-lg p-2 max-h-[95vh] h-fit m-2 shadow-lg">
-    <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
-      Element List
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
-        (click)="elementListModalOpen = false" fill="currentColor">
-        <path fill-rule="evenodd"
-          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-          clip-rule="evenodd" />
-      </svg>
-    </div>
-    <div class="my-1 p-2 container bg-blue-200 rounded max-h-[88vh] overflow-scroll">
-      <div *ngFor="let type of types; let i = index">
-        <input type="checkbox" id="{{type.type}}" (change)="checkboxSelected(type.type, $event, i)"
-          [checked]="type.checked">
-        <span class="hover:underline cursor-pointer mx-2"
-          (click)="showElementDetails(type.expressID)">{{type.type}}</span><br>
-      </div>
-    </div>
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="w-full h-full z-40 backdrop-blur opacity-75 absolute bg-blue-200 top-0 left-0"></div>
+  <div *ngIf="isLoading" class="w-full h-full flex justify-center items-center top-0 left-0 z-50 absolute">
+    <svg role="status" class="w-16 h-16 mr-2 text-white animate-spin fill-blue-900" viewBox="0 0 100 101" fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+        fill="currentColor" />
+      <path
+        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+        fill="currentFill" />
+    </svg>
+    <span class="text-2xl">{{loadingMessage}}...</span>
   </div>
 
-  <!-- Details of selected types -->
-  <div *ngIf="elementDetailsModalOpen" class="bg-blue-100 rounded-lg p-2 max-h-[95vh] h-fit m-2 shadow-lg">
-    <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
-      Element Details ({{elementIfcType}})
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
-        (click)="elementDetailsModalOpen = false" fill="currentColor">
-        <path fill-rule="evenodd"
-          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-          clip-rule="evenodd" />
+  <!-- div for left button controls -->
+  <div class="z-10 select-none absolute top-0 left-0" *ngIf="!isFullScreen">
+    <button title="List Of Elements" (click)="elementListModalOpen = !elementListModalOpen"
+      class="m-2 w-24 p-2 select-none border rounded border-blue-800 text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800">Elements</button>
+    <br>
+    <button title="Show Model's Metadata" (click)="metadataModalOpen = !metadataModalOpen"
+      class="m-2 w-24 p-2 select-none border rounded border-blue-800 text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800">Metadata</button><br>
+    <button title="List Of Elements" (click)="isControlPanelModalOpen = !isControlPanelModalOpen"
+      class="m-2 w-24 p-2 select-none border rounded border-blue-800 text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800">Controls</button>
+    <br>
+    <button title="Reset IFC Model" (click)="resetEverything()"
+      class="m-2 w-24 p-2 select-none border rounded border-red-500 text-red-500 bg-white transition-all hover:text-white hover:bg-red-500">Reset
+      View</button><br>
+    <button title="Exit from viewer" (click)="exitViewer()"
+      class="m-2 w-24 p-2 select-none border rounded border-red-500 text-red-500 bg-white transition-all hover:text-white hover:bg-red-500">Exit
+      Viewer</button><br>
+  </div>
+
+  <!-- div for right controls buttons -->
+  <div class=" select-none z-10 absolute top-0 right-0">
+    <button title="Instructions" (click)="instructionModalOpen = !instructionModalOpen" *ngIf="!isFullScreen"
+      class="m-2 p-2 select-none border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
+    </button>
+    <br>
+    <button title="Full-Screen" (click)="fullScreen()" *ngIf="!isFullScreen"
+      class="m-2 p-2 select-none border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+      </svg>
+    </button>
+    <br>
+    <button title="Exit Full-Screen" (click)="fullScreen()" *ngIf="isFullScreen"
+      class="m-2 p-2 select-none border rounded-full text-blue-800 bg-white transition-all hover:text-white hover:bg-blue-800 hover:border-blue-800">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+      </svg>
+    </button>
+  </div>
+
+
+  <!-- data modal containers -->
+  <div class="z-20 absolute top-2 left-2 flex">
+
+    <!-- IFC types List -->
+    <div *ngIf="elementListModalOpen" class="bg-blue-100 rounded-lg p-2 max-h-[95vh] h-fit m-2 shadow-lg">
+      <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+        Element List
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
+          (click)="elementListModalOpen = false" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="my-1 p-2 bg-blue-200 rounded max-h-[88vh] overflow-scroll">
+        <div *ngFor="let type of types; let i = index" class="m-1 flex">
+          <label for="{{type.type}}" class="flex items-center cursor-pointer">
+            <div class="relative">
+              <input type="checkbox" id="{{type.type}}" (change)="checkboxSelected(type.type, $event, i)"
+                [checked]="type.checked" class="sr-only">
+              <div class="block bg-gray-400 w-10 h-6 rounded-full"></div>
+              <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+            </div>
+          </label>
+          <span class="hover:underline cursor-pointer mx-2"
+            (click)="showElementDetails(type.expressID)">{{type.type}}</span><br>
+        </div>
+      </div>
     </div>
-    <div class="my-1 container max-h-[88vh] overflow-scroll">
-      <table class="p-2 w-[40vw]">
-        <thead>
-          <tr>
-            <th class="sticky top-0 bg-gray-900 text-white">Property</th>
-            <th class="sticky top-0 bg-gray-900 text-white">Value</th>
+
+    <!-- Details of selected types -->
+    <div *ngIf="elementDetailsModalOpen && (elementIfcType != '' || elementIfcType != null)"
+      class="bg-blue-100 rounded-lg p-2 max-h-[95vh] h-fit m-2 shadow-lg">
+      <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+        Element Details ({{elementIfcType}})
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
+          (click)="elementDetailsModalOpen = false" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="my-1 container max-h-[88vh] overflow-scroll">
+        <table class="p-2 w-[40vw]">
+          <thead>
+            <tr>
+              <th class="sticky top-0 bg-gray-900 text-white">Property</th>
+              <th class="sticky top-0 bg-gray-900 text-white">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of ifcTypesSelectedDetails; let i = index"
+              [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'" class="hover:bg-blue-300">
+              <td class="px-2">{{d.name}}</td>
+              <td class="px-2" *ngIf="d.value == ''">N/A</td>
+              <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Metadata details -->
+    <div *ngIf="metadataModalOpen" class="bg-blue-100 rounded-lg p-2 max-h-[95vh] h-fit m-2 shadow-lg">
+      <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+        IFC Model Metadata
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
+          (click)="metadataModalOpen = false" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="my-1 container max-h-[88vh] overflow-scroll">
+        <table class="w-[50vw]">
+          <thead>
+            <tr>
+              <th class="top-0 bg-gray-900 text-white">Property</th>
+              <th class="top-0 bg-gray-900 text-white">Value</th>
+            </tr>
+          </thead>
+          <tr class="h-8" *ngIf="IFCAPPLICATION.length > 0">
+            <td colspan="2" class="px-2 bg-gray-800 text-white sticky">File Details</td>
           </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let d of ifcTypesSelectedDetails; let i = index"
-            [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'" class="hover:bg-blue-300">
+          <tr class="bg-blue-100" class="hover:bg-blue-300">
+            <td class="px-2">Name</td>
+            <td class="px-2">{{ifcFileName}}</td>
+          </tr>
+          <tr class="h-8" *ngIf="IFCAPPLICATION.length > 0">
+            <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Application Details</td>
+          </tr>
+          <tr *ngFor="let d of IFCAPPLICATION; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+            class="hover:bg-blue-300">
             <td class="px-2">{{d.name}}</td>
             <td class="px-2" *ngIf="d.value == ''">N/A</td>
             <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
           </tr>
-        </tbody>
-      </table>
+          <tr class="h-8" *ngIf="IFCORGANIZATION.length > 0">
+            <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Organization Details</td>
+          </tr>
+          <tr *ngFor="let d of IFCORGANIZATION; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+            class="hover:bg-blue-300">
+            <td class="px-2">{{d.name}}</td>
+            <td class="px-2" *ngIf="d.value == ''">N/A</td>
+            <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+          </tr>
+          <tr class="h-8" *ngIf="IFCPOSTALADDRESS.length > 0">
+            <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Address Details</td>
+          </tr>
+          <tr *ngFor="let d of IFCPOSTALADDRESS; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+            class="hover:bg-blue-300">
+            <td class="px-2">{{d.name}}</td>
+            <td class="px-2" *ngIf="d.value == ''">N/A</td>
+            <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+          </tr>
+          <tr class="h-8" *ngIf="IFCTELECOMADDRESS.length > 0">
+            <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Contact Details</td>
+          </tr>
+          <tr *ngFor="let d of IFCTELECOMADDRESS; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+            class="hover:bg-blue-300">
+            <td class="px-2">{{d.name}}</td>
+            <td class="px-2" *ngIf="d.value == ''">N/A</td>
+            <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+          </tr>
+          <tr class="h-8" *ngIf="IFCPERSON.length > 0">
+            <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Person Details</td>
+          </tr>
+          <tr *ngFor="let d of IFCPERSON; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
+            class="hover:bg-blue-300">
+            <td class="px-2">{{d.name}}</td>
+            <td class="px-2" *ngIf="d.value == ''">N/A</td>
+            <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 
-  <!-- Metadata details -->
-  <div *ngIf="metadataDetailsModalOpen" class="bg-blue-100 rounded-lg p-2 max-h-[95vh] h-fit m-2 shadow-lg">
+  <!-- other modal container -->
+  <!-- instructions -->
+  <div *ngIf="instructionModalOpen" class="z-10 absolute top-0 bg-blue-100 rounded-lg p-2 h-fit m-2 shadow-lg right-12">
     <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
-      IFC Model Metadata
+      Instructions Of Usage
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
-        (click)="metadataDetailsModalOpen = false" fill="currentColor">
+        (click)="instructionModalOpen = false" fill="currentColor">
         <path fill-rule="evenodd"
           d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
           clip-rule="evenodd" />
       </svg>
     </div>
-    <div class="my-1 container max-h-[88vh] overflow-scroll">
-      <table class="w-[50vw]">
-        <thead>
-          <tr>
-            <th class="top-0 bg-gray-900 text-white">Property</th>
-            <th class="top-0 bg-gray-900 text-white">Value</th>
-          </tr>
-        </thead>
-        <tr class="h-8" *ngIf="IFCAPPLICATION.length > 0">
-          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Application Details</td>
-        </tr>
-        <tr *ngFor="let d of IFCAPPLICATION; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
-          class="hover:bg-blue-300">
-          <td class="px-2">{{d.name}}</td>
-          <td class="px-2" *ngIf="d.value == ''">N/A</td>
-          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
-        </tr>
-        <tr class="h-8" *ngIf="IFCORGANIZATION.length > 0">
-          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Organization Details</td>
-        </tr>
-        <tr *ngFor="let d of IFCORGANIZATION; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
-          class="hover:bg-blue-300">
-          <td class="px-2">{{d.name}}</td>
-          <td class="px-2" *ngIf="d.value == ''">N/A</td>
-          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
-        </tr>
-        <tr class="h-8" *ngIf="IFCPOSTALADDRESS.length > 0">
-          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Address Details</td>
-        </tr>
-        <tr *ngFor="let d of IFCPOSTALADDRESS; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
-          class="hover:bg-blue-300">
-          <td class="px-2">{{d.name}}</td>
-          <td class="px-2" *ngIf="d.value == ''">N/A</td>
-          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
-        </tr>
-        <tr class="h-8" *ngIf="IFCTELECOMADDRESS.length > 0">
-          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Contact Details</td>
-        </tr>
-        <tr *ngFor="let d of IFCTELECOMADDRESS; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
-          class="hover:bg-blue-300">
-          <td class="px-2">{{d.name}}</td>
-          <td class="px-2" *ngIf="d.value == ''">N/A</td>
-          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
-        </tr>
-        <tr class="h-8" *ngIf="IFCPERSON.length > 0">
-          <td colspan="2" class="px-2 bg-gray-800 text-white sticky">Person Details</td>
-        </tr>
-        <tr *ngFor="let d of IFCPERSON; let i = index" [ngClass]="i%2==0 ? 'bg-blue-100' : 'bg-blue-200'"
-          class="hover:bg-blue-300">
-          <td class="px-2">{{d.name}}</td>
-          <td class="px-2" *ngIf="d.value == ''">N/A</td>
-          <td class="px-2" *ngIf="d.value != ''">{{d.value}}</td>
-        </tr>
-      </table>
+    <div class="my-1 p-2 container bg-blue-200 rounded">
+      <span>1. Use mouse device for better grip.</span> <br>
+      <span>2. Single click and drag mouse to rotate model around Y axes.</span> <br>
+      <span>3. Use Shift + Click + mouse drag for changing the pan position.</span> <br>
+      <span>4. Hover on any element to see it's type.</span> <br>
+      <span>5. Double click on any element to see it's details.</span> <br>
+      <span>6. Reset button will reset everything.</span> <br>
+      <span>7. Turn off Live Details from Controls for better performance.</span> <br>
+    </div>
+  </div>
+
+  <!-- live -->
+  <div *ngIf="hoveredObjectType != null"
+    class="z-10 absolute bottom-0 right-0 bg-blue-100 rounded-lg p-2 h-fit m-2 shadow-lg">
+    <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+      Live Details
+    </div>
+    <div class="my-1 p-2 container bg-blue-200 rounded">
+      Type: {{hoveredObjectType.type}} <br>
+      Express ID: {{hoveredObjectType.expressId}} <br>
+    </div>
+  </div>
+
+  <!-- control panel -->
+  <div *ngIf="isControlPanelModalOpen"
+    class="z-10 absolute bottom-0 left-0 bg-blue-100 rounded-lg p-2 h-fit m-2 shadow-lg">
+    <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
+      Control Panel
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
+        (click)="isControlPanelModalOpen = false" fill="currentColor">
+        <path fill-rule="evenodd"
+          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+          clip-rule="evenodd" />
+      </svg>
+    </div>
+    <div>
+      <div class="m-1 p-2 bg-blue-200 rounded shadow-lg">
+        <label for="axes_helper" class="flex items-center cursor-pointer">
+          <div class="relative">
+            <input type="checkbox" id="axes_helper" class="sr-only" (change)="controlChange('axes_helper')"
+              [checked]="isAxesHelperOn">
+            <div class="block bg-gray-400 w-10 h-6 rounded-full"></div>
+            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+          </div>
+          <div class="ml-3 text-gray-700 font-medium">
+            Axes Helper
+          </div>
+        </label>
+      </div>
+      <div class="m-1 p-2 bg-blue-200 rounded shadow-lg">
+        <!-- <span>Base Plane</span> -->
+        <label for="base_plane" class="flex items-center cursor-pointer">
+          <div class="relative">
+            <input type="checkbox" id="base_plane" class="sr-only" (change)="controlChange('base_plane')"
+              [checked]="isBasePlaneOn">
+            <div class="block bg-gray-400 w-10 h-6 rounded-full"></div>
+            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+          </div>
+          <div class="ml-3 text-gray-700 font-medium">
+            Base Plane
+          </div>
+        </label>
+      </div>
+      <div class="m-1 p-2 bg-blue-200 rounded shadow-lg">
+        <!-- <span>Live Details</span> -->
+        <label for="live_details" class="flex items-center cursor-pointer">
+          <div class="relative">
+            <input type="checkbox" id="live_details" class="sr-only" (change)="isLiveDetailsOn = !isLiveDetailsOn"
+              [checked]="isLiveDetailsOn">
+            <div class="block bg-gray-400 w-10 h-6 rounded-full"></div>
+            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+          </div>
+          <div class="ml-3 text-gray-700 font-medium">
+            Live Details
+          </div>
+        </label>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- instructions -->
-<div *ngIf="instructionModalOpen" class="z-10 absolute top-0 bg-blue-100 rounded-lg p-2 h-fit m-2 shadow-lg right-12">
-  <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
-    Instructions Of Usage
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
-      (click)="instructionModalOpen = false" fill="currentColor">
-      <path fill-rule="evenodd"
-        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-        clip-rule="evenodd" />
-    </svg>
-  </div>
-  <div class="my-1 p-2 container bg-blue-200 rounded">
-    <span>1. Use mouse device for better grip.</span> <br>
-    <span>2. Single click and drag mouse to rotate model around Y axes.</span> <br>
-    <span>3. Use Shift + Click + mouse drag for changing the pan position.</span> <br>
-    <span>4. Hover on any element to see it's type.</span> <br>
-    <span>5. Double click on any element to see it's details.</span> <br>
-    <span>6. Reset button will reset everything.</span> <br>
-  </div>
-</div>
-
-<!-- live -->
-<div *ngIf="hoveredObjectType != null"
-  class="z-10 absolute bottom-0 right-0 bg-blue-100 rounded-lg p-2 h-fit m-2 shadow-lg">
-  <div class="p-2 bg-blue-900 text-white rounded flex jsutify-center items-center">
-    Live Details
-  </div>
-  <div class="my-1 p-2 container bg-blue-200 rounded">
-    Type: {{hoveredObjectType.type}} <br>
-    Express ID: {{hoveredObjectType.expressId}} <br>
-  </div>
-</div>
-
-
-<div id="panelContainer">
-
-</div>
-<div id="instructionsContainer"></div>
