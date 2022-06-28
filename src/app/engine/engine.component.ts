@@ -98,10 +98,14 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.ifcurl != null && this.ifcurl != '') {
       this.ifcFileName = this.ifcurl.substring(this.ifcurl.lastIndexOf('/') + 1);
       this.loadIFC(this.ifcurl).then(() => this.createScene(this.rendererCanvas).then(() => this.animate()))
-
-      // this.createScene(this.rendererCanvas).then(() => { this.loadIFC(this.ifcurl).then(() => this.animate()) });
     }
     else this.isLoading = false;
+    document.addEventListener('keydown', (e) => {
+      console.log(this.isFullScreen, e.code);
+      if(this.isFullScreen) {        
+        if(e.code == 'Escape' || e.code == 'F11') this.isFullScreen = false;
+      } 
+    })
   }
 
   public ngAfterViewChecked(): void {
@@ -117,6 +121,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.renderer = null;
       this.canvas = null;
     }
+    window.location.reload();
   }
 
 
@@ -247,6 +252,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.ifcFileName = null;
     this.closeAllModals();
     this.resetEverything();
+    window.location.reload();
   }
 
   // ********************* SERVICE CODE *************************************
