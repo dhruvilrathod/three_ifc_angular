@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as THREE from 'three';
 import { NgZone, OnDestroy } from '@angular/core';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -12,7 +12,7 @@ import * as WEBIFC from './categories.json';
   selector: 'app-engine',
   templateUrl: './engine.component.html'
 })
-export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class EngineComponent implements OnInit, OnDestroy {
 
   @ViewChild('c1', { static: true })
   public rendererCanvas: ElementRef<HTMLCanvasElement>;
@@ -48,22 +48,44 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   // public variables to show in view
   public selectedObjectID: number = null;
   public ifcModelID: number = null;
-  public hoveredObjectType;
+  public hoveredObjectType: any;
   public selectedModelID: any = null;
   public ifcObjects: any;
 
   public elementListModalOpen: boolean = false;
   public elementDetailsModalOpen: boolean = false;
+  public elementTreeModalOpen: boolean = false;
   public metadataModalOpen: boolean = false;
   public isControlPanelModalOpen: boolean = false;
+  public searchInputModalOpen: boolean = false;
+  public buttonListModalOpen: boolean = false;
   public isLoading: boolean = true;
+  public showSearchLoading: boolean = false;
+
   public loadingMessage: string = '';
   public isFullScreen: boolean = false;
 
+  public isTranperentModel: boolean = false;
+  public instructionModalOpen: boolean = false;
+  public liveDetailsModal: boolean = true;
+  public isAxesHelperOn: boolean = true;
+  public isBasePlaneOn: boolean = true;
+  public isLiveDetailsOn: boolean = true;
+  public isErrorHappened: boolean = false;
+
+  // for search result
+  public searchString: string;
+  public allDetailsForSearch = [];
+  public resultErrorMessage: string;
 
   // IFC types list (from view)
   public allIFCCategories = [];
   public types = [];
+  public filteredTypes = [];
+  public levelOfType: number = 0;
+  public maxLevel: number = this.levelOfType;
+  public nextLevelToExtract: number = 1;
+  public expressIDOfPreviousLevel: number = null;
   public ifcTypesSelectedDetails = [];
   public allCategories = [];
   // after item selected from model
@@ -78,14 +100,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   public IFCTELECOMADDRESS = [];
   public IFCPERSON = [];
 
-  // ifc view control varialbes
-  public isTranperentModel: boolean = false;
-  public instructionModalOpen: boolean = false;
-  public liveDetailsModal: boolean = true;
-  public isAxesHelperOn: boolean = true;
-  public isBasePlaneOn: boolean = true;
-  public isLiveDetailsOn: boolean = true;
-  public isErrorHappened: boolean = false;
 
 
   public constructor(
@@ -100,16 +114,26 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.loadIFC(this.ifcurl).then(() => this.createScene(this.rendererCanvas).then(() => this.animate()))
     }
     else this.isLoading = false;
+    if (document.addEventListener) {
+      document.addEventListener('webkitfullscreenchange', () => {
+        this.isFullScreen = !this.isFullScreen;
+      }, false);
+      document.addEventListener('mozfullscreenchange', () => {
+        this.isFullScreen = !this.isFullScreen;
+      }, false);
+      document.addEventListener('fullscreenchange', () => {
+        this.isFullScreen = !this.isFullScreen;
+      }, false);
+      document.addEventListener('MSFullscreenChange', () => {
+        this.isFullScreen = !this.isFullScreen;
+      }, false);
+    }
     document.addEventListener('keydown', (e) => {
-      console.log(this.isFullScreen, e.code);
-      if(this.isFullScreen) {        
-        if(e.code == 'Escape' || e.code == 'F11') this.isFullScreen = false;
-      } 
+      if (e.shiftKey) document.getElementsByTagName('body').item(0).classList.add('cursor-move');
+    });
+    document.addEventListener('keyup', (e) => {
+      if (!e.shiftKey) document.getElementsByTagName('body').item(0).classList.remove('cursor-move');
     })
-  }
-
-  public ngAfterViewChecked(): void {
-    // this.setupAllCategories();
   }
 
   public ngOnDestroy(): void {
@@ -131,17 +155,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.ifcFileName = this.ifcurl.substring(this.ifcurl.lastIndexOf('/') + 1).replace('%20', ' ');
       this.createScene(this.rendererCanvas).then(() => { this.loadIFC(this.ifcurl).then(() => this.animate()) });
     }
-  }
-
-  public loadIFCFile(url): void {
-    console.log('load file function called');
-    this.loadingMessage = 'Fetching Metadata';
-    this.isLoading = true;
-    this.http.get(url, { responseType: 'text' }).subscribe((data) => {
-      // console.log(data);
-      this.ifcText = data;
-      this.fetchMetadataFromIFC(data);
-    })
   }
 
   public doubleClickedEvent(e): void {
@@ -170,8 +183,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public fullScreen(): void {
-    this.isFullScreen = !this.isFullScreen;
-    if (this.isFullScreen) {
+    if (!this.isFullScreen) {
       this.closeAllModals();
       const docElmWithBrowsersFullScreenFunctions = document.documentElement as HTMLElement & {
         mozRequestFullScreen(): Promise<void>;
@@ -207,6 +219,120 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
+  public closeSearchModal() {
+    this.searchString = null;
+    this.searchInputModalOpen = false;
+    this.resultErrorMessage = null;
+    this.allDetailsForSearch = [];
+  }
+
+  public async searchFunction2(s: string) {
+    if (s == '' || s == null) {
+      this.resultErrorMessage = 'Please enter valid value.';
+      this.showSearchLoading = false;
+    }
+    else {
+      this.resultErrorMessage = null;
+
+      for (var t in this.types) {
+        if (this.types[t].expressID.toString().includes(s) || this.types[t].type.toString().toLocaleLowerCase().includes(s)) {
+          this.allDetailsForSearch.push({
+            type: this.types[t].type,
+            expressID: this.types[t].expressID,
+          });
+        }
+        await this.showSearchDetails(this.types[t].expressID, s);
+      }
+      if (this.allDetailsForSearch.length == 0) {
+        this.resultErrorMessage = `No result found for '` + this.searchString + `'`;
+      }
+    }
+  }
+
+  public searchFunction(s: string) {
+    this.resetAllDetails();
+    this.elementIfcType = null;
+    this.elementDetailsModalOpen = false;
+    this.searchString = s;
+    this.allDetailsForSearch = [];
+    this.showSearchLoading = true;
+    setTimeout(() => {
+      if (this.showSearchLoading) {
+        this.searchFunction2(s).then(() => {
+          this.showSearchLoading = false;
+        });
+      }
+    }, 100);
+  }
+
+  public async showSearchDetails(expressID: number, query: string) {
+    this.resetAllDetails();
+    await this.ifc.getItemProperties(this.ifcModelID, expressID).then((data) => {
+      for (var x in data) {
+        if (data[x] !== null && data[x] !== undefined) {
+          if (data[x].value) {
+            if (typeof (data[x].value) != 'number') {
+              if ((x.toString().toLowerCase().includes(query) || data[x].value.toString().toLowerCase().includes(query) || x.toString().includes(query) || data[x].value.toString().includes(query)) && !this.allDetailsForSearch.find(o => o.expressID === expressID))
+                this.allDetailsForSearch.push({
+                  name: x,
+                  type: this.ifc.getIfcType(0, expressID),
+                  expressID: expressID,
+                  value: data[x].value
+                });
+            }
+            else if (typeof (data[x].value) == 'number' && data[x].type != 5) {
+              if ((x.toString().toLowerCase().includes(query) || data[x].value.toString().toLowerCase().includes(query) || x.toString().includes(query) || data[x].value.toString().includes(query)) && !this.allDetailsForSearch.find(o => o.expressID === expressID))
+                this.allDetailsForSearch.push({
+                  name: x,
+                  type: this.ifc.getIfcType(0, expressID),
+                  expressID: expressID,
+                  value: data[x].value
+                });
+            }
+          }
+          else if (data[x] !== null) {
+            if (typeof (data[x]) != 'number') {
+              if (x == 'expressID') {
+                if ((x.toString().toLowerCase().includes(query) || data[x].toString().toLowerCase().includes(query) || x.toString().includes(query) || data[x].toString().includes(query)) && !this.allDetailsForSearch.find(o => o.expressID === expressID))
+                  this.allDetailsForSearch.push({
+                    name: x,
+                    type: this.ifc.getIfcType(0, expressID),
+                    expressID: expressID,
+                    value: data[x]
+                  });
+              }
+            }
+          }
+        }
+      }
+    });
+    await this.ifc.getPropertySets(this.ifcModelID, expressID).then((data) => {
+      for (var x in data) {
+        if (data[x].Quantities) {
+          for (var y in data[x].Quantities) {
+            var details = this.parseElementDetailsFromIFCExpressID(data[x].Quantities[y].value);
+            if ((details.name.toString().toLowerCase().includes(query) || details.value.toString().toLowerCase().includes(query) || details.name.toString().includes(query) || details.value.toString().includes(query)) && !this.allDetailsForSearch.find(o => o.expressID === expressID)) {
+              details.type = this.ifc.getIfcType(0, expressID);
+              details.expressID = expressID;
+              this.allDetailsForSearch.push(details);
+            }
+          }
+        }
+        if (data[x].HasProperties) {
+          for (var y in data[x].HasProperties) {
+            var details = this.parseElementDetailsFromIFCExpressID(data[x].HasProperties[y].value);
+            if ((details.name.toString().toLowerCase().includes(query) || details.value.toString().toLowerCase().includes(query) || details.name.toString().includes(query) || details.value.toString().includes(query)) && !this.allDetailsForSearch.find(o => o.expressID === expressID)) {
+              details.type = this.ifc.getIfcType(0, expressID);
+              details.expressID = expressID;
+              this.allDetailsForSearch.push(details);
+            }
+          }
+        }
+      }
+    });
+    this.elementIfcType = this.ifc.getIfcType(this.ifcModelID, expressID);
+    return;
+  }
 
   public resetEverything(): void {
     this.isTranperentModel = false;
@@ -215,6 +341,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isAxesHelperOn = true;
     this.isBasePlaneOn = true;
     this.isControlPanelModalOpen = false;
+    this.buttonListModalOpen = false;
     this.isLiveDetailsOn = true;
     if (this.frameId != null) {
       cancelAnimationFrame(this.frameId);
@@ -229,6 +356,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.elementDetailsModalOpen = false;
     this.metadataModalOpen = false;
     this.isControlPanelModalOpen = false;
+    this.searchInputModalOpen = false;
   }
 
   public resetAllDetails() {
@@ -236,10 +364,11 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.allIFCCategories = [];
     this.selectedItemProperties = [];
     this.selectedItemPropertySets = [];
-    this.elementIfcType = '';
+    this.elementIfcType = null;
   }
 
   public exitViewer() {
+    this.closeSearchModal();
     this.allIFCCategories = [];
     this.IFCAPPLICATION = [];
     this.IFCORGANIZATION = [];
@@ -247,6 +376,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.IFCTELECOMADDRESS = [];
     this.IFCPERSON = [];
     this.types = [];
+    this.filteredTypes = [];
     this.isErrorHappened = false;
     this.ifcurl = null;
     this.ifcFileName = null;
@@ -276,8 +406,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     //create camera
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.x = -10;
-    this.camera.position.y = 5;
+    this.camera.position.x = -25;
+    this.camera.position.y = 15;
     this.camera.position.z = 0;
 
     //setup lighting
@@ -375,7 +505,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   public async loadIFC(url: string): Promise<any> {
     this.loadingMessage = 'Loading IFC Model';
     this.isLoading = true;
-    this.ifcLoader.ifcManager.setWasmPath('./assets/');
+    this.ifc.setWasmPath('./assets/');
     this.ifcLoader.load(url, async (ifcModel: IFCModel) => {
       this.ifcModels.push(ifcModel);
       this.ifcModel = ifcModel;
@@ -393,40 +523,107 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
           }));
         // this.scene.add(modelCopy);
       }
-      // else {
-      // add to scene
-      // this.scene.add(ifcModel);
-      // }
 
       // not to add into scene
       this.boxHelper = new THREE.BoxHelper(ifcModel);
       this.box3.setFromObject(this.boxHelper);
       this.box3.getSize(this.boxSize);
       // this.scene.add(this.boxHelper);
-      console.log(this.boxHelper);
 
       //spatial code
       this.spatialStructure = this.ifc.getSpatialStructure(this.ifcModel.modelID, false);
       this.spatialStructure.then((data: any) => {
-        // console.log(data);
-        console.log(data.children.length);
         if (data.children.length > 0) {
           data.checked = true;
+          data.level = this.levelOfType;
+          data.levelIndex = 0;
+          data.parentID = 0;
+          data.parentExtracted = true;
+          data.selfExtracted = false;
           this.types.push(data);
-          this.findAllChildrenTypes(data.children);
+          this.filteredTypes.push(data);
+          this.findAllChildrenTypes(data.children, data.expressID);
         }
         else console.log('Empty IFC selected');
-        console.log(this.types);
+        for (var i in this.types) {
+          if (!this.filteredTypes.find(o => o.type === this.types[i].type)) this.filteredTypes.push(this.types[i])
+        }
+        this.expressIDOfPreviousLevel = 0;
         this.populateIFCCategories().then(() => {
           this.setupAllCategories();
         });
+        this.loadIFCFile(this.ifcurl);
         return this.types;
       }
       )
       this.isErrorHappened = false;
-      this.loadIFCFile(this.ifcurl);
-    }, (progress) => console.log(progress), (error) => this.isErrorHappened = true);
+    }, (progress) => {
+      this.isLoading = true;
+    },
+      (error) => this.isErrorHappened = true);
     return;
+  }
+
+  public findAllChildrenTypes(c, parentid) {
+    if (c.length != 0) {
+      for (var i = 0; i < c.length; i++) {
+        if (c[i].type != undefined || c[i].type != "undefined") {
+          if (!this.types.find(o => o.type === c[i].type)) {
+            this.levelOfType++;
+            if (this.levelOfType > this.maxLevel) this.maxLevel = this.levelOfType + 1;
+          }
+          else {
+            this.types.map((t) => {
+              if (t.type == c[i].type) this.levelOfType = t.level;
+            })
+          }
+          c[i].checked = true;
+          c[i].level = this.levelOfType;
+          c[i].levelIndex = i;
+          c[i].parentID = parentid;
+          c[i].parentExtracted = false;
+          c[i].selfExtracted = false;
+          this.types.push(c[i]);
+        }
+        this.findAllChildrenTypes(c[i].children, c[i].expressID);
+      }
+    }
+    return;
+  }
+
+  public exractNextLevel(expressid, currentlevel) {
+    if (currentlevel + 1 <= this.maxLevel) {
+      this.nextLevelToExtract = currentlevel + 1;
+      this.expressIDOfPreviousLevel = expressid;
+      this.types.map((d) => {
+        if (d.expressID == expressid) {
+          if (d.selfExtracted == true) d.selfExtracted = false;
+          else d.selfExtracted = true;
+          if (d.children) {
+            d.children.map((s) => {
+              if (s.parentExtracted == false) s.parentExtracted = true;
+              else s.parentExtracted = false;
+            })
+          }
+        }
+        if (d.level > currentlevel + 1 && d.parentExtracted == true) {
+          d.parentExtracted = false;
+        }
+        if (d.level > currentlevel && d.selfExtracted == true) {
+          d.selfExtracted = false;
+        }
+      });
+    }
+  }
+
+  // to load ifc text
+  public async loadIFCFile(url) {
+    this.loadingMessage = 'Fetching Metadata';
+    this.isLoading = true;
+    this.http.get(url, { responseType: 'text' }).subscribe(async (data) => {
+      this.ifcText = data;
+      this.fetchMetadataFromIFC(data);
+    });
   }
 
 
@@ -444,17 +641,13 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public async populateIFCCategories() {
-    console.log('populate categories called');
-    // console.log(WEBIFC);
     for (var i in WEBIFC) {
-      this.types.map((c) => {
+      this.filteredTypes.map((c) => {
         if (c.type == (WEBIFC[i].type)) {
-          console.log(WEBIFC[i].type);
           this.allIFCCategories.push(WEBIFC[i]);
         }
       });
     }
-    console.log(this.allIFCCategories);
   }
 
   async getAll(category) {
@@ -462,7 +655,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async newSubsetOfType(category) {
-    console.log('newSubsetOfType called');
     const ids = await this.getAll(category);
     var obj = this.ifc.createSubset({
       modelID: 0,
@@ -472,19 +664,15 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
       customID: category.toString()
     });
     this.objectToAdd.push(obj);
-    // this.scene.add(obj);
     return obj;
   }
 
   public subsets = {};
 
   async setupAllCategories() {
-    console.log('setupcategories called');
     this.allCategories = Object.values(this.allIFCCategories);
-    console.log(this.allCategories);
     for (let i = 0; i < this.allCategories.length; i++) {
       const category = this.allCategories[i];
-      // console.log(category);
       await this.setupCategory(category.value);
     }
     for (var i = 0; i < this.objectToAdd.length; i++) {
@@ -494,9 +682,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   async setupCategory(category) {
     this.subsets[category] = await this.newSubsetOfType(category);
-    // this.setupCheckBox(category);
-    console.log(this.subsets[category]);
-
   }
 
   getName(category) {
@@ -507,31 +692,12 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     return type;
   }
 
-  setupCheckBox(category) {
-    const name = this.getName(category);
-    console.log(category);
-    console.log(name);
-    console.log(document.getElementById('IFCBEAM'));
-    const checkBox = document.getElementById(name);
-    checkBox.addEventListener('click', (event) => {
-      const subset = this.subsets[category];
-      console.log(subset);
-      // this.scene.add(subset);
-      // subset.removeFromParent();
-    });
-  }
-
   checkboxSelected(type, e, i) {
     this.types[i].checked = !this.types[i].checked;
-    console.log(this.types);
     this.allCategories.map((data) => {
       if (data.type == type) {
-        console.log(this.ifcModel);
-        console.log(this.subsets[data.value]);
         var uuidOfObjectToRemove = this.subsets[data.value].uuid;
-        console.log(uuidOfObjectToRemove);
         var objectToRemove = this.scene.getObjectByProperty('uuid', uuidOfObjectToRemove);
-        console.log(objectToRemove);
         if (e.target.checked) {
           this.objectToAdd.map((obj) => {
             if (obj.uuid == uuidOfObjectToRemove) this.scene.add(obj);
@@ -561,7 +727,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         removePrevious: true
       });
       var hoverElemetType = this.parseElementDetailsFromIFCExpressID(id);
-      // console.log(hoverElemetType);
       return hoverElemetType;
     } else {
       this.ifc.removeSubset(this.preselectModel.id, this.preselectMat);
@@ -571,8 +736,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   highlightSelect(event: any): number {
     this.resetAllDetails();
-    this.isLoading = true;
-    this.loadingMessage = 'Getting data';
     const found = this.cast(event)[0];
     if (found) {
       //@ts-ignore
@@ -583,7 +746,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
       const id = this.ifc.getExpressId(geometry, index);
       this.expressID = id;
       this.selectedModelID = found.object.id;
-      console.log(this.selectModel.id);
       var subset = this.ifcLoader.ifcManager.createSubset({
         modelID: this.selectModel.id,
         ids: [id],
@@ -591,24 +753,17 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         scene: this.scene,
         removePrevious: true
       });
-      console.log(this.ifc.getItemProperties(this.selectModel.id, id));
-      console.log(this.ifc.getPropertySets(this.selectModel.id, id));
-      console.log(this.ifc.getSpatialStructure(this.selectModel.id));
       this.ifc.getItemProperties(this.selectModel.id, id).then((data: any) => {
-        console.log('ifc type: ', this.ifc.getIfcType(this.selectModel.id, id));
         for (var x in data) {
           if (data[x] !== null && data[x] !== undefined) {
             if (data[x].value) {
-              // console.log(x, data[x].value, typeof (data[x].value));
               if (typeof (data[x].value) != 'number') {
-                console.log('Useful ', x, data[x].value);
                 this.selectedItemProperties.push({
                   name: x,
                   value: data[x].value
                 })
               }
               else if (typeof (data[x].value) == 'number' && data[x].type != 5) {
-                console.log('Useful ', x, data[x].value);
                 this.selectedItemProperties.push({
                   name: x,
                   value: data[x].value
@@ -616,10 +771,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
               }
             }
             else if (data[x] !== null) {
-              // console.log(x, data[x], typeof (data[x]));
               if (typeof (data[x]) != 'number') {
                 if (x == 'expressID') {
-                  console.log('Useful: ', data[x]);
                   this.selectedItemProperties.push({
                     name: x,
                     value: data[x]
@@ -629,42 +782,32 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
           }
         }
-        console.log(this.selectedItemProperties);
       });
 
       // get ifc type
       this.elementIfcType = this.ifc.getIfcType(this.selectModel.id, id);
-      console.log("Element Type: ", this.elementIfcType);
 
       // get details of property sets
       this.ifc.getPropertySets(this.selectModel.id, id).then((data) => {
-        console.log(data);
         for (var x in data) {
-          console.log('Propertyset name: ', data[x].Name.value);
           var propertyList = [];
           if (data[x].Quantities) {
-            console.log('if 1 executed');
             for (var y in data[x].Quantities) {
               var elementDetails = this.parseElementDetailsFromIFCExpressID(data[x].Quantities[y].value);
-              console.log((elementDetails));
               propertyList.push(elementDetails);
             }
           }
           if (data[x].HasProperties) {
-            console.log('if 2 executed');
             for (var y in data[x].HasProperties) {
               var elementDetails = this.parseElementDetailsFromIFCExpressID(data[x].HasProperties[y].value);
               propertyList.push(elementDetails);
             }
             this.selectedItemPropertySets.push({ propertyset: data[x].Name.value, data: propertyList })
           }
-          else console.log('No Properties found');
         }
-        console.log(this.selectedItemPropertySets);
       });
-
       this.showElementDetails(id);
-      return id;
+      return id
     } else {
       this.ifc.removeSubset(this.selectModel.id, this.selectMat);
       this.elementDetailsModalOpen = false;
@@ -676,13 +819,33 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public removeHighlight(): number {
-    this.ifc.removeSubset(this.selectModel.id, this.selectMat);
-    this.ifc.removeSubset(this.preselectModel.id, this.preselectMat);
+    this.ifc.removeSubset(0, this.selectMat);
+    this.ifc.removeSubset(0, this.preselectMat);
     return null;
   }
 
+  public highlightByExpressID(id) {
+    var subset = this.ifcLoader.ifcManager.createSubset({
+      modelID: 0,
+      ids: [id],
+      material: this.selectMat,
+      scene: this.scene,
+      removePrevious: true
+    });
+    this.showElementDetails(id)
+  }
+
+  public highlightByHoveringOnElementType(id) {
+    var subset = this.ifcLoader.ifcManager.createSubset({
+      modelID: 0,
+      ids: [id],
+      material: this.preselectMat,
+      scene: this.scene,
+      removePrevious: true
+    });
+  }
+
   public parseElementDetailsFromIFCExpressID(id: number) {
-    // console.log('element found function called');
     var expressId = '#' + id.toString() + '=';
     var lineIndex = this.ifcText.indexOf(expressId);
     var line = ''
@@ -692,7 +855,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         line += this.ifcText[l];
       }
     }
-    // console.log(line);
     var returned;
     if (line.includes('IFCQUANTITY')) returned = this.parseIFCQUANTITY(line);
     else if (line.includes('IFCPROPERTYSINGLEVALUE')) returned = this.parseIFCPROPERTYSINGLEVALUE(line);
@@ -704,12 +866,10 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public parseIFCQUANTITY(line: string) {
-    // console.log('parseIFCQUANTITYLENGTH function called');
     var propertyName = line.split('(')[1].split(',')[0].replace(/[^a-zA-Z0-9 .]/g, "");
     var propertyDescription = line.split('(')[1].split(',')[1].replace("$", '');
     var propertyValue = line.split('(')[1].split(',')[3].replace(/[^a-zA-Z0-9 .]/g, "");
     if (propertyName == propertyValue) propertyValue = '';
-    console.log(propertyName, propertyValue, propertyDescription);
     return {
       name: propertyName.replace(/'/g, ''),
       value: propertyValue.replace(/'/g, '').replace(".F.", 'False').replace(".T.", 'True').replace(".U.", 'Unknown'),
@@ -721,40 +881,36 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
     var propertyName = line.split('(')[1].split(',')[0];
     var propertyValue = line.split('(')[2].split(')')[0];
     if (propertyName == propertyValue) propertyValue = '';
-    console.log(propertyName, propertyValue);
     return {
       name: propertyName.replace(/'/g, ''),
       value: propertyValue.replace(/'/g, '').replace(".F.", 'False').replace(".T.", 'True').replace(".U.", 'Unknown'),
     };
   }
 
-  public showElementDetails(expressID: number): void {
+  public async showElementDetails(expressID: number) {
     this.resetAllDetails();
-    this.ifc.getItemProperties(this.ifcModelID, expressID).then((data) => {
+    this.elementDetailsModalOpen = true;
+
+    await this.ifc.getItemProperties(this.ifcModelID, expressID).then((data) => {
       for (var x in data) {
         if (data[x] !== null && data[x] !== undefined) {
           if (data[x].value) {
-            // console.log(x, data[x].value, typeof (data[x].value));
             if (typeof (data[x].value) != 'number') {
-              // console.log('Useful ', x, data[x].value);
               this.ifcTypesSelectedDetails.push({
                 name: x,
                 value: data[x].value
-              })
+              });
             }
             else if (typeof (data[x].value) == 'number' && data[x].type != 5) {
-              // console.log('Useful ', x, data[x].value);
               this.ifcTypesSelectedDetails.push({
                 name: x,
                 value: data[x].value
-              })
+              });
             }
           }
           else if (data[x] !== null) {
-            // console.log(x, data[x], typeof (data[x]));
             if (typeof (data[x]) != 'number') {
               if (x == 'expressID') {
-                // console.log('Useful: ', data[x]);
                 this.ifcTypesSelectedDetails.push({
                   name: x,
                   value: data[x]
@@ -765,53 +921,23 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
     });
-    this.ifc.getPropertySets(this.ifcModelID, expressID).then((data) => {
-      console.log(data);
+    await this.ifc.getPropertySets(this.ifcModelID, expressID).then((data) => {
       for (var x in data) {
-        console.log('Property name: ', data[x].Name.value);
         if (data[x].Quantities) {
-          console.log('if 1 executed');
           for (var y in data[x].Quantities) {
-            // console.log(data[x].Quantities[y].value);
             var details = this.parseElementDetailsFromIFCExpressID(data[x].Quantities[y].value);
-            // console.log(details);
             this.ifcTypesSelectedDetails.push(details);
           }
         }
         if (data[x].HasProperties) {
-          console.log('if 2 executed');
           for (var y in data[x].HasProperties) {
             var details = this.parseElementDetailsFromIFCExpressID(data[x].HasProperties[y].value);
-            // console.log(details);
             this.ifcTypesSelectedDetails.push(details);
           }
         }
-        else console.log('No Properties found');
       }
-      console.log(this.ifcTypesSelectedDetails);
     });
     this.elementIfcType = this.ifc.getIfcType(this.ifcModelID, expressID);
-    console.log('ifc type: ', this.elementIfcType);
-    this.isLoading = false;
-    this.loadingMessage = '';
-    this.elementDetailsModalOpen = true;
-    return;
-  }
-
-
-  public findAllChildrenTypes(c) {
-    // console.log(c, this.types);
-    if (c.length != 0) {
-      for (var i = 0; i < c.length; i++) {
-        if (c[i].type != undefined) {
-          if (!this.types.find(o => o.type == c[i].type)) {
-            c[i].checked = true;
-            this.types.push(c[i]);
-          }
-        }
-        this.findAllChildrenTypes(c[i].children);
-      }
-    }
     return;
   }
 
@@ -825,7 +951,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
           line += this.ifcText[l];
         }
       }
-      // console.log(line);
       var pos = 0;
       var occurence = -1;
       var i = -1;
@@ -851,16 +976,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
             if (line[i] == `$`) value += `'`;
           }
-          // console.log(value);
           switch (line.split("(")[0]) {
             case 'IFCORGANIZATION':
-              // this.ifcMetadata.push({
-              //   "Organization Details": {
-              //     "Organization ID": value.split(`'`)[1],
-              //     "Organization Name": value.split(`'`)[2],
-              //     "Organization Description": value.split(`'`)[3]
-              //   }
-              // });
               this.IFCORGANIZATION.push({
                 name: "Organization ID",
                 value: value.split(`'`)[1]
@@ -873,19 +990,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
                 name: "Organization Description",
                 value: value.split(`'`)[3]
               });
-              console.log('fetch IFCORGANIZATION: ------------');
-              console.log('Organization ID:', value.split(`'`)[1]);
-              console.log('Organization Name:', value.split(`'`)[2]);
-              console.log('Organization Description:', value.split(`'`)[3]);
               break;
             case 'IFCAPPLICATION':
-              // this.ifcMetadata.push({
-              //   "Application Details": {
-              //     "Application Name": value.split(`'`)[2],
-              //     "Application Version": value.split(`'`)[1],
-              //     "Application Identifier": value.split(`'`)[3]
-              //   }
-              // });
               this.IFCAPPLICATION.push({
                 name: "Application Name",
                 value: value.split(`'`)[2]
@@ -898,19 +1004,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
                 name: "Application Identifier",
                 value: value.split(`'`)[3]
               });
-              console.log('fetch IFCAPPLICATION: ------------');
-              console.log('Ifc application Name: ', value.split(`'`)[2]);
-              console.log('Ifc application version: ', value.split(`'`)[1]);
-              console.log('Ifc application idedntifier: ', value.split(`'`)[3]);
               break;
             case 'IFCTELECOMADDRESS':
-              // this.ifcMetadata.push({
-              //   "Contact Details:": {
-              //     "Contact Number": value.split(`'`)[4],
-              //     "Email ID": value.split(`'`)[7],
-              //     "Website": value.split(`'`)[8]
-              //   }
-              // });
               this.IFCTELECOMADDRESS.push({
                 name: "Contact Number",
                 value: value.split(`'`)[4]
@@ -923,10 +1018,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
                 name: "Website",
                 value: value.split(`'`)[8]
               });
-              console.log('fetch IFCTELECOMADDRESS: ------------');
-              console.log('Ifc contact number Name: ', value.split(`'`)[4]);
-              console.log('Ifc contact email: ', value.split(`'`)[7]);
-              console.log('Ifc website: ', value.split(`'`)[8]);
               break;
             case 'IFCACTORROLE':
               this.IFCPERSON.push({
@@ -943,22 +1034,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
                 name: "Actor Role Description",
                 value: value.split(`'`)[2]
               });
-              console.log('fetch IFCACTORROLE: ------------');
-              console.log('ifc actor role (userdefined): ', value.split(`'`)[1]);
-              console.log('ifc actor role description: ', value.split(`'`)[2]);
               break;
             case 'IFCPOSTALADDRESS':
-              // this.IFCPOSTALADDRESS.push({
-              //   "Address Details": {
-              //     "Internal Location": value.split(`'`)[4],
-              //     "Address": value.split(`'`)[5],
-              //     "Postal Box Address": value.split(`'`)[6],
-              //     "Twon": value.split(`'`)[7],
-              //     "Region": value.split(`'`)[8],
-              //     "Postal Code": value.split(`'`)[9],
-              //     "Country": value.split(`'`)[10]
-              //   }
-              // });
               this.IFCPOSTALADDRESS.push({
                 name: "Internal Location",
                 value: value.split(`'`)[4]
@@ -987,23 +1064,8 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
                 name: "Country",
                 value: value.split(`'`)[10]
               });
-              console.log('fetch IFCPOSTALADDRESS: ------------');
-              console.log(value);
-              console.log('internal location: ', value.split(`'`)[4]);
-              console.log('address: ', value.split(`'`)[5]);
-              console.log('postal box: ', value.split(`'`)[6]);
-              console.log('town: ', value.split(`'`)[7]);
-              console.log('region: ', value.split(`'`)[8]);
-              console.log('postal code: ', value.split(`'`)[9]);
-              console.log('country: ', value.split(`'`)[10]);
               break;
             case 'IFCPERSON':
-              // this.ifcMetadata.push({
-              //   "Person Details": {
-              //     "ID": value.split(`'`)[1],
-              //     "Full Name": value.split(`'`)[5] + ' ' + value.split(`'`)[3] + ' ' + value.split(`'`)[4] + ' ' + value.split(`'`)[2] + ' ' + value.split(`'`)[6],
-              //   }
-              // });
               this.IFCPERSON.push({
                 name: "ID",
                 value: value.split(`'`)[1]
@@ -1012,9 +1074,6 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
                 name: "Full Name",
                 value: value.split(`'`)[5] + ' ' + value.split(`'`)[3] + ' ' + value.split(`'`)[4] + ' ' + value.split(`'`)[2] + ' ' + value.split(`'`)[6]
               });
-              console.log('fetch IFCPERSON: ------------');
-              console.log('Full Name: ', value.split(`'`)[3] + ' ' + value.split(`'`)[4] + ' ' + value.split(`'`)[2]);
-              console.log('ID: ', value.split(`'`)[1]);
               break;
             default:
               break;
@@ -1023,13 +1082,7 @@ export class EngineComponent implements OnInit, OnDestroy, AfterViewChecked {
         occurence += 1;
         i = pos;
       }
-      // console.log('occurence of IFCORGANIZATION: ', occurence);         
     }
-    // console.log(this.IFCAPPLICATION);
-    // console.log(this.IFCORGANIZATION);
-    // console.log(this.IFCPOSTALADDRESS);
-    // console.log(this.IFCTELECOMADDRESS);
-    // console.log(this.IFCPERSON);
     this.isLoading = false;
   }
 
