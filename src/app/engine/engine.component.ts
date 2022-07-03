@@ -24,6 +24,7 @@ export class EngineComponent implements OnInit, OnDestroy {
 
   public ifcurl: string;
   public ifcFileName: string;
+  public selectedFileName: string;
 
   private ifcText: string = null;
   private canvas: HTMLCanvasElement;
@@ -159,6 +160,7 @@ export class EngineComponent implements OnInit, OnDestroy {
 
   public doubleClickedEvent(e): void {
     this.highlightSelect(e);
+    this.removeHighlight();
   }
 
   public mouseOverEvent(e): void {
@@ -167,6 +169,18 @@ export class EngineComponent implements OnInit, OnDestroy {
 
   public onRemoveHighlight(): void {
     this.selectedObjectID = this.removeHighlight();
+  }
+
+  public fileSelected(e) {
+    this.ifcFileName = e.target.files[0].name;
+    this.selectedFileName = '';
+    var formData = new FormData();
+    formData.append('ifcfile', e.target.files[0], e.target.files[0].name);
+
+    this.http.post('http://localhost:3000/api/upload', formData).subscribe((data: any) => {
+      console.log(data);
+      this.selectedFileName = data.filename;
+    });
   }
 
   public controlChange(control) {
@@ -227,29 +241,26 @@ export class EngineComponent implements OnInit, OnDestroy {
   }
 
   public async searchFunction2(s: string) {
-    if (s == '' || s == null) {
-      this.resultErrorMessage = 'Please enter valid value.';
-      this.showSearchLoading = false;
+    this.resultErrorMessage = null;
+    for (var t in this.types) {
+      if (this.types[t].expressID.toString().includes(s) || this.types[t].type.toString().toLocaleLowerCase().includes(s)) {
+        this.allDetailsForSearch.push({
+          type: this.types[t].type,
+          expressID: this.types[t].expressID,
+        });
+      }
+      await this.showSearchDetails(this.types[t].expressID, s);
     }
-    else {
-      this.resultErrorMessage = null;
-
-      for (var t in this.types) {
-        if (this.types[t].expressID.toString().includes(s) || this.types[t].type.toString().toLocaleLowerCase().includes(s)) {
-          this.allDetailsForSearch.push({
-            type: this.types[t].type,
-            expressID: this.types[t].expressID,
-          });
-        }
-        await this.showSearchDetails(this.types[t].expressID, s);
-      }
-      if (this.allDetailsForSearch.length == 0) {
-        this.resultErrorMessage = `No result found for '` + this.searchString + `'`;
-      }
+    if (this.allDetailsForSearch.length == 0) {
+      this.resultErrorMessage = `No result found for '` + this.searchString + `'`;
     }
   }
 
   public searchFunction(s: string) {
+    if (s == '' || s == null) {
+      this.resultErrorMessage = 'Please enter valid value.';
+      return;
+    }
     this.resetAllDetails();
     this.elementIfcType = null;
     this.elementDetailsModalOpen = false;
@@ -510,19 +521,6 @@ export class EngineComponent implements OnInit, OnDestroy {
       this.ifcModels.push(ifcModel);
       this.ifcModel = ifcModel;
       this.ifcModelID = ifcModel.modelID;
-
-      // this is only when such option is given
-      if (this.isTranperentModel) {
-        ifcModel.visible = false;
-        const modelCopy = new THREE.Mesh(
-          ifcModel.geometry,
-          new THREE.MeshLambertMaterial({
-            transparent: true,
-            opacity: 0.1,
-            color: 0x77aaff
-          }));
-        // this.scene.add(modelCopy);
-      }
 
       // not to add into scene
       this.boxHelper = new THREE.BoxHelper(ifcModel);
@@ -843,6 +841,7 @@ export class EngineComponent implements OnInit, OnDestroy {
       scene: this.scene,
       removePrevious: true
     });
+    console.log(subset);
   }
 
   public parseElementDetailsFromIFCExpressID(id: number) {
