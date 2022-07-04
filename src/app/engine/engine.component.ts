@@ -25,6 +25,7 @@ export class EngineComponent implements OnInit, OnDestroy {
   public ifcurl: string;
   public ifcFileName: string;
   public selectedFileName: string;
+  public clientID: number;
 
   private ifcText: string = null;
   private canvas: HTMLCanvasElement;
@@ -151,6 +152,7 @@ export class EngineComponent implements OnInit, OnDestroy {
 
 
   public linkInserted(url) {
+    console.log('link inserted function');
     this.ifcurl = url;
     if (this.ifcurl != '' && this.ifcurl != null) {
       this.ifcFileName = this.ifcurl.substring(this.ifcurl.lastIndexOf('/') + 1).replace('%20', ' ');
@@ -172,14 +174,23 @@ export class EngineComponent implements OnInit, OnDestroy {
   }
 
   public fileSelected(e) {
+    this.isLoading = true;
+    this.loadingMessage = 'Uploading IFC file';
     this.ifcFileName = e.target.files[0].name;
     this.selectedFileName = '';
     var formData = new FormData();
     formData.append('ifcfile', e.target.files[0], e.target.files[0].name);
-
-    this.http.post('http://localhost:3000/api/upload', formData).subscribe((data: any) => {
+    var newPostRequest =  this.http.post('http://localhost:3000/api/upload', formData).subscribe((data: any) => {
       console.log(data);
-      this.selectedFileName = data.filename;
+      this.selectedFileName = data.file.filename;
+      this.clientID = data.client;
+      console.log(this.selectedFileName);
+      this.http.get('http://localhost:3000/events', {params: {filename: this.selectedFileName, clientId: this.clientID}}).subscribe(data1 => {
+        console.log(data1);
+      });
+      var ifcurl = 'http://localhost:3000/api/file?filename='+ this.selectedFileName +'&originalname=' + this.ifcFileName;
+      console.log(ifcurl);
+      this.linkInserted(ifcurl);
     });
   }
 
@@ -399,6 +410,8 @@ export class EngineComponent implements OnInit, OnDestroy {
   // ********************* SERVICE CODE *************************************
 
   public async createScene(canvas: ElementRef<HTMLCanvasElement>) {
+    console.log('create scene function');
+    
     this.loadingMessage = 'Creating the scene';
     this.isErrorHappened = false;
     this.canvas = canvas.nativeElement;
@@ -514,6 +527,7 @@ export class EngineComponent implements OnInit, OnDestroy {
 
   // function to load ifc model
   public async loadIFC(url: string): Promise<any> {
+    console.log('load ifc');
     this.loadingMessage = 'Loading IFC Model';
     this.isLoading = true;
     this.ifc.setWasmPath('./assets/');
@@ -558,7 +572,10 @@ export class EngineComponent implements OnInit, OnDestroy {
     }, (progress) => {
       this.isLoading = true;
     },
-      (error) => this.isErrorHappened = true);
+      (error) => {
+        this.isErrorHappened = true;
+        console.log(error);
+      });
     return;
   }
 
