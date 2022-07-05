@@ -4,7 +4,7 @@ import { NgZone, OnDestroy } from '@angular/core';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { IFCLoader } from 'web-ifc-three';
 import { IFCModel } from 'web-ifc-three/IFC/components/IFCModel';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import * as WEBIFC from './categories.json';
 
 
@@ -62,6 +62,8 @@ export class EngineComponent implements OnInit, OnDestroy {
   public searchInputModalOpen: boolean = false;
   public buttonListModalOpen: boolean = false;
   public isLoading: boolean = true;
+  public isUploading: boolean = false;
+  public uploadingMessage: string;
   public showSearchLoading: boolean = false;
 
   public loadingMessage: string = '';
@@ -153,9 +155,9 @@ export class EngineComponent implements OnInit, OnDestroy {
 
   public linkInserted(url) {
     console.log('link inserted function');
+    this.isUploading = false;
     this.ifcurl = url;
     if (this.ifcurl != '' && this.ifcurl != null) {
-      this.ifcFileName = this.ifcurl.substring(this.ifcurl.lastIndexOf('/') + 1).replace('%20', ' ');
       this.createScene(this.rendererCanvas).then(() => { this.loadIFC(this.ifcurl).then(() => this.animate()) });
     }
   }
@@ -174,24 +176,23 @@ export class EngineComponent implements OnInit, OnDestroy {
   }
 
   public fileSelected(e) {
-    this.isLoading = true;
-    this.loadingMessage = 'Uploading IFC file';
+    this.isUploading = true;
     this.ifcFileName = e.target.files[0].name;
     this.selectedFileName = '';
     var formData = new FormData();
     formData.append('ifcfile', e.target.files[0], e.target.files[0].name);
-    var newPostRequest =  this.http.post('http://localhost:3000/api/upload', formData).subscribe((data: any) => {
+    var newPostRequest = this.http.post('https://node-ifc.herokuapp.com/api/upload', formData).subscribe((data: any) => {
       console.log(data);
       this.selectedFileName = data.file.filename;
       this.clientID = data.client;
       console.log(this.selectedFileName);
-      this.http.get('http://localhost:3000/events', {params: {filename: this.selectedFileName, clientId: this.clientID}}).subscribe(data1 => {
+      this.http.get('https://node-ifc.herokuapp.com/events', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
         console.log(data1);
       });
-      var ifcurl = 'http://localhost:3000/api/file?filename='+ this.selectedFileName +'&originalname=' + this.ifcFileName;
+      var ifcurl = 'https://node-ifc.herokuapp.com/api/file?filename=' + this.selectedFileName + '&originalname=' + this.ifcFileName;
       console.log(ifcurl);
       this.linkInserted(ifcurl);
-    });
+    }, (err) => this.isErrorHappened = true);
   }
 
   public controlChange(control) {
@@ -411,8 +412,10 @@ export class EngineComponent implements OnInit, OnDestroy {
 
   public async createScene(canvas: ElementRef<HTMLCanvasElement>) {
     console.log('create scene function');
-    
-    this.loadingMessage = 'Creating the scene';
+    setTimeout(() => {
+      this.loadingMessage = 'Creating the scene';
+    }, 100);
+
     this.isErrorHappened = false;
     this.canvas = canvas.nativeElement;
 
@@ -556,9 +559,13 @@ export class EngineComponent implements OnInit, OnDestroy {
           this.filteredTypes.push(data);
           this.findAllChildrenTypes(data.children, data.expressID);
         }
-        else console.log('Empty IFC selected');
+        else {
+          console.log('Empty IFC selected');
+          this.isErrorHappened = true;
+        }
         for (var i in this.types) {
-          if (!this.filteredTypes.find(o => o.type === this.types[i].type)) this.filteredTypes.push(this.types[i])
+          console.log(this.types[i]);
+          if (!(this.filteredTypes.find(o => o.type === this.types[i].type) && (this.types[i].type != undefined || this.types[i].type != null))) this.filteredTypes.push(this.types[i])
         }
         this.expressIDOfPreviousLevel = 0;
         this.populateIFCCategories().then(() => {
@@ -633,7 +640,9 @@ export class EngineComponent implements OnInit, OnDestroy {
 
   // to load ifc text
   public async loadIFCFile(url) {
-    this.loadingMessage = 'Fetching Metadata';
+    setTimeout(() => {
+      this.loadingMessage = 'Fetching Metadata';
+    }, 100);
     this.isLoading = true;
     this.http.get(url, { responseType: 'text' }).subscribe(async (data) => {
       this.ifcText = data;
@@ -858,7 +867,6 @@ export class EngineComponent implements OnInit, OnDestroy {
       scene: this.scene,
       removePrevious: true
     });
-    console.log(subset);
   }
 
   public parseElementDetailsFromIFCExpressID(id: number) {
@@ -882,6 +890,7 @@ export class EngineComponent implements OnInit, OnDestroy {
   }
 
   public parseIFCQUANTITY(line: string) {
+    console.log(line);
     var propertyName = line.split('(')[1].split(',')[0].replace(/[^a-zA-Z0-9 .]/g, "");
     var propertyDescription = line.split('(')[1].split(',')[1].replace("$", '');
     var propertyValue = line.split('(')[1].split(',')[3].replace(/[^a-zA-Z0-9 .]/g, "");
