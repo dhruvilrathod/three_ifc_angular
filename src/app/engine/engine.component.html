@@ -227,7 +227,7 @@
     <!-- elelemt tree of IFC structure -->
     <div *ngIf="elementTreeModalOpen" class="bg-gray-100 rounded-lg p-2 min-w-[20vw] max-h-[95vh] h-fit m-2 shadow-lg">
       <div class="p-2 bg-gray-900 text-white rounded flex jsutify-center items-center">
-        Element Tree
+        Element Tree {{maxLevel}}
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
           (click)="elementTreeModalOpen = false" fill="currentColor">
           <path fill-rule="evenodd"
@@ -262,7 +262,7 @@
               {{type.type}}</div>
 
           </div>
-          <div *ngIf="type.children.length == 0 && type.parentExtracted == true" class="flex items-center">
+          <div *ngIf="type.level <= nextLevelToExtract+1 && type.children.length == 0 && type.parentExtracted == true" class="flex items-center">
             <div class="hover:underline cursor-pointer flex ml-[{{type.level * 10}}px]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"

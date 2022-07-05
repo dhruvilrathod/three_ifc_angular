@@ -137,7 +137,7 @@ export class EngineComponent implements OnInit, OnDestroy {
     });
     document.addEventListener('keyup', (e) => {
       if (!e.shiftKey) document.getElementsByTagName('body').item(0).classList.remove('cursor-move');
-    })
+    });
   }
 
   public ngOnDestroy(): void {
@@ -181,15 +181,14 @@ export class EngineComponent implements OnInit, OnDestroy {
     this.selectedFileName = '';
     var formData = new FormData();
     formData.append('ifcfile', e.target.files[0], e.target.files[0].name);
-    var newPostRequest = this.http.post('https://node-ifc.herokuapp.com/api/upload', formData).subscribe((data: any) => {
-      console.log(data);
+    var newPostRequest = this.http.post('http://localhost:3000/api/upload', formData).subscribe((data: any) => {
       this.selectedFileName = data.file.filename;
       this.clientID = data.client;
       console.log(this.selectedFileName);
-      this.http.get('https://node-ifc.herokuapp.com/events', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
+      this.http.get('http://localhost:3000/events', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
         console.log(data1);
       });
-      var ifcurl = 'https://node-ifc.herokuapp.com/api/file?filename=' + this.selectedFileName + '&originalname=' + this.ifcFileName;
+      var ifcurl = 'http://localhost:3000/api/file?filename=' + this.selectedFileName + '&originalname=' + this.ifcFileName;
       console.log(ifcurl);
       this.linkInserted(ifcurl);
     }, (err) => this.isErrorHappened = true);
@@ -614,6 +613,7 @@ export class EngineComponent implements OnInit, OnDestroy {
   }
 
   public exractNextLevel(expressid, currentlevel) {
+    console.log(currentlevel);
     if (currentlevel + 1 <= this.maxLevel) {
       this.nextLevelToExtract = currentlevel + 1;
       this.expressIDOfPreviousLevel = expressid;
@@ -889,16 +889,55 @@ export class EngineComponent implements OnInit, OnDestroy {
     return returned;
   }
 
-  public parseIFCQUANTITY(line: string) {
-    console.log(line);
-    var propertyName = line.split('(')[1].split(',')[0].replace(/[^a-zA-Z0-9 .]/g, "");
-    var propertyDescription = line.split('(')[1].split(',')[1].replace("$", '');
-    var propertyValue = line.split('(')[1].split(',')[3].replace(/[^a-zA-Z0-9 .]/g, "");
+  public parseIFCQUANTITY(templine: string) {
+    var line1 = '';
+    var propertyName = '';
+    var propertyValue = '';
+    var roundBracketCount = 0;
+    var quoteCount = 0;
+    var propertyCount = 0;
+    for (var c = 0; c < templine.length; c++) {
+      if (templine[c] == '(' && roundBracketCount == 0) {
+        propertyCount++;
+        roundBracketCount++;
+      }
+      else if (templine[c] == '(' && roundBracketCount > 0) {
+        roundBracketCount++;
+        line1 += templine[c];
+      }
+      else if (templine[c] == ')' && roundBracketCount == 1) {
+        roundBracketCount--;
+      }
+      else if (templine[c] == ')' && roundBracketCount > 1) {
+        roundBracketCount--;
+        line1 += templine[c];
+      }
+      else if (templine[c] == `'` && quoteCount == 0) {
+        quoteCount++;
+      }
+      else if (templine[c] == `'` && quoteCount > 0) {
+        quoteCount--;
+      }
+      else if (templine[c] == ',' && roundBracketCount == 1 && quoteCount == 0) {
+        propertyCount++;
+        if (propertyCount == 2) {
+          propertyName = line1;
+          line1 = '';
+        }
+        else if (propertyCount == 5) {
+          propertyValue = line1;
+          line1 = '';
+        }
+      }
+      else if (templine[c] == '$') { }
+      else if (roundBracketCount > 0) {
+        line1 += templine[c];
+      }
+    }
     if (propertyName == propertyValue) propertyValue = '';
     return {
-      name: propertyName.replace(/'/g, ''),
-      value: propertyValue.replace(/'/g, '').replace(".F.", 'False').replace(".T.", 'True').replace(".U.", 'Unknown'),
-      description: propertyDescription
+      name: propertyName,
+      value: propertyValue.replace(".F.", 'False').replace(".T.", 'True').replace(".U.", 'Unknown')
     };
   }
 
