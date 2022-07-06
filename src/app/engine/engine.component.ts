@@ -20,9 +20,9 @@ export class EngineComponent implements OnInit, OnDestroy {
   // sample url
   // public ifcurl: string = 'http://127.0.0.1:5500/my_ifc1.ifc';
   // public ifcurl: string = './assets/Electrical Design.ifc';
-  // public ifcurl: string = './assets/Architecture Design.ifc';
+  public ifcurl: string = './assets/Architecture Design.ifc';
 
-  public ifcurl: string;
+  // public ifcurl: string;
   public ifcFileName: string;
   public selectedFileName: string;
   public clientID: number;
@@ -566,6 +566,7 @@ export class EngineComponent implements OnInit, OnDestroy {
           console.log(this.types[i]);
           if (!(this.filteredTypes.find(o => o.type === this.types[i].type) && (this.types[i].type != undefined || this.types[i].type != null))) this.filteredTypes.push(this.types[i])
         }
+        console.log(this.types);
         this.expressIDOfPreviousLevel = 0;
         this.populateIFCCategories().then(() => {
           this.setupAllCategories();
@@ -585,19 +586,14 @@ export class EngineComponent implements OnInit, OnDestroy {
     return;
   }
 
-  public findAllChildrenTypes(c, parentid) {
+  public async findAllChildrenTypes(c: any, parentid: number) {
     if (c.length != 0) {
       for (var i = 0; i < c.length; i++) {
         if (c[i].type != undefined || c[i].type != "undefined") {
-          if (!this.types.find(o => o.type === c[i].type)) {
-            this.levelOfType++;
-            if (this.levelOfType > this.maxLevel) this.maxLevel = this.levelOfType + 1;
-          }
-          else {
-            this.types.map((t) => {
-              if (t.type == c[i].type) this.levelOfType = t.level;
-            })
-          }
+          this.types.map((d, i) => {
+            if (d.expressID == parentid) this.levelOfType = d.level + 1;
+          });
+          if (this.levelOfType > this.maxLevel) this.maxLevel = this.levelOfType + 1;
           c[i].checked = true;
           c[i].level = this.levelOfType;
           c[i].levelIndex = i;
@@ -605,15 +601,14 @@ export class EngineComponent implements OnInit, OnDestroy {
           c[i].parentExtracted = false;
           c[i].selfExtracted = false;
           this.types.push(c[i]);
+          this.findAllChildrenTypes(c[i].children, c[i].expressID);
         }
-        this.findAllChildrenTypes(c[i].children, c[i].expressID);
       }
     }
     return;
   }
 
   public exractNextLevel(expressid, currentlevel) {
-    console.log(currentlevel);
     if (currentlevel + 1 <= this.maxLevel) {
       this.nextLevelToExtract = currentlevel + 1;
       this.expressIDOfPreviousLevel = expressid;
@@ -623,6 +618,7 @@ export class EngineComponent implements OnInit, OnDestroy {
           else d.selfExtracted = true;
           if (d.children) {
             d.children.map((s) => {
+              console.log('children: ', s);
               if (s.parentExtracted == false) s.parentExtracted = true;
               else s.parentExtracted = false;
             })

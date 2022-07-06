@@ -227,7 +227,7 @@
     <!-- elelemt tree of IFC structure -->
     <div *ngIf="elementTreeModalOpen" class="bg-gray-100 rounded-lg p-2 min-w-[20vw] max-h-[95vh] h-fit m-2 shadow-lg">
       <div class="p-2 bg-gray-900 text-white rounded flex jsutify-center items-center">
-        Element Tree {{maxLevel}}
+        Element Tree
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto hover:cursor-pointer" viewBox="0 0 20 20"
           (click)="elementTreeModalOpen = false" fill="currentColor">
           <path fill-rule="evenodd"
@@ -259,11 +259,11 @@
 
             <div (click)="highlightByExpressID(type.expressID)"
               (mouseover)="highlightByHoveringOnElementType(type.expressID)" class="hover:underline cursor-pointer">
-              {{type.type}}</div>
+              {{type.type}} ({{type.expressID}})</div>
 
           </div>
           <div *ngIf="type.level <= nextLevelToExtract+1 && type.children.length == 0 && type.parentExtracted == true" class="flex items-center">
-            <div class="hover:underline cursor-pointer flex ml-[{{type.level * 10}}px]">
+            <div class="flex ml-[{{type.level * 10}}px]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
                   d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
@@ -272,7 +272,7 @@
             </div>
             <div (click)="highlightByExpressID(type.expressID)"
               (mouseover)="highlightByHoveringOnElementType(type.expressID)" class="hover:underline cursor-pointer">
-              {{type.type}}</div>
+              {{type.type}} ({{type.expressID}})</div>
           </div>
         </div>
       </div>
