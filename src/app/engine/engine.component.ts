@@ -191,7 +191,12 @@ export class EngineComponent implements OnInit, OnDestroy {
       var ifcurl = 'http://localhost:3000/api/file?filename=' + this.selectedFileName + '&originalname=' + this.ifcFileName;
       console.log(ifcurl);
       this.linkInserted(ifcurl);
-    }, (err) => this.isErrorHappened = true);
+    }, (err) => {
+      this.isErrorHappened = true;
+      this.http.get('http://localhost:3000/error', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
+        console.log(data1);
+      });
+    });
   }
 
   public controlChange(control) {
@@ -561,12 +566,13 @@ export class EngineComponent implements OnInit, OnDestroy {
         else {
           console.log('Empty IFC selected');
           this.isErrorHappened = true;
+          this.http.get('http://localhost:3000/error', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
+        console.log(data1);
+      });
         }
         for (var i in this.types) {
-          console.log(this.types[i]);
           if (!(this.filteredTypes.find(o => o.type === this.types[i].type) && (this.types[i].type != undefined || this.types[i].type != null))) this.filteredTypes.push(this.types[i])
         }
-        console.log(this.types);
         this.expressIDOfPreviousLevel = 0;
         this.populateIFCCategories().then(() => {
           this.setupAllCategories();
@@ -581,6 +587,9 @@ export class EngineComponent implements OnInit, OnDestroy {
     },
       (error) => {
         this.isErrorHappened = true;
+        this.http.get('http://localhost:3000/error', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
+        console.log(data1);
+      });
         console.log(error);
       });
     return;
