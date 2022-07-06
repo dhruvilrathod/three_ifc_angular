@@ -20,9 +20,9 @@ export class EngineComponent implements OnInit, OnDestroy {
   // sample url
   // public ifcurl: string = 'http://127.0.0.1:5500/my_ifc1.ifc';
   // public ifcurl: string = './assets/Electrical Design.ifc';
-  public ifcurl: string = './assets/Architecture Design.ifc';
+  // public ifcurl: string = './assets/Architecture Design.ifc';
 
-  // public ifcurl: string;
+  public ifcurl: string;
   public ifcFileName: string;
   public selectedFileName: string;
   public clientID: number;
