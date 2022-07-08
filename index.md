@@ -1,37 +1,38 @@
-## Welcome to GitHub Pages
+# Web IFC Viewer/Renderer
+#### _Online web-based IFC file viwer_
 
-You can use the [editor on GitHub](https://github.com/dhruvilrathod/three_ifc_angular/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Web IFC Viewer is an online platform which allows users to load and view IFC files.
+User can:
+- Paste a link of IFC file
+- Upload IFC file from local computer
+- Play around with an example
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+# Features
 
-### Markdown
+- Live Details of IFC element on mouse hover
+- See the list of all element types in the IFC
+- See through IFC model by turning particular element type ON/OFF
+- Click on the IFC element type to see details
+- Extract element tree structure of IFC model
+- Hover on the tree element to highlight that part in model
+- Get metadata details about IFC file
+- Control Panel to control the view
+- Reset or Exit the Viewer itself.
+- Go fullscreen
+- Search anything in the model including IFC element type, express id, property name or value
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Web IFC Viewer is a lightweight IFC viewer based on the basic concepts of 3D calculation.
+It uses the open source Web 3D library [Three.js](https://threejs.org/) and Web IFC loader of [web-ifc-three](https://ifcjs.github.io/info/docs/Guide/web-ifc-three/Introduction/)
 
-```markdown
-Syntax highlighted code block
+> The Search functionality, however, is currently totally dependent on browser, hence it might freeze the screen the screen until the result of the search arrives. USE  IT CAREFULLY!
 
-# Header 1
-## Header 2
-### Header 3
+## Tech-Stack
 
-- Bulleted
-- List
+Web IFC Viewer/Renderer uses a number of open source projects to work properly:
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/dhruvilrathod/three_ifc_angular/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+- [Angular](https://angular.io/) - HTML enhanced for web apps
+- [Tailwind](https://tailwindcss.com/) - Great UI boilerplate for modern web apps
+- [Node.js](https://nodejs.org/en/) - Temporary I/O for the backend
+- [Express](https://expressjs.com/) - Fast node.js network app framework
+- [Three.js](https://threejs.org/) - JavaScript 3D library
+- [IFC.js](https://ifcjs.github.io/info/docs/Guide/web-ifc-three/Introduction/) - Official IFC loader of Three.js
