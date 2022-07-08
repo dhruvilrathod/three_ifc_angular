@@ -38,7 +38,7 @@ export class EngineComponent implements OnInit, OnDestroy {
   private axes: THREE.AxesHelper;
   public controls: OrbitControls;
   private frameId: number = null;
-
+  public boxHelperVector: THREE.Vector3;
 
   private size = {
     width: window.innerWidth,
@@ -164,15 +164,11 @@ export class EngineComponent implements OnInit, OnDestroy {
 
   public doubleClickedEvent(e): void {
     this.highlightSelect(e);
-    this.removeHighlight();
+    // this.removeHighlight();
   }
 
   public mouseOverEvent(e): void {
     if (this.isLiveDetailsOn) this.hoveredObjectType = this.highlightHover(e);
-  }
-
-  public onRemoveHighlight(): void {
-    this.selectedObjectID = this.removeHighlight();
   }
 
   public fileSelected(e) {
@@ -373,8 +369,11 @@ export class EngineComponent implements OnInit, OnDestroy {
     if (this.frameId != null) {
       cancelAnimationFrame(this.frameId);
     }
-    this.ngOnInit();
+    this.types = [];
+    this.filteredTypes = [];
+    this.closeAllModals();
     this.resetAllDetails();
+    this.ngOnInit();
   }
 
   public closeAllModals() {
@@ -546,7 +545,9 @@ export class EngineComponent implements OnInit, OnDestroy {
       // not to add into scene
       this.boxHelper = new THREE.BoxHelper(ifcModel);
       this.box3.setFromObject(this.boxHelper);
-      this.box3.getSize(this.boxSize);
+      this.boxHelperVector = new THREE.Vector3();
+      this.boxHelperVector = this.box3.getSize(this.boxSize);
+      // console.log(this.boxHelperVector);
       // this.scene.add(this.boxHelper);
 
       //spatial code
@@ -627,7 +628,6 @@ export class EngineComponent implements OnInit, OnDestroy {
           else d.selfExtracted = true;
           if (d.children) {
             d.children.map((s) => {
-              console.log('children: ', s);
               if (s.parentExtracted == false) s.parentExtracted = true;
               else s.parentExtracted = false;
             })
@@ -722,7 +722,7 @@ export class EngineComponent implements OnInit, OnDestroy {
   }
 
   checkboxSelected(type, e, i) {
-    this.types[i].checked = !this.types[i].checked;
+    this.filteredTypes[i].checked = !this.filteredTypes[i].checked;
     this.allCategories.map((data) => {
       if (data.type == type) {
         var uuidOfObjectToRemove = this.subsets[data.value].uuid;
@@ -764,6 +764,8 @@ export class EngineComponent implements OnInit, OnDestroy {
   }
 
   highlightSelect(event: any): number {
+    console.log('highlight select called');
+    
     this.resetAllDetails();
     const found = this.cast(event)[0];
     if (found) {
@@ -776,7 +778,7 @@ export class EngineComponent implements OnInit, OnDestroy {
       this.expressID = id;
       this.selectedModelID = found.object.id;
       var subset = this.ifcLoader.ifcManager.createSubset({
-        modelID: this.selectModel.id,
+        modelID: 0,
         ids: [id],
         material: this.selectMat,
         scene: this.scene,
@@ -839,18 +841,14 @@ export class EngineComponent implements OnInit, OnDestroy {
       return id
     } else {
       this.ifc.removeSubset(this.selectModel.id, this.selectMat);
+      this.ifc.removeSubset(0, this.selectMat);
+      this.ifc.removeSubset(0, this.preselectMat);  
       this.elementDetailsModalOpen = false;
       this.elementIfcType = null;
       this.isLoading = false;
       this.loadingMessage = '';
       return null;
     }
-  }
-
-  public removeHighlight(): number {
-    this.ifc.removeSubset(0, this.selectMat);
-    this.ifc.removeSubset(0, this.preselectMat);
-    return null;
   }
 
   public highlightByExpressID(id) {
