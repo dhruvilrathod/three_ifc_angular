@@ -114,7 +114,7 @@ export class EngineComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.isLoading = true;
     if (this.ifcurl != null && this.ifcurl != '') {
-      this.ifcFileName = this.ifcurl.substring(this.ifcurl.lastIndexOf('/') + 1);
+      this.ifcFileName = this.ifcurl.substring(this.ifcurl.lastIndexOf('=') + 1);
       this.loadIFC(this.ifcurl).then(() => this.createScene(this.rendererCanvas).then(() => this.animate()))
     }
     else this.isLoading = false;
@@ -157,6 +157,7 @@ export class EngineComponent implements OnInit, OnDestroy {
     console.log('link inserted function');
     this.isUploading = false;
     this.ifcurl = url;
+    this.ifcFileName = this.ifcurl.substring(this.ifcurl.lastIndexOf('=') + 1);
     if (this.ifcurl != '' && this.ifcurl != null) {
       this.createScene(this.rendererCanvas).then(() => { this.loadIFC(this.ifcurl).then(() => this.animate()) });
     }
