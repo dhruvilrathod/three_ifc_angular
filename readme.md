@@ -1,6 +1,8 @@
 # Web IFC Viewer/Renderer
 #### _Online web-based IFC file viwer_
 
+[https://dhruvilrathod.github.io/webifcviewer/](https://dhruvilrathod.github.io/webifcviewer/)
+
 Web IFC Viewer is an online platform which allows users to load and view IFC files.
 User can:
 - Paste a link of IFC file
