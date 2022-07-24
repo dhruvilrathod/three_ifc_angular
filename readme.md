@@ -26,7 +26,7 @@ User can:
 Web IFC Viewer is a lightweight IFC viewer based on the basic concepts of 3D calculation.
 It uses the open source Web 3D library [Three.js](https://threejs.org/) and Web IFC loader of [web-ifc-three](https://ifcjs.github.io/info/docs/Guide/web-ifc-three/Introduction/)
 
-> The Search functionality, however, is currently totally dependent on browser, hence it might freeze the screen the screen until the result of the search arrives. USE  IT CAREFULLY!
+> The Search functionality, however, is currently totally dependent on browser, hence it might freeze the screen until the result of the search arrives. USE  IT CAREFULLY!
 
 ## Tech-Stack
 
