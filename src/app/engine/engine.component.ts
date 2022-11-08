@@ -178,19 +178,19 @@ export class EngineComponent implements OnInit, OnDestroy {
     this.selectedFileName = '';
     var formData = new FormData();
     formData.append('ifcfile', e.target.files[0], e.target.files[0].name);
-    var newPostRequest = this.http.post('http://localhost:3000/api/upload', formData).subscribe((data: any) => {
+    var newPostRequest = this.http.post('https://zany-blue-perch-coat.cyclic.app/webifcviewer/api/upload', formData).subscribe((data: any) => {
       this.selectedFileName = data.file.filename;
       this.clientID = data.client;
       console.log(this.selectedFileName);
-      this.http.get('http://localhost:3000/events', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
+      this.http.get('https://zany-blue-perch-coat.cyclic.app/webifcviewer/events', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
         console.log(data1);
       });
-      var ifcurl = 'http://localhost:3000/api/file?filename=' + this.selectedFileName + '&originalname=' + this.ifcFileName;
+      var ifcurl = 'https://zany-blue-perch-coat.cyclic.app/webifcviewer/api/file?filename=' + this.selectedFileName + '&originalname=' + this.ifcFileName;
       console.log(ifcurl);
       this.linkInserted(ifcurl);
     }, (err) => {
       this.isErrorHappened = true;
-      this.http.get('http://localhost:3000/error', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
+      this.http.get('https://zany-blue-perch-coat.cyclic.app/webifcviewer/error', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
         console.log(data1);
       });
     });
@@ -568,7 +568,7 @@ export class EngineComponent implements OnInit, OnDestroy {
         else {
           console.log('Empty IFC selected');
           this.isErrorHappened = true;
-          this.http.get('http://localhost:3000/error', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
+          this.http.get('https://zany-blue-perch-coat.cyclic.app/webifcviewer/error', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
         console.log(data1);
       });
         }
@@ -589,7 +589,7 @@ export class EngineComponent implements OnInit, OnDestroy {
     },
       (error) => {
         this.isErrorHappened = true;
-        this.http.get('http://localhost:3000/error', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
+        this.http.get('https://zany-blue-perch-coat.cyclic.app/webifcviewer/error', { params: { filename: this.selectedFileName, clientId: this.clientID } }).subscribe(data1 => {
         console.log(data1);
       });
         console.log(error);

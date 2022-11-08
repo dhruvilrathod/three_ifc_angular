@@ -47,6 +47,15 @@
         {{uploadingMessage}}</div>
     </div>
   </div>
+  <br>
+</div>
+<br>
+
+<!--  message -->
+<div *ngIf="ifcurl == '' || ifcurl == null || isErrorHappened" class="w-1/2 mx-auto text-l text-red-500 text-center justify-center items-center">
+  Due to the closure of heroku free dynamo hosting, the "Select File" and file upload functionality won't be working.
+  <br>
+  Trying to solve it ASAP.  
 </div>
 
 
